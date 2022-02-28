@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "743574920664",
+    "project_id": "shambapaykenya",
+    "storage_bucket": "shambapaykenya.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743574920664:android:93ab2261b59eb2467ea6ad",
+        "android_client_info": {
+          "package_name": "ke.co.shambapay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "743574920664-n33ql3qhbesne7ujms3726uf8810t2bn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ke.co.shambapay",
+            "certificate_hash": "e3bd4f549043098101be5819950c90ff9ab6fbab"
+          }
+        },
+        {
+          "client_id": "743574920664-ci2o471u2dafhb1p7bnm75j0brnjd1qg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbpuFWO7PUPBTCNE4DTlTq-05yFGcNytU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "743574920664-ci2o471u2dafhb1p7bnm75j0brnjd1qg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
