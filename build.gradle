@@ -1,4 +1,20 @@
 buildscript {
+    ext {
+        app_name = "Shamba Pay"
+        app_name_staging = "Shamba Pay (Staging)"
+        sdk_min = 21
+        sdk_target = 32
+        sdk_compile = 32
+        version_code = 1
+        version_name = "0.0.1"
+        kotlin_version = '1.6.10'
+        coroutines_version = '1.6.0-native-mt'
+        koin_version = '2.41'
+
+        DB_REF_ROOT = "Live/"
+        DB_REF_ROOT_STAGING = "Staging/"
+
+    }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.10'
     }

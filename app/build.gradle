@@ -13,34 +13,79 @@ android {
             keyPassword 'shambapay'
         }
     }
-    compileSdk 32
+
+    compileSdk sdk_compile
+    kotlinOptions.jvmTarget = '1.8'
+    buildFeatures.viewBinding true
 
     defaultConfig {
         applicationId "ke.co.shambapay"
-        minSdk 21
-        targetSdk 32
-        versionCode 1
-        versionName "1.0"
-
+        minSdk sdk_min
+        targetSdk sdk_target
+        versionCode version_code
+        versionName version_name
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        applicationVariants.all { variant -> renameAPKFile(variant) }
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ndk {abiFilters 'arm64-v8a', 'armeabi-v7a'}
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ndk {abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86'}
+        }
     }
-    buildFeatures {
-        viewBinding true
+
+    flavorDimensions "flavors"
+    productFlavors {
+        Production {
+            // APP NAME AND ICON
+            resValue "string", "app_name", app_name
+            manifestPlaceholders = [
+                    icon: "@mipmap/ic_launcher",
+                    icon_round: "@mipmap/ic_launcher_round"
+            ]
+            // FIREBASE DATABASE URLS
+            buildConfigField 'String', 'DB_REF_ROOT', '"Live/"'
+        }
+
+        Staging {
+            // APP NAME AND ICON
+            applicationIdSuffix = ".staging"
+            resValue "string", "app_name", app_name_staging
+            manifestPlaceholders = [
+                    icon: "@mipmap/ic_launcher",
+                    icon_round: "@mipmap/ic_launcher_round"
+            ]
+            // FIREBASE DATABASE URLS
+            buildConfigField 'String', 'DB_REF_ROOT', '"Staging/"'
+        }
+    }
+}
+
+def renameAPKFile(variant) {
+    variant.outputs.all { output ->
+        outputFileName = new File(
+                "$app_name " + variant.getFlavorName() + " (" + variant.versionName + ")" + ".apk"
+                // Shamba Pay Staging (0.0.1).apk
+        )
     }
 }
 
@@ -51,13 +96,37 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.annotation:annotation:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:29.0.2')
+
+    // Declare the dependency for the Realtime Database library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-database-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+
+    // Multidex support
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    // DateTime library
+    implementation 'net.danlew:android.joda:2.10.12.2'
+
+    // Swipe to refresh library
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    // KOIN Dependency Injection
+    implementation "io.insert-koin:koin-android:3.0.2"
+    implementation "io.insert-koin:koin-android-ext:3.0.2"
+
+    // Kotlin coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-native-mt"
+
+    // ViewModel LifeCycle
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
 
-    implementation 'com.google.firebase:firebase-auth:21.0.1'
-    implementation 'com.google.firebase:firebase-database:20.0.3'
-    implementation 'com.google.firebase:firebase-messaging:23.0.0'
-
+    // Testing
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

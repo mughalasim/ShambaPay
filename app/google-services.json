@@ -41,6 +41,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743574920664:android:b26ec173d08f5d357ea6ad",
+        "android_client_info": {
+          "package_name": "ke.co.shambapay.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "743574920664-cccouvgrgb8m1gfkkv84r3ek103j6gm1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ke.co.shambapay.staging",
+            "certificate_hash": "e3bd4f549043098101be5819950c90ff9ab6fbab"
+          }
+        },
+        {
+          "client_id": "743574920664-ci2o471u2dafhb1p7bnm75j0brnjd1qg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbpuFWO7PUPBTCNE4DTlTq-05yFGcNytU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "743574920664-ci2o471u2dafhb1p7bnm75j0brnjd1qg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
