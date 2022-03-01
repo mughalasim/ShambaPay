@@ -11,8 +11,13 @@ buildscript {
         coroutines_version = '1.6.0-native-mt'
         koin_version = '2.41'
 
-        DB_REF_ROOT = "Live/"
-        DB_REF_ROOT_STAGING = "Staging/"
+        DB_REF_ROOT = '"Live"'
+        DB_REF_ROOT_STAGING = '"Staging"'
+        DB_REF_USERS = '"Users"'
+        DB_REF_COMPANIES = '"Companies"'
+        DB_REF_EMPLOYEES = '"Employees"'
+        DB_REF_WORK = '"Work"'
+        DB_REF_SETTINGS = '"Settings"'
 
     }
     dependencies {

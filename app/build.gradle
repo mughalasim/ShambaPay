@@ -15,7 +15,7 @@ android {
     }
 
     compileSdk sdk_compile
-    kotlinOptions.jvmTarget = '1.8'
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
     buildFeatures.viewBinding true
 
     defaultConfig {
@@ -27,6 +27,13 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         applicationVariants.all { variant -> renameAPKFile(variant) }
+
+        buildConfigField 'String', 'DB_REF_USERS ', DB_REF_USERS
+        buildConfigField 'String', 'DB_REF_COMPANIES', DB_REF_COMPANIES
+        buildConfigField 'String', 'DB_REF_EMPLOYEES', DB_REF_EMPLOYEES
+        buildConfigField 'String', 'DB_REF_WORK', DB_REF_WORK
+        buildConfigField 'String', 'DB_REF_SETTINGS', DB_REF_SETTINGS
+
     }
 
     compileOptions {
@@ -63,7 +70,7 @@ android {
                     icon_round: "@mipmap/ic_launcher_round"
             ]
             // FIREBASE DATABASE URLS
-            buildConfigField 'String', 'DB_REF_ROOT', '"Live/"'
+            buildConfigField 'String', 'DB_REF_ROOT', DB_REF_ROOT
         }
 
         Staging {
@@ -75,7 +82,7 @@ android {
                     icon_round: "@mipmap/ic_launcher_round"
             ]
             // FIREBASE DATABASE URLS
-            buildConfigField 'String', 'DB_REF_ROOT', '"Staging/"'
+            buildConfigField 'String', 'DB_REF_ROOT', DB_REF_ROOT_STAGING
         }
     }
 }
