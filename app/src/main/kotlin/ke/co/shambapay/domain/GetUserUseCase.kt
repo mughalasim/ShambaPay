@@ -2,7 +2,6 @@ package ke.co.shambapay.domain
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import ke.co.shambapay.BuildConfig
 import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.domain.base.BaseInput
 import ke.co.shambapay.domain.base.BaseResult
@@ -15,17 +14,22 @@ class GetUserUseCase : BaseUseCase<BaseInput, UserEntity, Failures>() {
 
         val user = FirebaseAuth.getInstance().currentUser ?: return BaseResult.Failure(Failures.NotAuthenticated)
 
-        val completableDeferred = CompletableDeferred<BaseResult<UserEntity, Failures>>()
+        val deferred = CompletableDeferred<BaseResult<UserEntity, Failures>>()
         FirebaseDatabase.getInstance().getReference(QueryBuilder.geUser(user.uid)).get().
         addOnSuccessListener{
             try {
-                BaseResult.Success(it.getValue(UserEntity::class.java))
+                val userEntity: UserEntity? = it.getValue(UserEntity::class.java)
+                if (userEntity != null){
+                    deferred.complete(BaseResult.Success(userEntity))
+                } else {
+                    deferred.complete(BaseResult.Failure(Failures.WithMessage("User not found")))
+                }
             } catch (e: Exception){
-                BaseResult.Failure(Failures.NotFound)
+                deferred.complete(BaseResult.Failure(Failures.WithMessage(e.localizedMessage)))
             }
         }.addOnFailureListener {
-            BaseResult.Failure(Failures.NoNetwork)
+            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
-        return completableDeferred.await()
+        return deferred.await()
     }
 }

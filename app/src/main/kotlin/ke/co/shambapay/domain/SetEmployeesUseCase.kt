@@ -20,7 +20,7 @@ class SetEmployeesUseCase: BaseUseCase<UserEntity, SetEmployeesUseCase.Output, F
         FirebaseDatabase.getInstance().getReference(BuildConfig.DB_REF_ROOT +
                 input.companyId +
                 BuildConfig.DB_REF_EMPLOYEES +
-                input.userId).setValue(input).
+                input.id).setValue(input).
         addOnSuccessListener{
              BaseResult.Success(Output.Empty)
         }.addOnFailureListener {

@@ -1,5 +1,8 @@
 <resources>
     <string name="txt_email">Email</string>
+    <string name="txt_company_name">Company name</string>
+    <string name="txt_first_name">First name</string>
+    <string name="txt_last_name">Last name</string>
     <string name="txt_password">Password</string>
     <string name="txt_national_id">National ID</string>
     <string name="txt_kgs">Kilograms of Tea picked</string>
@@ -7,13 +10,10 @@
     <string name="txt_nhif">NHIF</string>
     <string name="txt_telephone">Telephone</string>
     <string name="txt_captured">Captured</string>
+    <string name="txt_login">Login</string>
+    <string name="txt_register">Register new owner</string>
 
 
-    <string name="btn_login">Login</string>
-
-    <string name="message_invalid_username">Not a valid username</string>
-    <string name="message_invalid_password">Password must be >5 characters</string>
-    <string name="message_login_failed">"Login failed"</string>
 
     <plurals name="plural_year">
         <item quantity="one">%d year</item>

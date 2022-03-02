@@ -5,15 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import ke.co.shambapay.R
-import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.databinding.ActivityLoginBinding
-import ke.co.shambapay.ui.adapter.CustomAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity: AppCompatActivity() {
 
     private val viewModel: LoginViewModel by viewModel()
-    private val adapter =  CustomAdapter(mutableListOf<EmployeeEntity>())
+//    private val adapter =  CustomAdapter(mutableListOf<EmployeeEntity>())
     lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,25 +22,39 @@ class LoginActivity: AppCompatActivity() {
 
         binding.banner.setUp(getString(R.string.app_name))
 
-        binding.etEmail.addTextChangedListener {
-            viewModel.
-        }
-
         viewModel.state.observe(this){
             when(it){
-                is LoginViewModel.State.Loading -> {
-                    binding.btnLogin.isEnabled = !it.show
-                    binding.progressBar.isVisible = it.show
-                    binding.txtMessage.text = ""
-                }
-                is LoginViewModel.State.ShowMessage -> {
+                is LoginViewModel.State.UpdateUI -> {
+                    binding.btnLogin.isEnabled = !it.showLoading
+                    binding.progressBar.isVisible = it.showLoading
                     binding.txtMessage.text = it.message
+                    binding.txtMessage.isVisible = it.message.isNotEmpty()
                 }
-                is LoginViewModel.State.LoggedInUser ->{
+                is LoginViewModel.State.LoggedInUser -> {
 
                 }
             }
         }
+
+        viewModel.canLogIn.observe(this){
+            binding.btnLogin.isVisible = it
+        }
+
+        binding.etEmail.addTextChangedListener {
+            viewModel.validate(it.toString(), binding.etPassword.text.toString())
+        }
+
+        binding.etPassword.addTextChangedListener {
+            viewModel.validate(binding.etEmail.text.toString(), it.toString())
+        }
+
+        binding.btnLogin.setOnClickListener {
+            viewModel.makeLoginRequest()
+        }
+
+        supportFragmentManager.beginTransaction()
+            .replace(binding.rootContainer.id, RegisterFragment())
+            .commitAllowingStateLoss()
 
     }
 

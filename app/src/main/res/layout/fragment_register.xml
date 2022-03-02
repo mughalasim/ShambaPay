@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_large"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_title"
+                style="@style/TextLarge"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:text="@string/txt_register" />
+
+            <EditText
+                android:id="@+id/et_company_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/txt_company_name"
+                android:inputType="textPersonName"
+                android:layout_marginTop="@dimen/padding_large"
+                android:selectAllOnFocus="true"
+                tools:ignore="Autofill" />
+
+            <EditText
+                android:id="@+id/et_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/txt_first_name"
+                android:inputType="textPersonName"
+                android:layout_marginTop="@dimen/padding_large"
+                android:selectAllOnFocus="true"
+                tools:ignore="Autofill" />
+
+            <EditText
+                android:id="@+id/et_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_large"
+                android:hint="@string/txt_last_name"
+                android:inputType="textPersonName"
+                android:selectAllOnFocus="true"
+                tools:ignore="Autofill" />
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_large"
+                android:hint="@string/txt_email"
+                android:inputType="textEmailAddress"
+                android:selectAllOnFocus="true"
+                tools:ignore="Autofill" />
+
+            <EditText
+                android:id="@+id/et_telephone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/txt_telephone"
+                android:layout_marginTop="@dimen/padding_large"
+                android:inputType="phone"
+                android:selectAllOnFocus="true"
+                tools:ignore="Autofill" />
+
+
+            <TextView
+                android:id="@+id/txt_message"
+                style="@style/TextNormalBold"
+                android:layout_marginTop="@dimen/padding_large"
+                android:layout_width="match_parent"
+                android:gravity="center"/>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_large"
+                android:layout_marginBottom="@dimen/padding_large"
+                android:enabled="false"
+                android:text="@string/txt_register" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

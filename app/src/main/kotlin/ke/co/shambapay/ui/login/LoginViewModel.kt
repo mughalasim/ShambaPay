@@ -1,5 +1,6 @@
 package ke.co.shambapay.ui.login
 
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,42 +8,90 @@ import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.domain.Failures
 import ke.co.shambapay.domain.GetLoginUseCase
+import ke.co.shambapay.domain.GetUserUseCase
+import ke.co.shambapay.domain.base.BaseInput
 
 class LoginViewModel(
-    val getLoginUseCase: GetLoginUseCase
+    val getLoginUseCase: GetLoginUseCase,
+    val getUserUseCase: GetUserUseCase
 ) : ViewModel() {
 
     val _state = MutableLiveData<State>()
     val state: LiveData<State> = _state
 
-    sealed class State {
-        data class Loading(val show: Boolean): State()
-        data class ShowMessage(val message: String): State()
-        data class LoggedInUser(val user: UserEntity): State()
+    val _email = MutableLiveData<String>()
+    val email: LiveData<String> = _email
 
+    val _password = MutableLiveData<String>()
+    val password: LiveData<String> = _password
+
+    val _canLogIn = MutableLiveData<Boolean>()
+    val canLogIn: LiveData<Boolean> = _canLogIn
+
+    sealed class State {
+        data class UpdateUI(val showLoading: Boolean, val message: String): State()
+        data class LoggedInUser(val user: UserEntity): State()
     }
 
+    init {
+        _state.postValue(State.UpdateUI(false, ""))
+        _canLogIn.postValue(false)
+    }
 
-    fun makeLoginRequest(email: String, password: String) {
-        _state.postValue(State.Loading(true))
-        getLoginUseCase.invoke(viewModelScope ,GetLoginUseCase.Input(email, password)){
+    fun validate(email: String?, password: String?){
+        if (email.isNullOrEmpty()) {
+            _state.postValue(State.UpdateUI(false, "Email cannot be empty"))
+            _canLogIn.postValue(false)
+            return
+        }
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            _state.postValue(State.UpdateUI(false, "Email is not valid"))
+            _canLogIn.postValue(false)
+            return
+        }
+        if (password.isNullOrEmpty()) {
+            _state.postValue(State.UpdateUI(false, "Password cannot be empty"))
+            _canLogIn.postValue(false)
+            return
+        }
+        _state.postValue(State.UpdateUI(false, ""))
+        _canLogIn.postValue(true)
+        _email.postValue(email!!)
+        _password.postValue(password!!)
+    }
+
+    fun makeLoginRequest() {
+        _state.postValue(State.UpdateUI(true, "Logging in, Please wait..."))
+        getLoginUseCase.invoke(viewModelScope, GetLoginUseCase.Input(email.value!!, password.value!!)){
 
             it.result(onSuccess = { user ->
-                _state.postValue(State.Loading(false))
-                _state.postValue(State.LoggedInUser(user))
+                _state.postValue(State.UpdateUI(false, ""))
+                fetchUserEntity()
 
             }, onFailure = { failure ->
-                _state.postValue(State.Loading(false))
                 when(failure){
-                    is Failures.WithMessage -> {_state.postValue(State.ShowMessage(failure.message))}
+                    is Failures.WithMessage -> {_state.postValue(State.UpdateUI(false, failure.message))}
 
-                    is Failures.NotAuthenticated -> {_state.postValue(State.ShowMessage("Invalid username or password"))}
-
-                    else ->{_state.postValue(State.ShowMessage("Unknown error, please check back later"))}
+                    else ->{_state.postValue(State.UpdateUI(false, "Unknown error when authenticating, please check back later"))}
                 }
             })
         }
+    }
 
+    private fun fetchUserEntity(){
+        _state.postValue(State.UpdateUI(true, "Fetching your details, Please wait..."))
+        getUserUseCase.invoke(viewModelScope, BaseInput.EmptyInput){
+            it.result(onSuccess = {user ->
+                _state.postValue(State.UpdateUI(false, ""))
+
+            }, onFailure = { failure ->
+                when(failure){
+                    is Failures.WithMessage -> {_state.postValue(State.UpdateUI(false, failure.message))}
+
+                    else ->{_state.postValue(State.UpdateUI(false, "Unknown error when fetching your details, please check back later"))}
+                }
+            })
+        }
     }
 
 }
