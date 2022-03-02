@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.domain.Failures
-import ke.co.shambapay.domain.GetLoginUseCase
 import ke.co.shambapay.domain.GetUserUseCase
 import ke.co.shambapay.domain.SetUserUseCase
+import ke.co.shambapay.ui.BaseViewModel
 import org.joda.time.DateTime
 
 class RegisterViewModel(

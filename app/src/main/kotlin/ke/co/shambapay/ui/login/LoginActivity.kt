@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import ke.co.shambapay.R
 import ke.co.shambapay.databinding.ActivityLoginBinding
+import ke.co.shambapay.ui.employees.EmployeeListFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity: AppCompatActivity() {
@@ -53,7 +54,7 @@ class LoginActivity: AppCompatActivity() {
         }
 
         supportFragmentManager.beginTransaction()
-            .replace(binding.rootContainer.id, RegisterFragment())
+            .replace(binding.rootContainer.id, EmployeeListFragment())
             .commitAllowingStateLoss()
 
     }

@@ -80,7 +80,7 @@ class LoginViewModel(
 
     private fun fetchUserEntity(){
         _state.postValue(State.UpdateUI(true, "Fetching your details, Please wait..."))
-        getUserUseCase.invoke(viewModelScope, BaseInput.EmptyInput){
+        getUserUseCase.invoke(viewModelScope, BaseInput.Empty){
             it.result(onSuccess = {user ->
                 _state.postValue(State.UpdateUI(false, ""))
 

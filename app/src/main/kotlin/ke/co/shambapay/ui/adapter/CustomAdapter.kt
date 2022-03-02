@@ -30,7 +30,7 @@ class CustomAdapter<in T>(private val dataSet: MutableList<T>) :
     }
 
     override fun onBindViewHolder(vh: ViewHolder, position: Int) {
-        vh.widgetEmployeeItem.visibility = View.GONE
+        vh.widgetEmployeeItem.visibility = View.VISIBLE
         vh.widgetWorkItem.visibility = View.GONE
         vh.widgetUserItem.visibility = View.GONE
 
@@ -56,9 +56,10 @@ class CustomAdapter<in T>(private val dataSet: MutableList<T>) :
 
     fun updateData(dataSet: List<T>){
         this.dataSet.clear()
-        for(data in dataSet){
+        if (dataSet.isEmpty()) notifyDataSetChanged()
+        dataSet.mapIndexed { i, data ->
             this.dataSet.add(data)
-            notifyItemChanged(itemCount)
+            notifyItemChanged(i)
         }
     }
 

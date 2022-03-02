@@ -1,4 +1,4 @@
-package ke.co.shambapay.ui.login
+package ke.co.shambapay.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,7 +20,7 @@ abstract class BaseViewModel(
     }
 
     fun fetchUser(){
-        getUserUseCase.invoke(viewModelScope, BaseInput.EmptyInput){
+        getUserUseCase.invoke(viewModelScope, BaseInput.Empty){
             it.result(onSuccess = {user ->
                 _userEntity.postValue(user)
 
