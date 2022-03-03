@@ -14,7 +14,7 @@ import kotlin.Throws
  * Reads TAB delimited files.
  * Supports quoted cells and the main platforms' line endings: Unix `\n`, Mac `\r`, Windows `\r\n`.
  */
-class TSVReader(reader: Reader) : Closeable {
+class CSVReader(reader: Reader) : Closeable {
     private val columns: MutableList<String> = ArrayList()
     private val parser: TSVParser
 

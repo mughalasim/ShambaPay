@@ -1,4 +1,4 @@
-package ke.co.shambapay.ui.login
+package ke.co.shambapay.ui.register
 
 import android.os.Bundle
 import android.view.LayoutInflater

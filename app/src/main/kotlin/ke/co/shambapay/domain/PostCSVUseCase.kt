@@ -6,7 +6,7 @@ import ke.co.shambapay.data.model.JobType
 import ke.co.shambapay.data.model.WorkEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
-import ke.co.shambapay.utils.TSVReader
+import ke.co.shambapay.utils.CSVReader
 import org.joda.time.DateTime
 import java.io.InputStream
 
@@ -38,9 +38,9 @@ class PostCSVUseCase: BaseUseCase<PostCSVUseCase.Input, PostCSVUseCase.Output, F
                         return  BaseResult.Failure(Failures.WithMessage("Please select a file"))
                     }
 
-                    val reader: TSVReader?
+                    val reader: CSVReader?
                     try {
-                        reader = TSVReader(input.inputStream.bufferedReader())
+                        reader = CSVReader(input.inputStream.bufferedReader())
                     } catch (e: Exception){
                         return BaseResult.Failure(Failures.WithMessage("Invalid data in file"))
                     }

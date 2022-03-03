@@ -1,4 +1,4 @@
-package ke.co.shambapay.ui.login
+package ke.co.shambapay.ui.register
 
 import android.util.Patterns
 import androidx.lifecycle.LiveData
@@ -132,9 +132,19 @@ class RegisterViewModel(
 
             }, onFailure = { failure ->
                 when(failure){
-                    is Failures.WithMessage -> {_state.postValue(State.UpdateUI(false, failure.message))}
+                    is Failures.WithMessage -> {_state.postValue(
+                        State.UpdateUI(
+                            false,
+                            failure.message
+                        )
+                    )}
 
-                    else ->{_state.postValue(State.UpdateUI(false, "Unknown error when authenticating, please check back later"))}
+                    else ->{_state.postValue(
+                        State.UpdateUI(
+                            false,
+                            "Unknown error when authenticating, please check back later"
+                        )
+                    )}
                 }
             })
         }
