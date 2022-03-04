@@ -6,54 +6,60 @@ import ke.co.shambapay.data.model.WorkEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.utils.CSVReader
-import ke.co.shambapay.utils.toStringFromDayMonthAndYear
+import ke.co.shambapay.utils.toMonthYearString
 import kotlinx.coroutines.CompletableDeferred
 import org.joda.time.DateTime
 import java.io.InputStream
 
-class UploadUseCase: BaseUseCase<UploadUseCase.Input, Boolean, Failures>() {
+class UploadUseCase: BaseUseCase<UploadUseCase.Input, Unit, Failures>() {
 
     sealed class Input {
         data class Employees(val inputStream : InputStream?, val companyId: String): Input()
         data class Work(val inputStream : InputStream?, val month : Int, val year: Int ,val companyId: String): Input()
     }
 
-    override suspend fun run(input: Input): BaseResult<Boolean, Failures> {
+    override suspend fun run(input: Input): BaseResult<Unit, Failures> {
 
         when(input){
             is Input.Employees ->{
 
                 val result = parseEmployeeInputStream(input.inputStream)
 
-                if (result is Failures) return BaseResult.Failure(result)
+                if (result is BaseResult.Failure) return result
 
-                for (employee in (result as BaseResult.Success).successType){
+                val employeeList: List<EmployeeEntity> = (result as BaseResult.Success).successType
+
+                for (employee in employeeList){
                     val uploadResult = uploadSingleEmployee(employee, input.companyId)
-                    if (uploadResult is Failures) return uploadResult
+                    if (uploadResult is BaseResult.Failure) return uploadResult
                 }
 
-                return BaseResult.Success(true)
+                return BaseResult.Success(Unit)
 
             }
 
             is Input.Work ->{
-                return BaseResult.Success(true)
+
+                val result = parseWorkInputStream(input.inputStream, input.month, input.year, input.companyId)
+
+                if (result is BaseResult.Failure) return result
+
+                return BaseResult.Success(Unit)
 
             }
         }
 
     }
 
-    private suspend fun uploadSingleEmployee(employeeEntity: EmployeeEntity, companyId: String): BaseResult<Boolean, Failures> {
-        val def = CompletableDeferred<BaseResult<Boolean, Failures>>()
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.getEmployees(companyId) + "/" +
-                employeeEntity.id).setValue(employeeEntity).
-
+    private suspend fun uploadSingleEmployee(employeeEntity: EmployeeEntity, companyId: String): BaseResult<Unit, Failures> {
+        val def = CompletableDeferred<BaseResult<Unit, Failures>>()
+        FirebaseDatabase.getInstance().getReference(
+            QueryBuilder.getEmployees(companyId) + "/" + employeeEntity.id).setValue(employeeEntity).
         addOnSuccessListener{
-            BaseResult.Success(true)
+            def.complete(BaseResult.Success(Unit))
 
         }.addOnFailureListener {
-            BaseResult.Failure(Failures.WithMessage(it.localizedMessage))
+            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
         return def.await()
     }
@@ -100,8 +106,8 @@ class UploadUseCase: BaseUseCase<UploadUseCase.Input, Boolean, Failures>() {
             try {
                 mutableList.add (
                     EmployeeEntity (
-                        id = columns[0].toInt(),
-                        nationalId = columns[3].toInt(),
+                        id = columns[0].toIntOrNull(),
+                        nationalId = columns[3].toLongOrNull(),
                         firstName = columns[1],
                         lastName = columns[2],
                         cash = 0.0,
@@ -109,12 +115,12 @@ class UploadUseCase: BaseUseCase<UploadUseCase.Input, Boolean, Failures>() {
                         misc = 0.0,
                         nhif = columns[6],
                         nssf = columns[5],
-                        phone = columns[4].toInt(),
+                        phone = columns[4].toLong(),
                         areaCode = 245
                     )
                 )
             } catch (e: Exception){
-                return BaseResult.Failure(Failures.WithMessage(e.localizedMessage))
+                return BaseResult.Failure(Failures.WithMessage(e.localizedMessage + "On row: " + columns))
             }
 
             row = reader.readRow()?.asList()
@@ -125,7 +131,7 @@ class UploadUseCase: BaseUseCase<UploadUseCase.Input, Boolean, Failures>() {
 
     }
 
-    private fun parseWorkInputStream(inputStream: InputStream?, month : Int, year: Int, companyId: String): BaseResult<List<WorkEntity>, Failures> {
+    private fun parseWorkInputStream(inputStream: InputStream?, month : Int, year: Int, companyId: String): BaseResult<Unit, Failures> {
         if (inputStream == null){
             return  BaseResult.Failure(Failures.WithMessage("Please select a file"))
         }
@@ -146,8 +152,6 @@ class UploadUseCase: BaseUseCase<UploadUseCase.Input, Boolean, Failures>() {
 
         row = reader.readRow()?.asList()
 
-        val mutableList = mutableListOf<WorkEntity>()
-
         while(row?.isNotEmpty() == true) {
 
             val columns = row[0].split(",")
@@ -165,37 +169,31 @@ class UploadUseCase: BaseUseCase<UploadUseCase.Input, Boolean, Failures>() {
             }
 
             val employeeId = columns[0]
-            val rateId = columns[1]+columns[2]
+            val rateId = columns[1].trim() + columns[2].trim()
 
             val workList = columns.drop(3)
 
             workList.mapIndexed { index, work ->
                 try {
-                    mutableList.add (
-                        WorkEntity (
-                            date = DateTime.now().toStringFromDayMonthAndYear(index ,month, year),
-                            unit = work.toDouble(),
+                    val date = DateTime.now().withDate(year, month, index+1)
+                    FirebaseDatabase.getInstance().reference
+                        .child(QueryBuilder.getWork(companyId, employeeId) +"/"+ date.toMonthYearString() + "/${index+1}")
+                        .setValue(WorkEntity (
+                            date = date.toString(),
+                            unit = work.toDoubleOrNull(),
                             rateId = rateId
-                        )
-                    )
+                        ))
+
                 } catch (e: Exception){
                     return BaseResult.Failure(Failures.WithMessage(e.localizedMessage))
                 }
             }
 
-            FirebaseDatabase.getInstance().reference
-                .child(QueryBuilder.getWork(employeeId, companyId) + "/")
-                .child("Employees")
-                .child(split[0])
-                .child("work").child(input.year).child(input.month).child("${i+1}")
-                .setValue(WorkEntity("${input.year}.${input.month}.${i+1}", unit, JobType.Picking))
-
-
             row = reader.readRow()?.asList()
 
         }
 
-        return BaseResult.Success(mutableList)
+        return BaseResult.Success(Unit)
 
     }
 

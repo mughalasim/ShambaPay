@@ -7,6 +7,8 @@ import androidx.core.widget.addTextChangedListener
 import ke.co.shambapay.R
 import ke.co.shambapay.databinding.ActivityLoginBinding
 import ke.co.shambapay.ui.employees.EmployeeListFragment
+import ke.co.shambapay.ui.upload.UploadEmployeesFragment
+import ke.co.shambapay.ui.upload.UploadWorkFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity: AppCompatActivity() {
@@ -54,7 +56,7 @@ class LoginActivity: AppCompatActivity() {
         }
 
         supportFragmentManager.beginTransaction()
-            .replace(binding.rootContainer.id, EmployeeListFragment())
+            .replace(binding.rootContainer.id, UploadWorkFragment())
             .commitAllowingStateLoss()
 
     }

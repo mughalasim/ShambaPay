@@ -4,11 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import androidx.core.view.isVisible
 import ke.co.shambapay.data.model.WorkEntity
 import ke.co.shambapay.databinding.WidgetListWorkBinding
-import ke.co.shambapay.utils.toMonthYearDuration
-import ke.co.shambapay.utils.toMonthYearString
+import ke.co.shambapay.utils.toParsedDate
 
 class WorkListWidget @JvmOverloads constructor(
     context: Context,
@@ -20,7 +18,7 @@ class WorkListWidget @JvmOverloads constructor(
         WidgetListWorkBinding.inflate(LayoutInflater.from(context), this, true)
 
     fun setUp(model: WorkEntity) {
-        binding.txtDate.text = model.date.toMonthYearString()
+        binding.txtDate.text = model.date.toParsedDate()
         binding.txtUnit.text = model.unit.toString()
     }
 

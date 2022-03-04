@@ -5,7 +5,7 @@ import org.koin.dsl.module
 
 val useCaseModule = module {
 
-    single { PostCSVUseCase() }
+    single { UploadUseCase() }
     single { GetUserUseCase() }
     single { GetEmployeesUseCase() }
     single { GetWorkUseCase() }

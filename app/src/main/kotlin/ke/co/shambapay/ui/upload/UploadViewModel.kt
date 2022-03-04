@@ -1,40 +1,37 @@
 package ke.co.shambapay.ui.upload
 
-import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ke.co.shambapay.data.model.UserEntity
-import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.domain.Failures
+import ke.co.shambapay.domain.GetUserUseCase
 import ke.co.shambapay.domain.UploadUseCase
+import ke.co.shambapay.ui.BaseViewModel
 import org.joda.time.DateTime
+import java.io.InputStream
 
 class UploadViewModel(
-    val uploadUseCase: UploadUseCase
-) : ViewModel() {
+    val uploadUseCase: UploadUseCase,
+    getUserUseCase: GetUserUseCase
+) : BaseViewModel(getUserUseCase) {
 
     val _state = MutableLiveData<State>()
     val state: LiveData<State> = _state
 
-    val _email = MutableLiveData<String>()
-    val email: LiveData<String> = _email
+    val _month = MutableLiveData<Int>()
+    val month: LiveData<Int> = _month
 
-    val _companyName = MutableLiveData<String>()
-    val companyName: LiveData<String> = _companyName
+    val _year = MutableLiveData<Int>()
+    val year: LiveData<Int> = _year
 
-    val _telephone = MutableLiveData<String>()
-    val telephone: LiveData<String> = _telephone
+    val _inputStream = MutableLiveData<InputStream?>()
+    val inputStream: LiveData<InputStream?> = _inputStream
 
-    val _firstName = MutableLiveData<String>()
-    val firstName: LiveData<String> = _firstName
+    val _canUploadEmployees = MutableLiveData<Boolean>()
+    val canUploadEmployees: LiveData<Boolean> = _canUploadEmployees
 
-    val _lastName = MutableLiveData<String>()
-    val lastName: LiveData<String> = _lastName
-
-    val _canRegister = MutableLiveData<Boolean>()
-    val canRegister: LiveData<Boolean> = _canRegister
+    val _canUploadWork = MutableLiveData<Boolean>()
+    val canUploadWork: LiveData<Boolean> = _canUploadWork
 
     sealed class State {
         data class UpdateUI(val showLoading: Boolean, val message: String): State()
@@ -44,105 +41,87 @@ class UploadViewModel(
     init {
         fetchUser()
         _state.postValue(State.UpdateUI(false, ""))
-        _canRegister.postValue(false)
+        _canUploadEmployees.postValue(true)
+        _canUploadWork.postValue(false)
     }
 
-    fun validate(
-        email: String?,
-        firstName: String?,
-        lastName: String?,
-        companyName: String?,
-        telephone: String?
+    fun validateUploadWork (
+        month: String?,
+        year: String?
     ){
-        _canRegister.postValue(false)
+        _canUploadWork.postValue(false)
 
-        if (email.isNullOrEmpty()) {
-            _state.postValue(State.UpdateUI(false, "Email cannot be empty"))
-            return
-        }
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            _state.postValue(State.UpdateUI(false, "Email is not valid"))
-            return
-        }
-        if (firstName.isNullOrEmpty()) {
-            _state.postValue(State.UpdateUI(false, "First name cannot be empty"))
+        val convertedMonth = month?.toIntOrNull()
+        val convertedYear = year?.toIntOrNull()
+
+        if (convertedMonth == null || convertedMonth <= 0 || convertedMonth > 12){
+            _state.postValue(State.UpdateUI(false, "Month is not valid"))
             return
         }
 
-        if (lastName.isNullOrEmpty()) {
-            _state.postValue(State.UpdateUI(false, "Last name cannot be empty"))
+        if (convertedYear == null || convertedYear <= 0 || convertedYear > DateTime.now().year){
+            _state.postValue(State.UpdateUI(false, "Year is not valid"))
             return
         }
 
-        if (companyName.isNullOrEmpty()) {
-            _state.postValue(State.UpdateUI(false, "Company name cannot be empty"))
+        if (convertedMonth > DateTime.now().monthOfYear && convertedYear > DateTime.now().year().get()){
+            _state.postValue(State.UpdateUI(false, "Cannot set records for the future"))
             return
         }
 
-        if (telephone.isNullOrEmpty()) {
-            _state.postValue(State.UpdateUI(false, "Telephone cannot be empty"))
-            return
-        }
-
-        if (telephone.isNullOrEmpty()) {
-            _state.postValue(State.UpdateUI(false, "Telephone cannot be empty"))
-            return
-        }
-
-        if (!Patterns.PHONE.matcher(telephone).matches()) {
-            _state.postValue(State.UpdateUI(false, "Telephone is invalid"))
-            return
-        }
-
-        _canRegister.postValue(true)
+        _canUploadWork.postValue(true)
         _state.postValue(State.UpdateUI(false, ""))
 
-        _email.postValue(email!!)
-        _companyName.postValue(companyName!!)
-        _firstName.postValue(firstName!!)
-        _lastName.postValue(lastName!!)
-        _telephone.postValue(telephone!!)
+        _month.postValue(convertedMonth!!)
+        _year.postValue(convertedYear!!)
     }
 
-    fun registerUser() {
+    fun setInputStream(inputStream: InputStream?){
+        _inputStream.postValue(inputStream)
+    }
+
+    fun uploadWork() {
         if (!hasUser()) {
             _state.postValue(State.UpdateUI(false, "Your session has expired please login again"))
             return
         }
 
-        val userEntity = UserEntity (
-            id = "",
-            companyId = companyName.value + DateTime.now(),
-            firstName = firstName.value!!,
-            lastName = lastName.value!!,
-            email = email.value!!,
-            phone = telephone.value!!.toLong(),
-            areaCode = 254,
-            userType = UserType.OWNER,
-            fcmToken = "null"
-        )
-
-        _state.postValue(State.UpdateUI(true, "Setting up user, Please wait..."))
-        setUserUseCase.invoke(viewModelScope, userEntity){
+        _state.postValue(State.UpdateUI(true, "Uploading work records, Please wait..."))
+        uploadUseCase.invoke(viewModelScope, UploadUseCase.Input.Work(inputStream.value, month.value!!, year.value!!, "1234")){
 
             it.result(onSuccess = {
+                _inputStream.postValue(null)
+                _state.postValue(State.UpdateUI(false, "Success"))
                 _state.postValue(State.Success)
 
             }, onFailure = { failure ->
                 when(failure){
-                    is Failures.WithMessage -> {_state.postValue(
-                        State.UpdateUI(
-                            false,
-                            failure.message
-                        )
-                    )}
+                    is Failures.WithMessage -> {_state.postValue(State.UpdateUI(false, failure.message))}
 
-                    else ->{_state.postValue(
-                        State.UpdateUI(
-                            false,
-                            "Unknown error when authenticating, please check back later"
-                        )
-                    )}
+                    else ->{_state.postValue(State.UpdateUI(false, "Unknown error, please check back later"))}
+                }
+            })
+        }
+    }
+
+    fun uploadEmployees() {
+        if (!hasUser()) {
+            _state.postValue(State.UpdateUI(false, "Your session has expired please login again"))
+            return
+        }
+
+        _state.postValue(State.UpdateUI(true, "Uploading Employee records, Please wait..."))
+        uploadUseCase.invoke(viewModelScope, UploadUseCase.Input.Employees(inputStream.value, "1234")){
+
+            it.result(onSuccess = {
+                _inputStream.postValue(null)
+                _state.postValue(State.UpdateUI(false, "Success"))
+
+            }, onFailure = { failure ->
+                when(failure){
+                    is Failures.WithMessage -> {_state.postValue(State.UpdateUI(false, failure.message))}
+
+                    else ->{_state.postValue(State.UpdateUI(false, "Unknown error, please check back later"))}
                 }
             })
         }

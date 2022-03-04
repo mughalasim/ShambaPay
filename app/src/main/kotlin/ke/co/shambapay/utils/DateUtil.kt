@@ -13,10 +13,6 @@ fun DateTime.toMonthYearString(): String {
     return this.toString(dateFormatDayFullMonthYear)
 }
 
-fun DateTime.toStringFromDayMonthAndYear(day: Int, month: Int, year: Int): DateTime {
-    return this.withDate(day, month, year)
-}
-
 fun DateTime.toMonthYearDuration(context: Context, dateTime: DateTime): String {
     val years = Years.yearsBetween(dateTime.withTime(0, 0, 0, 0), this.withTime(0, 0, 0, 0)).years
     val months = Months.monthsBetween(dateTime.withTime(0, 0, 0, 0), this.withTime(0, 0, 0, 0)).months % 12
@@ -28,8 +24,12 @@ fun DateTime.toMonthYearDuration(context: Context, dateTime: DateTime): String {
            )
 }
 
+fun String.toParsedDate(): String{
+    return "2022 March 3"
+}
+
 object DateTimeExtensions {
-    const val FULL_MONTH_YEAR = "MMM yyyy"
+    const val FULL_MONTH_YEAR = "yyyy/M"
     const val DATE_FORMAT = "yyyy-MM-dd"
 
     val dateFormatDayFullMonthYear: DateTimeFormatter = DateTimeFormat.forPattern(FULL_MONTH_YEAR)

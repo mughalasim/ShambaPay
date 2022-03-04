@@ -4,6 +4,8 @@
     <string name="txt_first_name">First name</string>
     <string name="txt_last_name">Last name</string>
     <string name="txt_password">Password</string>
+    <string name="txt_year">Year</string>
+    <string name="txt_month">Month</string>
     <string name="txt_national_id">National ID</string>
     <string name="txt_kgs">Kilograms of Tea picked</string>
     <string name="txt_nssf">NSSF</string>
@@ -13,6 +15,10 @@
     <string name="txt_login">Login</string>
     <string name="txt_register">Register new owner</string>
     <string name="txt_search">Search by Name or ID number</string>
+    <string name="txt_upload">Upload</string>
+    <string name="txt_select_file">Select a file to upload</string>
+    <string name="txt_upload_employees">Upload all employee records</string>
+    <string name="txt_upload_work">Upload all employee work records</string>
 
     <plurals name="plural_year">
         <item quantity="one">%d year</item>
