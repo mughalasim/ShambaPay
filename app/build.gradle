@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'kotlin-android'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -122,6 +124,10 @@ dependencies {
     // Swipe to refresh library
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$ktx_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$ktx_version"
+
     // KOIN Dependency Injection
     implementation "io.insert-koin:koin-android:3.0.2"
     implementation "io.insert-koin:koin-android-ext:3.0.2"
@@ -130,8 +136,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-native-mt"
 
     // ViewModel LifeCycle
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$ktx_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$ktx_version"
 
     // Testing
     testImplementation 'junit:junit:4.13.2'

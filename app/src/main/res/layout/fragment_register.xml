@@ -25,53 +25,48 @@
                 android:text="@string/txt_register" />
 
             <EditText
+                style="@style/EditText"
                 android:id="@+id/et_company_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/txt_company_name"
                 android:inputType="textPersonName"
-                android:layout_marginTop="@dimen/padding_large"
-                android:selectAllOnFocus="true"
                 tools:ignore="Autofill" />
 
             <EditText
                 android:id="@+id/et_first_name"
+                style="@style/EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/txt_first_name"
                 android:inputType="textPersonName"
-                android:layout_marginTop="@dimen/padding_large"
-                android:selectAllOnFocus="true"
                 tools:ignore="Autofill" />
 
             <EditText
                 android:id="@+id/et_last_name"
+                style="@style/EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_large"
                 android:hint="@string/txt_last_name"
                 android:inputType="textPersonName"
-                android:selectAllOnFocus="true"
                 tools:ignore="Autofill" />
 
             <EditText
                 android:id="@+id/et_email"
+                style="@style/EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_large"
                 android:hint="@string/txt_email"
                 android:inputType="textEmailAddress"
-                android:selectAllOnFocus="true"
                 tools:ignore="Autofill" />
 
             <EditText
                 android:id="@+id/et_telephone"
                 android:layout_width="match_parent"
+                style="@style/EditText"
                 android:layout_height="wrap_content"
                 android:hint="@string/txt_telephone"
-                android:layout_marginTop="@dimen/padding_large"
                 android:inputType="phone"
-                android:selectAllOnFocus="true"
                 tools:ignore="Autofill" />
 
 
@@ -93,7 +88,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_large"
-                android:layout_marginBottom="@dimen/padding_large"
                 android:enabled="false"
                 android:text="@string/txt_register" />
 

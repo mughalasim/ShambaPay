@@ -55,4 +55,16 @@
         <item name="android:textColor">@color/teal_700</item>
     </style>
 
+
+    <style name="EditText" parent="Theme.Main">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:textColor">@color/purple_700</item>
+        <item name="android:background">@drawable/background_border_grey</item>
+        <item name="android:padding">@dimen/padding_large</item>
+        <item name="android:selectAllOnFocus">true</item>
+        <item name="android:layout_marginTop">@dimen/padding_large</item>
+    </style>
+
 </resources>

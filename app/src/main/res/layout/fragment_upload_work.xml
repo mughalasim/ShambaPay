@@ -25,22 +25,16 @@
 
             <EditText
                 android:id="@+id/et_year"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_large"
+                style="@style/EditText"
                 android:hint="@string/txt_year"
                 android:inputType="number"
-                android:selectAllOnFocus="true"
                 tools:ignore="Autofill" />
 
             <EditText
                 android:id="@+id/et_month"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_large"
+                style="@style/EditText"
                 android:hint="@string/txt_month"
                 android:inputType="number"
-                android:selectAllOnFocus="true"
                 tools:ignore="Autofill" />
 
             <Button

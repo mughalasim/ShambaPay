@@ -26,10 +26,8 @@ class GetEmployeesUseCase: BaseUseCase<GetEmployeesUseCase.Input, List<EmployeeE
                     val list = dataSnapshot.children.map { data ->
                         data.getValue(EmployeeEntity::class.java)!!
                     }.filter {
-                        (it.firstName.lowercase().contains(filter) ||
-                        it.lastName.lowercase().contains(filter) ||
-                        it.phone.toString().lowercase().contains(filter))
-                    }
+                        it.firstName.lowercase().contains(filter) || it.lastName.lowercase().contains(filter)
+                    }.sortedBy { it.firstName }
                     def.complete(BaseResult.Success(list))
                 }
             } catch (e: Exception){

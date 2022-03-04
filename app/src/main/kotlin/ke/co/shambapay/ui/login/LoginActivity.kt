@@ -56,7 +56,7 @@ class LoginActivity: AppCompatActivity() {
         }
 
         supportFragmentManager.beginTransaction()
-            .replace(binding.rootContainer.id, UploadWorkFragment())
+            .replace(binding.rootContainer.id, EmployeeListFragment())
             .commitAllowingStateLoss()
 
     }
