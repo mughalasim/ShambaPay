@@ -14,19 +14,33 @@ import ke.co.shambapay.ui.widget.EmployeeWidget
 import ke.co.shambapay.ui.widget.UserListWidget
 import ke.co.shambapay.ui.widget.WorkListWidget
 
-class CustomAdapter<in T>(private val dataSet: MutableList<T>) :
+class CustomAdapter<in T>(private val dataSet: MutableList<T>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
-    RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+    private lateinit var internalListener: onItemClickListener
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    interface onItemClickListener {
+        fun onItemClicked (position: Int)
+    }
+
+    fun setOnItemClickListener(listener: onItemClickListener){
+        internalListener = listener
+    }
+
+    class ViewHolder(view: View, listener: onItemClickListener) : RecyclerView.ViewHolder(view) {
         val widgetEmployeeItem: EmployeeListWidget = view.findViewById(R.id.widget_list_employee)
         val widgetWorkItem: WorkListWidget = view.findViewById(R.id.widget_list_work)
         val widgetUserItem: UserListWidget = view.findViewById(R.id.widget_list_user)
+
+        init {
+            view.setOnClickListener {
+                listener.onItemClicked(adapterPosition)
+            }
+        }
     }
 
     override fun onCreateViewHolder(vg: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(vg.context).inflate(R.layout.list_item_recycler, vg, false)
-        return ViewHolder(view)
+        return ViewHolder(view, internalListener)
     }
 
     override fun onBindViewHolder(vh: ViewHolder, position: Int) {

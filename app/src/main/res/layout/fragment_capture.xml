@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.upload.UploadEmployeesFragment">
+    tools:context=".ui.capture.CaptureFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,25 +22,26 @@
                 style="@style/TextLarge"
                 android:gravity="center"
                 android:layout_width="match_parent"
-                android:text="@string/txt_upload_employees" />
+                android:text="@string/txt_capture" />
 
+            <ke.co.shambapay.ui.widget.EmployeeWidget
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-            <Button
-                android:id="@+id/btn_select_file"
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinner_job_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                style="@style/EditText"
+                android:id="@+id/et_unit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_large"
-                android:layout_marginBottom="@dimen/padding_large"
-                android:enabled="true"
-                android:text="@string/txt_select_file" />
-
-
-            <TextView
-                android:id="@+id/txt_message"
-                style="@style/TextNormalBold"
-                android:layout_marginTop="@dimen/padding_large"
-                android:layout_width="match_parent"
-                android:gravity="center"/>
+                android:hint="@string/txt_weight"
+                android:inputType="number"
+                android:digits=".0123456789"
+                tools:ignore="Autofill" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"
@@ -49,13 +50,21 @@
                 android:layout_gravity="center" />
 
             <Button
-                android:id="@+id/btn_upload"
+                android:id="@+id/btn_capture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_large"
-                android:layout_marginBottom="@dimen/padding_large"
                 android:enabled="false"
-                android:text="@string/txt_upload" />
+                android:text="@string/txt_capture" />
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_large"
+                android:enabled="false"
+                android:text="@string/txt_cancel" />
+
 
         </LinearLayout>
 

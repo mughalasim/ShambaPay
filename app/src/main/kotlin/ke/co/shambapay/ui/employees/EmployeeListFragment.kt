@@ -28,6 +28,12 @@ class EmployeeListFragment: Fragment() {
 
         binding.recycler.adapter = adapter
 
+        adapter.setOnItemClickListener(object : CustomAdapter.onItemClickListener{
+            override fun onItemClicked(position: Int) {
+
+            }
+        })
+
         viewModel.data.observe(viewLifecycleOwner) {
             adapter.updateData(it)
         }

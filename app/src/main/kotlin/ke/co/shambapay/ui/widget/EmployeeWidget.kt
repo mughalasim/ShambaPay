@@ -21,8 +21,8 @@ class EmployeeWidget @JvmOverloads constructor(
         binding.banner.setUp("Information")
         binding.txtFullName.text = model.getFullName()
         binding.txtNationalId.text = model.nationalId.toString()
-        binding.txtNhif.text = model.nhif.toString()
-        binding.txtNssf.text = model.nssf.toString()
+        binding.txtNhif.text = model.nhif
+        binding.txtNssf.text = model.nssf
         binding.txtPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
         val fullNumber = "+${model.areaCode}${model.phone}"
         binding.txtPhone.text = fullNumber

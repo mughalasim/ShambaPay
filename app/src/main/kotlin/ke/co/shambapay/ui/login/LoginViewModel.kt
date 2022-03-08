@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.data.model.UserEntity
+import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.domain.Failures
 import ke.co.shambapay.domain.GetLoginUseCase
 import ke.co.shambapay.domain.GetUserUseCase
@@ -30,7 +31,7 @@ class LoginViewModel(
 
     sealed class State {
         data class UpdateUI(val showLoading: Boolean, val message: String): State()
-        data class LoggedInUser(val user: UserEntity): State()
+        data class Success(val userType: UserType): State()
     }
 
     init {
@@ -83,6 +84,7 @@ class LoginViewModel(
         getUserUseCase.invoke(viewModelScope, BaseInput.Empty){
             it.result(onSuccess = {user ->
                 _state.postValue(State.UpdateUI(false, ""))
+                _state.postValue(State.Success(user.userType))
 
             }, onFailure = { failure ->
                 when(failure){
