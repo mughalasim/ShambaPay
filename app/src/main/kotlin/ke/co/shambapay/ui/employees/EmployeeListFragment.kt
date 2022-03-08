@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.databinding.FragmentEmployeesBinding
 import ke.co.shambapay.ui.adapter.CustomAdapter
+import ke.co.shambapay.ui.login.LoginFragmentDirections
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EmployeeListFragment: Fragment() {
@@ -28,9 +30,10 @@ class EmployeeListFragment: Fragment() {
 
         binding.recycler.adapter = adapter
 
-        adapter.setOnItemClickListener(object : CustomAdapter.onItemClickListener{
-            override fun onItemClicked(position: Int) {
-
+        adapter.setOnItemClickListener(object : CustomAdapter.OnItemClickListener{
+            override fun onItemClicked(data: Any?) {
+                val action = EmployeeListFragmentDirections.actionEmployeeListFragmentToCaptureFragment(data as EmployeeEntity)
+                findNavController().navigate(action)
             }
         })
 

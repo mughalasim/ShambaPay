@@ -21,7 +21,7 @@ class EmployeeListWidget @JvmOverloads constructor(
 
     fun setUp(model: EmployeeEntity, wasCaptured: Boolean) {
         binding.txtFullName.text = model.getFullName()
-        binding.txtNationalId.text = model.nationalId.toString()
+        binding.txtNationalId.text = model.getNID()
         binding.chipCaptured.isVisible = wasCaptured
     }
 

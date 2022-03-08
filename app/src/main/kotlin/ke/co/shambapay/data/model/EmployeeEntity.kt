@@ -1,5 +1,7 @@
 package ke.co.shambapay.data.model
 
+import java.io.Serializable
+
 data class EmployeeEntity (
     val id: Int? = 0,
     val nationalId: Long? = 0,
@@ -12,7 +14,7 @@ data class EmployeeEntity (
     val nssf: String = "",
     val phone: Long = 0,
     val areaCode: Int = 0
-){
+): Serializable {
 
     constructor(): this(
         id = 0,
@@ -29,4 +31,5 @@ data class EmployeeEntity (
     )
 
     fun getFullName(): String = "$firstName $lastName"
+    fun getNID(): String = if (nationalId == 0L) "Not set" else nationalId.toString()
 }

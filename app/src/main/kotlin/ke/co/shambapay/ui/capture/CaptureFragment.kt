@@ -4,79 +4,67 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import ke.co.shambapay.databinding.FragmentRegisterBinding
+import androidx.navigation.fragment.navArgs
+import ke.co.shambapay.R
+import ke.co.shambapay.data.model.EmployeeEntity
+import ke.co.shambapay.databinding.FragmentCaptureBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CaptureFragment: Fragment() {
 
     private val viewModel: CaptureViewModel by viewModel()
-    lateinit var binding: FragmentRegisterBinding
+    lateinit var binding: FragmentCaptureBinding
+    private val args: CaptureFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRegisterBinding.inflate(layoutInflater)
+        binding = FragmentCaptureBinding.inflate(layoutInflater)
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.widgetEmployee.setUp(args.employeeEntity)
+
         viewModel.state.observe(viewLifecycleOwner){
             when(it){
-                is RegisterViewModel.State.UpdateUI -> {
-                    binding.btnRegister.isEnabled = !it.showLoading
+                is CaptureViewModel.State.UpdateUI -> {
+                    binding.btnCapture.isEnabled = !it.showLoading
                     binding.progressBar.isVisible = it.showLoading
                     binding.txtMessage.text = it.message
                     binding.txtMessage.isVisible = it.message.isNotEmpty()
                 }
-                is RegisterViewModel.State.Success -> {
+                is CaptureViewModel.State.Success -> {
 
                 }
             }
         }
 
-        viewModel.canRegister.observe(viewLifecycleOwner){
-            binding.btnRegister.isVisible = it
+        viewModel.canSubmit.observe(viewLifecycleOwner){
+            binding.btnCapture.isVisible = it
         }
 
-        binding.etEmail.addTextChangedListener {
-            updateViewModel()
+        binding.btnCancel.setOnClickListener {
+            activity?.onBackPressed()
         }
 
-        binding.etCompanyName.addTextChangedListener {
-            updateViewModel()
+        binding.etUnit.addTextChangedListener {
+//            viewModel.validate(it.toString(), binding.spinnerJobType.selectedItem.toString())
         }
 
-        binding.etFirstName.addTextChangedListener {
-            updateViewModel()
-        }
 
-        binding.etLastName.addTextChangedListener {
-            updateViewModel()
-        }
+//        binding.spinnerJobType.adapter = ArrayAdapter(requireContext(),
+//            androidx.appcompat.R.id.list_item, arrayOf("A", "B", "C"))
 
-        binding.etTelephone.addTextChangedListener {
-            updateViewModel()
-        }
-
-        binding.btnRegister.setOnClickListener {
-            viewModel.registerUser()
-        }
     }
 
-    private fun updateViewModel(){
-        viewModel.validate(
-            binding.etEmail.text.toString(),
-            binding.etFirstName.text.toString(),
-            binding.etLastName.text.toString(),
-            binding.etCompanyName.text.toString(),
-            binding.etTelephone.text.toString(),
-        )
-    }
 }

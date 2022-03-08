@@ -1,5 +1,6 @@
 package ke.co.shambapay.di
 
+import ke.co.shambapay.ui.capture.CaptureViewModel
 import ke.co.shambapay.ui.employees.EmployeeListViewModel
 import ke.co.shambapay.ui.login.LoginViewModel
 import ke.co.shambapay.ui.register.RegisterViewModel
@@ -13,5 +14,6 @@ val viewModelModule = module {
     viewModel { RegisterViewModel(get(), get()) }
     viewModel { EmployeeListViewModel(get(), get()) }
     viewModel { UploadViewModel(get(), get()) }
+    viewModel { CaptureViewModel() }
 
 }

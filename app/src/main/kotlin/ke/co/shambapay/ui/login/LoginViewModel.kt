@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.domain.Failures
@@ -37,6 +39,10 @@ class LoginViewModel(
     init {
         _state.postValue(State.UpdateUI(false, ""))
         _canLogIn.postValue(false)
+
+        if (FirebaseAuth.getInstance().currentUser != null){
+            fetchUserEntity()
+        }
     }
 
     fun validate(email: String?, password: String?){

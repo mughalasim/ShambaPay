@@ -20,12 +20,12 @@ class EmployeeWidget @JvmOverloads constructor(
     fun setUp(model: EmployeeEntity) {
         binding.banner.setUp("Information")
         binding.txtFullName.text = model.getFullName()
-        binding.txtNationalId.text = model.nationalId.toString()
-        binding.txtNhif.text = model.nhif
-        binding.txtNssf.text = model.nssf
+        binding.txtNationalId.text = model.getNID()
+        binding.txtNhif.text = model.nhif.ifEmpty { "Not set" }
+        binding.txtNssf.text = model.nssf.ifEmpty { "Not set" }
         binding.txtPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
-        val fullNumber = "+${model.areaCode}${model.phone}"
-        binding.txtPhone.text = fullNumber
+        val fullNumber = "${model.phone}"
+        binding.txtPhone.text = fullNumber.ifEmpty { "Not set" }
     }
 
 }

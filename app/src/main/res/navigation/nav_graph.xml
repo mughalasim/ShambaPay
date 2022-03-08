@@ -14,13 +14,26 @@
             android:id="@+id/action_loginFragment_to_employeeListFragment"
             app:destination="@id/employeeListFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/employeeListFragment"
         android:name="ke.co.shambapay.ui.employees.EmployeeListFragment"
         android:label="fragment_employees"
-        tools:layout="@layout/fragment_employees" />
+        tools:layout="@layout/fragment_employees" >
+        <action
+            android:id="@+id/action_employeeListFragment_to_captureFragment"
+            app:destination="@id/captureFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/captureFragment"
+        android:name="ke.co.shambapay.ui.capture.CaptureFragment"
+        android:label="fragment_capture"
+        tools:layout="@layout/fragment_capture" >
+        <argument
+            android:name="employeeEntity"
+            app:argType="ke.co.shambapay.data.model.EmployeeEntity" />
+    </fragment>
 </navigation>
