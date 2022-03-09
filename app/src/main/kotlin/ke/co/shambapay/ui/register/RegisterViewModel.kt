@@ -3,22 +3,21 @@ package ke.co.shambapay.ui.register
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.domain.Failures
-import ke.co.shambapay.domain.GetUserUseCase
 import ke.co.shambapay.domain.SetUserUseCase
-import ke.co.shambapay.ui.BaseViewModel
+import ke.co.shambapay.domain.base.BaseState
 import org.joda.time.DateTime
 
 class RegisterViewModel(
-    val setUserUseCase: SetUserUseCase,
-    getUserUseCase: GetUserUseCase
-) : BaseViewModel(getUserUseCase) {
+    val setUserUseCase: SetUserUseCase
+) : ViewModel() {
 
-    val _state = MutableLiveData<State>()
-    val state: LiveData<State> = _state
+    val _state = MutableLiveData<BaseState>()
+    val state: LiveData<BaseState> = _state
 
     val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
@@ -44,8 +43,7 @@ class RegisterViewModel(
     }
 
     init {
-        fetchUser()
-        _state.postValue(State.UpdateUI(false, ""))
+        _state.postValue(BaseState.UpdateUI(false, ""))
         _canRegister.postValue(false)
     }
 
@@ -59,45 +57,45 @@ class RegisterViewModel(
         _canRegister.postValue(false)
 
         if (email.isNullOrEmpty()) {
-            _state.postValue(State.UpdateUI(false, "Email cannot be empty"))
+            _state.postValue(BaseState.UpdateUI(false, "Email cannot be empty"))
             return
         }
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            _state.postValue(State.UpdateUI(false, "Email is not valid"))
+            _state.postValue(BaseState.UpdateUI(false, "Email is not valid"))
             return
         }
         if (firstName.isNullOrEmpty()) {
-            _state.postValue(State.UpdateUI(false, "First name cannot be empty"))
+            _state.postValue(BaseState.UpdateUI(false, "First name cannot be empty"))
             return
         }
 
         if (lastName.isNullOrEmpty()) {
-            _state.postValue(State.UpdateUI(false, "Last name cannot be empty"))
+            _state.postValue(BaseState.UpdateUI(false, "Last name cannot be empty"))
             return
         }
 
         if (companyName.isNullOrEmpty()) {
-            _state.postValue(State.UpdateUI(false, "Company name cannot be empty"))
+            _state.postValue(BaseState.UpdateUI(false, "Company name cannot be empty"))
             return
         }
 
         if (telephone.isNullOrEmpty()) {
-            _state.postValue(State.UpdateUI(false, "Telephone cannot be empty"))
+            _state.postValue(BaseState.UpdateUI(false, "Telephone cannot be empty"))
             return
         }
 
         if (telephone.isNullOrEmpty()) {
-            _state.postValue(State.UpdateUI(false, "Telephone cannot be empty"))
+            _state.postValue(BaseState.UpdateUI(false, "Telephone cannot be empty"))
             return
         }
 
         if (!Patterns.PHONE.matcher(telephone).matches()) {
-            _state.postValue(State.UpdateUI(false, "Telephone is invalid"))
+            _state.postValue(BaseState.UpdateUI(false, "Telephone is invalid"))
             return
         }
 
         _canRegister.postValue(true)
-        _state.postValue(State.UpdateUI(false, ""))
+        _state.postValue(BaseState.UpdateUI(false, ""))
 
         _email.postValue(email!!)
         _companyName.postValue(companyName!!)
@@ -107,10 +105,6 @@ class RegisterViewModel(
     }
 
     fun registerUser() {
-        if (!hasUser()) {
-            _state.postValue(State.UpdateUI(false, "Your session has expired please login again"))
-            return
-        }
 
         val userEntity = UserEntity (
             id = "",
@@ -124,23 +118,23 @@ class RegisterViewModel(
             fcmToken = "null"
         )
 
-        _state.postValue(State.UpdateUI(true, "Setting up user, Please wait..."))
+        _state.postValue(BaseState.UpdateUI(true, "Setting up user, Please wait..."))
         setUserUseCase.invoke(viewModelScope, userEntity){
 
             it.result(onSuccess = {
-                _state.postValue(State.Success)
+                _state.postValue(BaseState.Success(Unit))
 
             }, onFailure = { failure ->
                 when(failure){
                     is Failures.WithMessage -> {_state.postValue(
-                        State.UpdateUI(
+                        BaseState.UpdateUI(
                             false,
                             failure.message
                         )
                     )}
 
                     else ->{_state.postValue(
-                        State.UpdateUI(
+                        BaseState.UpdateUI(
                             false,
                             "Unknown error when authenticating, please check back later"
                         )

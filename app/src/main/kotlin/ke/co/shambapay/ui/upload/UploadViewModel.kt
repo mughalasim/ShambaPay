@@ -2,21 +2,20 @@ package ke.co.shambapay.ui.upload
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.domain.Failures
-import ke.co.shambapay.domain.GetUserUseCase
 import ke.co.shambapay.domain.UploadUseCase
-import ke.co.shambapay.ui.BaseViewModel
+import ke.co.shambapay.domain.base.BaseState
 import org.joda.time.DateTime
 import java.io.InputStream
 
 class UploadViewModel(
-    val uploadUseCase: UploadUseCase,
-    getUserUseCase: GetUserUseCase
-) : BaseViewModel(getUserUseCase) {
+    val uploadUseCase: UploadUseCase
+) :ViewModel() {
 
-    val _state = MutableLiveData<State>()
-    val state: LiveData<State> = _state
+    val _state = MutableLiveData<BaseState>()
+    val state: LiveData<BaseState> = _state
 
     val _month = MutableLiveData<Int>()
     val month: LiveData<Int> = _month
@@ -33,14 +32,8 @@ class UploadViewModel(
     val _canUploadWork = MutableLiveData<Boolean>()
     val canUploadWork: LiveData<Boolean> = _canUploadWork
 
-    sealed class State {
-        data class UpdateUI(val showLoading: Boolean, val message: String): State()
-        object Success: State()
-    }
-
     init {
-        fetchUser()
-        _state.postValue(State.UpdateUI(false, ""))
+        _state.postValue(BaseState.UpdateUI(false, ""))
         _canUploadEmployees.postValue(true)
         _canUploadWork.postValue(false)
     }
@@ -55,22 +48,22 @@ class UploadViewModel(
         val convertedYear = year?.toIntOrNull()
 
         if (convertedMonth == null || convertedMonth <= 0 || convertedMonth > 12){
-            _state.postValue(State.UpdateUI(false, "Month is not valid"))
+            _state.postValue(BaseState.UpdateUI(false, "Month is not valid"))
             return
         }
 
         if (convertedYear == null || convertedYear <= 0 || convertedYear > DateTime.now().year){
-            _state.postValue(State.UpdateUI(false, "Year is not valid"))
+            _state.postValue(BaseState.UpdateUI(false, "Year is not valid"))
             return
         }
 
         if (convertedMonth > DateTime.now().monthOfYear && convertedYear > DateTime.now().year().get()){
-            _state.postValue(State.UpdateUI(false, "Cannot set records for the future"))
+            _state.postValue(BaseState.UpdateUI(false, "Cannot set records for the future"))
             return
         }
 
         _canUploadWork.postValue(true)
-        _state.postValue(State.UpdateUI(false, ""))
+        _state.postValue(BaseState.UpdateUI(false, ""))
 
         _month.postValue(convertedMonth!!)
         _year.postValue(convertedYear!!)
@@ -81,47 +74,40 @@ class UploadViewModel(
     }
 
     fun uploadWork() {
-        if (!hasUser()) {
-            _state.postValue(State.UpdateUI(false, "Your session has expired please login again"))
-            return
-        }
 
-        _state.postValue(State.UpdateUI(true, "Uploading work records, Please wait..."))
+        _state.postValue(BaseState.UpdateUI(true, "Uploading work records, Please wait..."))
         uploadUseCase.invoke(viewModelScope, UploadUseCase.Input.Work(inputStream.value, month.value!!, year.value!!, "1234")){
 
             it.result(onSuccess = {
                 _inputStream.postValue(null)
-                _state.postValue(State.UpdateUI(false, "Success"))
-                _state.postValue(State.Success)
+                _state.postValue(BaseState.UpdateUI(false, "Success"))
+                _state.postValue(BaseState.Success(Unit))
 
             }, onFailure = { failure ->
                 when(failure){
-                    is Failures.WithMessage -> {_state.postValue(State.UpdateUI(false, failure.message))}
+                    is Failures.WithMessage -> {_state.postValue(BaseState.UpdateUI(false, failure.message))}
 
-                    else ->{_state.postValue(State.UpdateUI(false, "Unknown error, please check back later"))}
+                    else ->{_state.postValue(BaseState.UpdateUI(false, "Unknown error, please check back later"))}
                 }
             })
         }
     }
 
     fun uploadEmployees() {
-        if (!hasUser()) {
-            _state.postValue(State.UpdateUI(false, "Your session has expired please login again"))
-            return
-        }
 
-        _state.postValue(State.UpdateUI(true, "Uploading Employee records, Please wait..."))
+
+        _state.postValue(BaseState.UpdateUI(true, "Uploading Employee records, Please wait..."))
         uploadUseCase.invoke(viewModelScope, UploadUseCase.Input.Employees(inputStream.value, "1234")){
 
             it.result(onSuccess = {
                 _inputStream.postValue(null)
-                _state.postValue(State.UpdateUI(false, "Success"))
+                _state.postValue(BaseState.UpdateUI(false, "Success"))
 
             }, onFailure = { failure ->
                 when(failure){
-                    is Failures.WithMessage -> {_state.postValue(State.UpdateUI(false, failure.message))}
+                    is Failures.WithMessage -> {_state.postValue(BaseState.UpdateUI(false, failure.message))}
 
-                    else ->{_state.postValue(State.UpdateUI(false, "Unknown error, please check back later"))}
+                    else ->{_state.postValue(BaseState.UpdateUI(false, "Unknown error, please check back later"))}
                 }
             })
         }

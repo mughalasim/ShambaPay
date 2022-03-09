@@ -5,20 +5,23 @@ import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.data.model.WorkEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
+import ke.co.shambapay.ui.UiGlobalState
 import ke.co.shambapay.utils.CSVReader
 import ke.co.shambapay.utils.toMonthYearString
 import kotlinx.coroutines.CompletableDeferred
 import org.joda.time.DateTime
 import java.io.InputStream
 
-class UploadUseCase: BaseUseCase<UploadUseCase.Input, Unit, Failures>() {
+class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.Input, Unit, Failures>() {
 
     sealed class Input {
-        data class Employees(val inputStream : InputStream?, val companyId: String): Input()
-        data class Work(val inputStream : InputStream?, val month : Int, val year: Int ,val companyId: String): Input()
+        data class Employees(val inputStream : InputStream?): Input()
+        data class Work(val inputStream : InputStream?, val month : Int, val year: Int): Input()
     }
 
     override suspend fun run(input: Input): BaseResult<Unit, Failures> {
+
+        if (globalState.user == null) return BaseResult.Failure(Failures.NotAuthenticated)
 
         when(input){
             is Input.Employees ->{
@@ -30,7 +33,7 @@ class UploadUseCase: BaseUseCase<UploadUseCase.Input, Unit, Failures>() {
                 val employeeList: List<EmployeeEntity> = (result as BaseResult.Success).successType
 
                 for (employee in employeeList){
-                    val uploadResult = uploadSingleEmployee(employee, input.companyId)
+                    val uploadResult = uploadSingleEmployee(employee, globalState.user!!.companyId)
                     if (uploadResult is BaseResult.Failure) return uploadResult
                 }
 
@@ -40,7 +43,7 @@ class UploadUseCase: BaseUseCase<UploadUseCase.Input, Unit, Failures>() {
 
             is Input.Work ->{
 
-                val result = parseWorkInputStream(input.inputStream, input.month, input.year, input.companyId)
+                val result = parseWorkInputStream(input.inputStream, input.month, input.year, globalState.user!!.companyId)
 
                 if (result is BaseResult.Failure) return result
 

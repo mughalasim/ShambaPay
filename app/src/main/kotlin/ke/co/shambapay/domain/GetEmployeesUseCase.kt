@@ -5,28 +5,28 @@ import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
+import ke.co.shambapay.ui.UiGlobalState
 import kotlinx.coroutines.CompletableDeferred
 
-class GetEmployeesUseCase: BaseUseCase<GetEmployeesUseCase.Input, List<EmployeeEntity>, Failures>() {
+class GetEmployeesUseCase(val globalState: UiGlobalState): BaseUseCase<String?, List<EmployeeEntity>, Failures>() {
 
-    sealed class Input{
-        data class Filtered(val userEntity: UserEntity, val filterText: String): Input()
-    }
 
-    override suspend fun run(input: Input): BaseResult<List<EmployeeEntity>, Failures> {
+    override suspend fun run(input: String?): BaseResult<List<EmployeeEntity>, Failures> {
+
+        if (globalState.user == null) return BaseResult.Failure(Failures.NotAuthenticated)
 
         val def = CompletableDeferred<BaseResult<List<EmployeeEntity>, Failures>>()
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.getEmployees((input as Input.Filtered).userEntity.companyId)).get().
+        FirebaseDatabase.getInstance().getReference(QueryBuilder.getEmployees(globalState.user!!.companyId)).get().
         addOnSuccessListener{ dataSnapshot ->
             try {
                 if (!dataSnapshot.hasChildren()){
                     def.complete(BaseResult.Success(emptyList()))
                 } else {
-                    val filter = input.filterText.lowercase()
+                    val filter = input?.lowercase()
                     val list = dataSnapshot.children.map { data ->
                         data.getValue(EmployeeEntity::class.java)!!
                     }.filter {
-                        it.firstName.lowercase().contains(filter) || it.lastName.lowercase().contains(filter)
+                        it.firstName.lowercase().contains(filter ?: "") || it.lastName.lowercase().contains(filter ?: "")
                     }.sortedBy { it.firstName }
                     def.complete(BaseResult.Success(list))
                 }

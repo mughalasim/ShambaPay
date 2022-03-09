@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.FragmentLoginBinding
+import ke.co.shambapay.domain.base.BaseState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
@@ -31,14 +32,14 @@ class LoginFragment : Fragment() {
 
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
-                is LoginViewModel.State.UpdateUI -> {
+                is BaseState.UpdateUI -> {
                     binding.btnLogin.isEnabled = !it.showLoading
                     binding.progressBar.isVisible = it.showLoading
                     binding.txtMessage.text = it.message
                     binding.txtMessage.isVisible = it.message.isNotEmpty()
                 }
-                is LoginViewModel.State.Success -> {
-                    when(it.userType){
+                is BaseState.Success<*> -> {
+                    when(it as UserType){
                         UserType.ADMIN -> {
                             val action = LoginFragmentDirections.actionLoginFragmentToEmployeeListFragment()
                             findNavController().navigate(action)

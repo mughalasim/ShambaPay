@@ -12,6 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import ke.co.shambapay.databinding.FragmentRegisterBinding
 import ke.co.shambapay.databinding.FragmentUploadEmployeesBinding
+import ke.co.shambapay.domain.base.BaseState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.InputStream
 
@@ -40,11 +41,11 @@ class UploadEmployeesFragment: Fragment() {
         viewModel.state.observe(viewLifecycleOwner){
             when(it){
 
-                is UploadViewModel.State.Success -> {
+                is BaseState.Success<*> -> {
 
                 }
 
-                is UploadViewModel.State.UpdateUI ->{
+                is BaseState.UpdateUI ->{
                     binding.progressBar.isVisible = it.showLoading
                     binding.txtMessage.text = it.message
                     binding.txtMessage.isVisible = it.message.isNotEmpty()

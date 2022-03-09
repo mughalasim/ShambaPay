@@ -5,12 +5,18 @@ import org.koin.dsl.module
 
 val useCaseModule = module {
 
-    single { UploadUseCase() }
+    single { UploadUseCase(get()) }
+
     single { GetUserUseCase() }
-    single { GetEmployeesUseCase() }
-    single { GetWorkUseCase() }
+
+    single { GetEmployeesUseCase(get()) }
+
+    single { GetWorkUseCase(get()) }
+
     single { GetSettingsUseCase() }
+
     single { GetLoginUseCase() }
+
     single { SetUserUseCase() }
 
 }
