@@ -76,7 +76,7 @@ class UploadViewModel(
     fun uploadWork() {
 
         _state.postValue(BaseState.UpdateUI(true, "Uploading work records, Please wait..."))
-        uploadUseCase.invoke(viewModelScope, UploadUseCase.Input.Work(inputStream.value, month.value!!, year.value!!, "1234")){
+        uploadUseCase.invoke(viewModelScope, UploadUseCase.Input.Work(inputStream.value, month.value!!, year.value!!)){
 
             it.result(onSuccess = {
                 _inputStream.postValue(null)
@@ -97,7 +97,7 @@ class UploadViewModel(
 
 
         _state.postValue(BaseState.UpdateUI(true, "Uploading Employee records, Please wait..."))
-        uploadUseCase.invoke(viewModelScope, UploadUseCase.Input.Employees(inputStream.value, "1234")){
+        uploadUseCase.invoke(viewModelScope, UploadUseCase.Input.Employees(inputStream.value)){
 
             it.result(onSuccess = {
                 _inputStream.postValue(null)
