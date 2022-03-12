@@ -46,9 +46,7 @@ class UploadEmployeesFragment: Fragment() {
                 }
 
                 is BaseState.UpdateUI ->{
-                    binding.progressBar.isVisible = it.showLoading
-                    binding.txtMessage.text = it.message
-                    binding.txtMessage.isVisible = it.message.isNotEmpty()
+                    binding.widgetLoading.update(it.message, it.showLoading)
                 }
             }
         }
@@ -58,7 +56,7 @@ class UploadEmployeesFragment: Fragment() {
                 result.data?.data?.let {
                     println(it)
                     viewModel.setInputStream(context?.contentResolver?.openInputStream(it))
-                    binding.txtMessage.text = "Selected: ${it.lastPathSegment}"
+                    binding.widgetLoading.update("Selected: ${it.lastPathSegment}", false)
                 }
 
             }

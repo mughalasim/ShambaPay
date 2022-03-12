@@ -32,9 +32,7 @@ class RegisterFragment: Fragment() {
             when(it){
                 is BaseState.UpdateUI -> {
                     binding.btnRegister.isEnabled = !it.showLoading
-                    binding.progressBar.isVisible = it.showLoading
-                    binding.txtMessage.text = it.message
-                    binding.txtMessage.isVisible = it.message.isNotEmpty()
+                    binding.widgetLoading.update(it.message, it.showLoading)
                 }
                 is BaseState.Success<*> -> {
 

@@ -25,9 +25,11 @@ class GetUserUseCase : BaseUseCase<BaseInput, UserEntity, Failures>() {
                     deferred.complete(BaseResult.Failure(Failures.WithMessage("User not found")))
                 }
             } catch (e: Exception){
+                FirebaseAuth.getInstance().signOut()
                 deferred.complete(BaseResult.Failure(Failures.WithMessage(e.localizedMessage)))
             }
         }.addOnFailureListener {
+            FirebaseAuth.getInstance().signOut()
             deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
         return deferred.await()

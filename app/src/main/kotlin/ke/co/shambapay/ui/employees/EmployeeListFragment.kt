@@ -45,9 +45,7 @@ class EmployeeListFragment: Fragment() {
         viewModel.state.observe(viewLifecycleOwner) {
             when(it){
                 is BaseState.UpdateUI -> {
-                    binding.txtMessage.isVisible = it.message.isNotEmpty()
-                    binding.txtMessage.text = it.message
-                    binding.progressBar.isVisible = it.showLoading
+                    binding.widgetLoading.update(it.message, it.showLoading)
                 }
                 is BaseState.Success<*> -> {}
 

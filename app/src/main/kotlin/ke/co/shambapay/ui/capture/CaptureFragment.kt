@@ -39,9 +39,7 @@ class CaptureFragment: Fragment() {
             when(it){
                 is CaptureViewModel.State.UpdateUI -> {
                     binding.btnCapture.isEnabled = !it.showLoading
-                    binding.progressBar.isVisible = it.showLoading
-                    binding.txtMessage.text = it.message
-                    binding.txtMessage.isVisible = it.message.isNotEmpty()
+                    binding.widgetLoading.update(it.message, it.showLoading)
                 }
                 is CaptureViewModel.State.Success -> {
 

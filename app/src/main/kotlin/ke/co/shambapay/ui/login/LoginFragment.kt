@@ -1,5 +1,6 @@
 package ke.co.shambapay.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.FragmentLoginBinding
 import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.activities.MainActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
@@ -34,29 +36,12 @@ class LoginFragment : Fragment() {
             when (it) {
                 is BaseState.UpdateUI -> {
                     binding.btnLogin.isEnabled = !it.showLoading
-                    binding.progressBar.isVisible = it.showLoading
-                    binding.txtMessage.text = it.message
-                    binding.txtMessage.isVisible = it.message.isNotEmpty()
+                    binding.widgetLoading.update(it.message, it.showLoading)
                 }
                 is BaseState.Success<*> -> {
-                    when(it as UserType){
-                        UserType.ADMIN -> {
-                            val action = LoginFragmentDirections.actionLoginFragmentToEmployeeListFragment()
-                            findNavController().navigate(action)
-                        }
-
-                        UserType.OWNER -> {
-                            val action = LoginFragmentDirections.actionLoginFragmentToEmployeeListFragment()
-                            findNavController().navigate(action)
-                        }
-
-                        UserType.SUPERVISOR -> {
-                            val action = LoginFragmentDirections.actionLoginFragmentToEmployeeListFragment()
-                            findNavController().navigate(action)
-                        }
-
-                    }
-
+                    activity?.startActivity(Intent(activity, MainActivity::class.java).apply {
+                    /*If you want to add any intent extras*/ })
+                    activity?.finish()
                 }
             }
         }
@@ -77,6 +62,10 @@ class LoginFragment : Fragment() {
             viewModel.makeLoginRequest()
         }
 
+        binding.btnPasswordReset.setOnClickListener {
+            val action = LoginFragmentDirections.actionLoginFragmentToPasswordResetFragment()
+            findNavController().navigate(action)
+        }
     }
 
 }

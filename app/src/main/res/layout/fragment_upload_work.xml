@@ -48,18 +48,10 @@
                 android:text="@string/txt_select_file" />
 
 
-            <TextView
-                android:id="@+id/txt_message"
-                style="@style/TextNormalBold"
+            <ke.co.shambapay.ui.widget.LoadingWidget
+                android:id="@+id/widget_loading"
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/padding_large"
-                android:gravity="center" />
-
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btn_upload"

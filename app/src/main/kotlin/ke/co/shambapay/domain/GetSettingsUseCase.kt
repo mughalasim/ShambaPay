@@ -1,5 +1,6 @@
 package ke.co.shambapay.domain
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import ke.co.shambapay.data.model.SettingsEntity
 import ke.co.shambapay.data.model.UserEntity
@@ -24,9 +25,11 @@ class GetSettingsUseCase : BaseUseCase<UserEntity?, SettingsEntity, Failures>() 
                     deferred.complete(BaseResult.Failure(Failures.WithMessage("Settings not found, Please contact your administrator")))
                 }
             } catch (e: Exception){
+                FirebaseAuth.getInstance().signOut()
                 deferred.complete(BaseResult.Failure(Failures.WithMessage(e.localizedMessage)))
             }
         }.addOnFailureListener {
+            FirebaseAuth.getInstance().signOut()
             deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
         return deferred.await()
