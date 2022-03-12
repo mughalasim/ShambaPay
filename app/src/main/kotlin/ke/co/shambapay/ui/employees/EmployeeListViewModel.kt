@@ -25,7 +25,11 @@ class EmployeeListViewModel(
 
         getEmployeesUseCase.invoke(viewModelScope, textFilter ?: ""){
             it.result(onSuccess = {
-                _state.postValue(BaseState.UpdateUI(false, ""))
+                if (it.isEmpty()){
+                    _state.postValue(BaseState.UpdateUI(false, "No results found"))
+                } else {
+                    _state.postValue(BaseState.UpdateUI(false, ""))
+                }
                 _data.postValue(it)
 
             }, onFailure = { failure ->

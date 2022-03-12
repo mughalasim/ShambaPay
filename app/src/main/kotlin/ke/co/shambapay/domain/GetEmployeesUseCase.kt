@@ -22,13 +22,19 @@ class GetEmployeesUseCase(val globalState: UiGlobalState): BaseUseCase<String?, 
                 if (!dataSnapshot.hasChildren()){
                     def.complete(BaseResult.Success(emptyList()))
                 } else {
-                    val filter = input?.lowercase()
                     val list = dataSnapshot.children.map { data ->
                         data.getValue(EmployeeEntity::class.java)!!
-                    }.filter {
-                        it.firstName.lowercase().contains(filter ?: "") || it.lastName.lowercase().contains(filter ?: "")
-                    }.sortedBy { it.firstName }
-                    def.complete(BaseResult.Success(list))
+                    }.sortedBy {
+                        it.firstName
+                    }
+                    if (!input.isNullOrEmpty()){
+                        val filter = input.lowercase() ?: ""
+                        def.complete(BaseResult.Success(list.filter {
+                            it.firstName.contains(filter, true)
+                        }))
+                    } else {
+                        def.complete(BaseResult.Success(list))
+                    }
                 }
             } catch (e: Exception){
                 def.complete(BaseResult.Failure(Failures.WithMessage("There is an issue with one of the data sets: " + e.localizedMessage)))

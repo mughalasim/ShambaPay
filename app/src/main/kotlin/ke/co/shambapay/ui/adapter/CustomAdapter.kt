@@ -13,7 +13,7 @@ import ke.co.shambapay.ui.widget.EmployeeListWidget
 import ke.co.shambapay.ui.widget.UserListWidget
 import ke.co.shambapay.ui.widget.WorkListWidget
 
-class CustomAdapter<T>(val dataSet: MutableList<T>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class CustomAdapter<T>(private val dataSet: MutableList<T>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     private lateinit var internalListener: OnItemClickListener
 
@@ -67,11 +67,10 @@ class CustomAdapter<T>(val dataSet: MutableList<T>) : RecyclerView.Adapter<Custo
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(dataSet: List<T>){
         this.dataSet.clear()
-        if (dataSet.isEmpty()) notifyDataSetChanged()
-        dataSet.mapIndexed { i, data ->
+        dataSet.map { data ->
             this.dataSet.add(data)
-            notifyItemChanged(i)
         }
+        notifyDataSetChanged()
     }
 
 }

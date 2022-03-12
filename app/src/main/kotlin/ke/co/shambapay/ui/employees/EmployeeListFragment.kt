@@ -55,7 +55,7 @@ class EmployeeListFragment: Fragment() {
         viewModel.getRecyclerData("")
 
         binding.btnSearch.setOnClickListener {
-            viewModel.getRecyclerData(binding.etSearch.toString())
+            viewModel.getRecyclerData(binding.etSearch.text.toString())
         }
 
         binding.etSearch.addTextChangedListener {

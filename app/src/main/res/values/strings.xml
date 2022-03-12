@@ -18,7 +18,7 @@
     <string name="txt_capture">Capture work</string>
     <string name="txt_cancel">Cancel</string>
     <string name="txt_weight">Weight in Kilograms</string>
-    <string name="txt_search">Search by Name or ID number</string>
+    <string name="txt_search_by_name">Search by Name</string>
     <string name="txt_upload">Upload</string>
     <string name="txt_employees">Employees</string>
     <string name="txt_select_file">Select a file to upload</string>
