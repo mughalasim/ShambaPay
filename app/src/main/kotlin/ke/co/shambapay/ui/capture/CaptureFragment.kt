@@ -4,21 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import ke.co.shambapay.R
-import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.databinding.FragmentCaptureBinding
+import ke.co.shambapay.ui.UiGlobalState
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class CaptureFragment: Fragment() {
 
     private val viewModel: CaptureViewModel by viewModel()
     lateinit var binding: FragmentCaptureBinding
     private val args: CaptureFragmentArgs by navArgs()
+    private val state: UiGlobalState by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,7 +45,7 @@ class CaptureFragment: Fragment() {
                     binding.widgetLoading.update(it.message, it.showLoading)
                 }
                 is CaptureViewModel.State.Success -> {
-
+                    activity?.onBackPressed()
                 }
             }
         }
@@ -51,17 +54,29 @@ class CaptureFragment: Fragment() {
             binding.btnCapture.isVisible = it
         }
 
+        binding.btnCapture.setOnClickListener {
+            viewModel.updateEmployeeWork(args.employeeEntity.id)
+        }
+
         binding.btnCancel.setOnClickListener {
             activity?.onBackPressed()
         }
 
         binding.etUnit.addTextChangedListener {
-//            viewModel.validate(it.toString(), binding.spinnerJobType.selectedItem.toString())
+            viewModel.validate(it.toString(), binding.spinnerJobType.selectedItemPosition)
         }
 
+        binding.spinnerJobType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                viewModel.validate(binding.etUnit.text.toString(), binding.spinnerJobType.selectedItemPosition)
+            }
 
-//        binding.spinnerJobType.adapter = ArrayAdapter(requireContext(),
-//            androidx.appcompat.R.id.list_item, arrayOf("A", "B", "C"))
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        binding.spinnerJobType.adapter = ArrayAdapter(requireContext(),
+            android.R.layout.simple_list_item_1, state.getDropDownOptions()
+        )
 
     }
 

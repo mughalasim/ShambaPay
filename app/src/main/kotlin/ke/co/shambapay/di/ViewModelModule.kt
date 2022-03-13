@@ -18,6 +18,6 @@ val viewModelModule = module {
 
     viewModel { UploadViewModel(get()) }
 
-    viewModel { CaptureViewModel() }
+    viewModel { CaptureViewModel(get(), get()) }
 
 }

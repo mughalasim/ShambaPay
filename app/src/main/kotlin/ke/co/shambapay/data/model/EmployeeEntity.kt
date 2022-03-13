@@ -3,7 +3,7 @@ package ke.co.shambapay.data.model
 import java.io.Serializable
 
 data class EmployeeEntity (
-    val id: Int? = 0,
+    val id: String = "",
     val nationalId: Long? = 0,
     val firstName: String = "",
     val lastName: String = "",
@@ -13,11 +13,12 @@ data class EmployeeEntity (
     val nhif: String = "",
     val nssf: String = "",
     val phone: Long = 0,
-    val areaCode: Int = 0
+    val areaCode: Int = 0,
+    var isCaptured: Boolean? = null
 ): Serializable {
 
     constructor(): this(
-        id = 0,
+        id = "",
         nationalId = 0,
         firstName = "",
         lastName = "",

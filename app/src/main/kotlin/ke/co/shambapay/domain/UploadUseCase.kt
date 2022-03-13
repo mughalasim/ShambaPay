@@ -109,7 +109,7 @@ class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.I
             try {
                 mutableList.add (
                     EmployeeEntity (
-                        id = columns[0].toIntOrNull(),
+                        id = columns[0],
                         nationalId = columns[3].toLongOrNull(),
                         firstName = columns[1],
                         lastName = columns[2],
@@ -176,19 +176,28 @@ class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.I
 
             val workList = columns.drop(3)
 
-            workList.mapIndexed { index, work ->
-                try {
-                    val date = DateTime.now().withDate(year, month, index+1)
-                    FirebaseDatabase.getInstance().reference
-                        .child(QueryBuilder.getWork(companyId, employeeId) +"/"+ date.toMonthYearString() + "/${index+1}")
-                        .setValue(WorkEntity (
-                            date = date.toString(),
-                            unit = work.toDoubleOrNull(),
-                            rateId = rateId
-                        ))
+            workList.mapIndexed { index, workUnit ->
+                if (workUnit.isNotEmpty()) {
+                    try {
+                        val date = DateTime.now().withDate(year, month, index + 1)
+                        FirebaseDatabase.getInstance().reference
+                            .child(
+                                QueryBuilder.getWork(
+                                    companyId,
+                                    employeeId
+                                ) + "/" + date.toMonthYearString() + "/${index + 1}"
+                            )
+                            .setValue(
+                                WorkEntity(
+                                    date = date.toString(),
+                                    unit = workUnit.toDoubleOrNull(),
+                                    rateId = rateId.lowercase()
+                                )
+                            )
 
-                } catch (e: Exception){
-                    return BaseResult.Failure(Failures.WithMessage(e.localizedMessage))
+                    } catch (e: Exception) {
+                        return BaseResult.Failure(Failures.WithMessage(e.localizedMessage))
+                    }
                 }
             }
 

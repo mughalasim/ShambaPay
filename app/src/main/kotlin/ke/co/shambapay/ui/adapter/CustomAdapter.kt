@@ -44,7 +44,7 @@ class CustomAdapter<T>(private val dataSet: MutableList<T>) : RecyclerView.Adapt
         when(dataSet[position]){
             is EmployeeEntity -> {
                 vh.widgetEmployeeItem.visibility = View.VISIBLE
-                vh.widgetEmployeeItem.setUp(dataSet[position] as EmployeeEntity, false)
+                vh.widgetEmployeeItem.setUp(dataSet[position] as EmployeeEntity)
                 vh.widgetEmployeeItem.setOnClickListener { internalListener.onItemClicked(dataSet[position]) }
             }
 

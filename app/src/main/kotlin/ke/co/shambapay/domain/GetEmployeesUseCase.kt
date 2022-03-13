@@ -10,7 +10,6 @@ import kotlinx.coroutines.CompletableDeferred
 
 class GetEmployeesUseCase(val globalState: UiGlobalState): BaseUseCase<String?, List<EmployeeEntity>, Failures>() {
 
-
     override suspend fun run(input: String?): BaseResult<List<EmployeeEntity>, Failures> {
 
         if (globalState.user == null) return BaseResult.Failure(Failures.NotAuthenticated)
@@ -28,7 +27,7 @@ class GetEmployeesUseCase(val globalState: UiGlobalState): BaseUseCase<String?, 
                         it.firstName
                     }
                     if (!input.isNullOrEmpty()){
-                        val filter = input.lowercase() ?: ""
+                        val filter = input.lowercase()
                         def.complete(BaseResult.Success(list.filter {
                             it.firstName.contains(filter, true)
                         }))
@@ -40,7 +39,7 @@ class GetEmployeesUseCase(val globalState: UiGlobalState): BaseUseCase<String?, 
                 def.complete(BaseResult.Failure(Failures.WithMessage("There is an issue with one of the data sets: " + e.localizedMessage)))
             }
         }.addOnFailureListener {
-            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
+            def.complete(BaseResult.Failure(Failures.WithMessage("${it.localizedMessage}")))
         }
         return def.await()
     }

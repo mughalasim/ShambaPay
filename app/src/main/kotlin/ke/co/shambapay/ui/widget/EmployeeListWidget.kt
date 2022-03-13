@@ -19,10 +19,10 @@ class EmployeeListWidget @JvmOverloads constructor(
     internal val binding: WidgetListEmployeeBinding =
         WidgetListEmployeeBinding.inflate(LayoutInflater.from(context), this, true)
 
-    fun setUp(model: EmployeeEntity, wasCaptured: Boolean) {
+    fun setUp(model: EmployeeEntity) {
         binding.txtFullName.text = model.getFullName()
         binding.txtNationalId.text = model.getNID()
-        binding.chipCaptured.isVisible = wasCaptured
+        binding.chipCaptured.isVisible = model.isCaptured == true
     }
 
 }
