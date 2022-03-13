@@ -37,11 +37,6 @@ class RegisterViewModel(
     val _canRegister = MutableLiveData<Boolean>()
     val canRegister: LiveData<Boolean> = _canRegister
 
-    sealed class State {
-        data class UpdateUI(val showLoading: Boolean, val message: String): State()
-        object Success: State()
-    }
-
     init {
         _state.postValue(BaseState.UpdateUI(false, ""))
         _canRegister.postValue(false)
@@ -108,7 +103,7 @@ class RegisterViewModel(
 
         val userEntity = UserEntity (
             id = "",
-            companyId = companyName.value + DateTime.now(),
+            companyId = companyName.value + DateTime.now().toString(),
             firstName = firstName.value!!,
             lastName = lastName.value!!,
             email = email.value!!,

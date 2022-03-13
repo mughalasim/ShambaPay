@@ -1,4 +1,4 @@
-package ke.co.shambapay.ui.capture
+package ke.co.shambapay.ui.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,19 +10,18 @@ import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.UiGlobalState
 import org.joda.time.DateTime
 
-class CaptureViewModel(
-    private val globalState: UiGlobalState,
-    private val setEmployeeWorkUseCase: SetEmployeeWorkUseCase
+class ProfileViewModel(
+    private val setPasswordUseCase: SetPasswordUseCase
 ): ViewModel() {
 
     val _state = MutableLiveData<BaseState>()
     val state: LiveData<BaseState> = _state
 
-    val _unit = MutableLiveData<Double>()
-    val unit: LiveData<Double> = _unit
+    val _newPassword = MutableLiveData<String>()
+    val newPassword: LiveData<String> = _newPassword
 
-    val _rateId = MutableLiveData<String>()
-    val rateId: LiveData<String> = _rateId
+    val _confirmPassword = MutableLiveData<String>()
+    val confirmPassword: LiveData<String> = _confirmPassword
 
     val _canSubmit = MutableLiveData<Boolean>()
     val canSubmit: LiveData<Boolean> = _canSubmit
@@ -30,59 +29,44 @@ class CaptureViewModel(
     init {
         _state.postValue(BaseState.UpdateUI(false, ""))
         _canSubmit.postValue(false)
-        _unit.postValue(0.0)
-        _rateId.postValue("")
+        _newPassword.postValue("")
+        _confirmPassword.postValue("")
     }
 
-    fun validate(
-        unit: String?,
-        position: Int,
+    fun validatePassword (
+        newPassword: String?,
+        confirmPassword: String?
     ){
         _canSubmit.postValue(false)
 
-        if (unit.isNullOrEmpty()) {
-            _state.postValue(BaseState.UpdateUI(false, "Please set Units"))
+        if (newPassword.isNullOrEmpty()) {
+            _state.postValue(BaseState.UpdateUI(false, "Please set your new password"))
             return
         }
-
-        val workUnit = unit.toDoubleOrNull()
-
-        if (workUnit == null || workUnit <= 0) {
-            _state.postValue(BaseState.UpdateUI(false, "Invalid units set"))
+        if (confirmPassword.isNullOrEmpty()) {
+            _state.postValue(BaseState.UpdateUI(false, "Please set your confirmed password"))
             return
         }
-        if (position == 0) {
-            _state.postValue(BaseState.UpdateUI(false, "Please select a rate"))
-            return
-        }
-
-        val rateId = globalState.getRateIdForIndex(position-1)
-
-        if (rateId.isEmpty()){
-            _state.postValue(BaseState.UpdateUI(false, "Invalid rate Id"))
+        if (confirmPassword != newPassword) {
+            _state.postValue(BaseState.UpdateUI(false, "Your new password and confirmed password do not match"))
             return
         }
 
         _canSubmit.postValue(true)
         _state.postValue(BaseState.UpdateUI(false, ""))
 
-        _unit.postValue(workUnit!!)
-        _rateId.postValue(rateId)
+        _newPassword.postValue(newPassword!!)
+        _confirmPassword.postValue(confirmPassword!!)
     }
 
-    fun updateEmployeeWork(employeeID: String) {
+    fun updatePassword(password: String) {
 
-        val workEntity = WorkEntity (
-            date = DateTime.now().toString(),
-            unit = unit.value!!,
-            rateId = rateId.value!!
-        )
-
-        _state.postValue(BaseState.UpdateUI(true, "Capturing data, Please wait..."))
-        setEmployeeWorkUseCase.invoke(viewModelScope, SetEmployeeWorkUseCase.Input.Details(workEntity, employeeID)){
+        _state.postValue(BaseState.UpdateUI(true, "Updating your password, Please wait..."))
+        setPasswordUseCase.invoke(viewModelScope, password){
             it.result(
                 onSuccess = {
                     _state.postValue(BaseState.Success(Unit))
+                    _state.postValue(BaseState.UpdateUI(false, "Password update successful"))
                 },
                 onFailure = { failure ->
                     when(failure){

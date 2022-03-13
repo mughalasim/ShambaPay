@@ -7,19 +7,18 @@
         android:title="Profile" />
 
     <item
-        android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_settings"
-        android:title="Settings" />
+        android:id="@+id/registerFragment"
+        android:icon="@drawable/ic_registration"
+        android:title="Register User" />
 
     <item
         android:id="@+id/uploadEmployeesFragment"
         android:icon="@drawable/ic_upload"
-        android:title="Upload employees" />
+        android:title="Add employees" />
 
-<item
+    <item
         android:id="@+id/uploadWorkFragment"
         android:icon="@drawable/ic_upload"
         android:title="Upload work" />
-
 
 </menu>

@@ -9,7 +9,6 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.FragmentLoginBinding
 import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.activities.MainActivity
@@ -35,7 +34,6 @@ class LoginFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
                 is BaseState.UpdateUI -> {
-                    binding.btnLogin.isEnabled = !it.showLoading
                     binding.widgetLoading.update(it.message, it.showLoading)
                 }
                 is BaseState.Success<*> -> {
@@ -47,15 +45,15 @@ class LoginFragment : Fragment() {
         }
 
         viewModel.canLogIn.observe(viewLifecycleOwner) {
-            binding.btnLogin.isVisible = it
+            binding.btnLogin.isEnabled = it
         }
 
         binding.etEmail.addTextChangedListener {
-            viewModel.validate(it.toString(), binding.etPassword.text.toString())
+            viewModel.validateLogin(it.toString(), binding.etPassword.text.toString())
         }
 
         binding.etPassword.addTextChangedListener {
-            viewModel.validate(binding.etEmail.text.toString(), it.toString())
+            viewModel.validateLogin(binding.etEmail.text.toString(), it.toString())
         }
 
         binding.btnLogin.setOnClickListener {

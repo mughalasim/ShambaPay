@@ -1,10 +1,12 @@
 package ke.co.shambapay.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.auth.FirebaseAuth
 import ke.co.shambapay.R
 import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.ActivityMainBinding
@@ -43,5 +45,13 @@ class MainActivity: AppCompatActivity() {
 
         binding.bottomNav.setupWithNavController(navController)
 
+    }
+
+    fun logOut(){
+        FirebaseAuth.getInstance().signOut()
+        state.clear()
+        startActivity(Intent(this, StartActivity::class.java).apply {
+            /*If you want to add any intent extras*/ })
+        finish()
     }
 }

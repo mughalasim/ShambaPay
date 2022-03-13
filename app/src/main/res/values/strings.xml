@@ -20,10 +20,11 @@
     <string name="txt_telephone">Telephone</string>
     <string name="txt_captured">Captured</string>
     <string name="txt_login">Login</string>
+    <string name="txt_logout">Logout</string>
     <string name="txt_register">Register new owner</string>
     <string name="txt_capture">Capture work</string>
     <string name="txt_cancel">Cancel</string>
-    <string name="txt_weight">Weight in Kilograms</string>
+    <string name="txt_set_units">Set units</string>
     <string name="txt_search_by_name">Search by Name</string>
     <string name="txt_upload">Upload</string>
     <string name="txt_employees">Employees</string>

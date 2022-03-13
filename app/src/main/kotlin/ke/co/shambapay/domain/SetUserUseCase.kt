@@ -11,7 +11,6 @@ class SetUserUseCase : BaseUseCase<UserEntity, Boolean, Failures>() {
 
     override suspend fun run(input: UserEntity): BaseResult<Boolean, Failures> {
 
-
         FirebaseAuth.getInstance().currentUser ?: return BaseResult.Failure(Failures.NotAuthenticated)
 
         var entity: UserEntity = input

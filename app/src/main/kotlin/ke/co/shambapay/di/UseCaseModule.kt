@@ -21,4 +21,8 @@ val useCaseModule = module {
 
     single { SetEmployeeWorkUseCase(get()) }
 
+    single { SetPasswordUseCase() }
+
+    single { SetPasswordResetUseCase() }
+
 }

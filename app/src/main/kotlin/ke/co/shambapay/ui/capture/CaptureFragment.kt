@@ -11,6 +11,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import ke.co.shambapay.databinding.FragmentCaptureBinding
+import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.UiGlobalState
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -40,11 +41,11 @@ class CaptureFragment: Fragment() {
 
         viewModel.state.observe(viewLifecycleOwner){
             when(it){
-                is CaptureViewModel.State.UpdateUI -> {
+                is BaseState.UpdateUI -> {
                     binding.btnCapture.isEnabled = !it.showLoading
                     binding.widgetLoading.update(it.message, it.showLoading)
                 }
-                is CaptureViewModel.State.Success -> {
+                is BaseState.Success<*> -> {
                     activity?.onBackPressed()
                 }
             }
