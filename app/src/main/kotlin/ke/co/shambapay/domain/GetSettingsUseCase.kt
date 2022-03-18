@@ -6,16 +6,17 @@ import ke.co.shambapay.data.model.SettingsEntity
 import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
+import ke.co.shambapay.ui.UiGlobalState
 import kotlinx.coroutines.CompletableDeferred
 
-class GetSettingsUseCase : BaseUseCase<UserEntity?, SettingsEntity, Failures>() {
+class GetSettingsUseCase(val globalState: UiGlobalState) : BaseUseCase<Unit, SettingsEntity, Failures>() {
 
-    override suspend fun run(input: UserEntity?): BaseResult<SettingsEntity, Failures> {
+    override suspend fun run(input: Unit): BaseResult<SettingsEntity, Failures> {
 
-        if (input == null) return BaseResult.Failure(Failures.NotAuthenticated)
+        if (globalState.user == null) return BaseResult.Failure(Failures.NotAuthenticated)
 
         val deferred = CompletableDeferred<BaseResult<SettingsEntity, Failures>>()
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.getSettings(input.companyId)).get().
+        FirebaseDatabase.getInstance().getReference(QueryBuilder.getSettings(globalState.user!!.companyId)).get().
         addOnSuccessListener{
             try {
                 val settingsEntity: SettingsEntity? = it.getValue(SettingsEntity::class.java)

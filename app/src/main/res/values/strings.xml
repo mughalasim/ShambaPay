@@ -13,7 +13,6 @@
     <string name="txt_month">Month</string>
     <string name="txt_national_id">National ID</string>
     <string name="txt_company_id">Company ID</string>
-    <string name="txt_kgs">Kilograms of Tea picked</string>
     <string name="txt_nssf">NSSF</string>
     <string name="txt_nhif">NHIF</string>
     <string name="txt_user_type">Access level</string>
@@ -31,6 +30,10 @@
     <string name="txt_select_file">Select a file to upload</string>
     <string name="txt_upload_employees">Upload all employee records</string>
     <string name="txt_upload_work">Upload all employee work records</string>
+    <string name="txt_add_rate">Add new Job rate</string>
+    <string name="txt_job_type">Job Type: %s</string>
+    <string name="txt_job_rate">Rate: %s</string>
+    <string name="txt_job_measured_in">Measured in: %s</string>
 
     <plurals name="plural_year">
         <item quantity="one">%d year</item>
@@ -41,7 +44,5 @@
         <item quantity="one">%d month</item>
         <item quantity="other">%d months</item>
     </plurals>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

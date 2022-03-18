@@ -13,7 +13,7 @@ val useCaseModule = module {
 
     single { GetWorkUseCase(get()) }
 
-    single { GetSettingsUseCase() }
+    single { GetSettingsUseCase(get()) }
 
     single { GetLoginUseCase() }
 

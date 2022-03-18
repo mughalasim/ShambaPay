@@ -132,7 +132,7 @@ class LoginViewModel(
 
     private fun fetchCompanySettings(){
         _state.postValue(BaseState.UpdateUI(true, "Fetching company settings, Please wait..."))
-        getSettingsUseCase.invoke(viewModelScope, globalState.user){
+        getSettingsUseCase.invoke(viewModelScope, Unit){
             it.result(onSuccess = {settings ->
                 globalState.settings = settings
                 _state.postValue(BaseState.UpdateUI(false, ""))

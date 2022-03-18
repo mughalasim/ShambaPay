@@ -58,5 +58,11 @@
         android:id="@+id/settingsUpdateFragment"
         android:name="ke.co.shambapay.ui.settings.SettingsUpdateFragment"
         android:label="fragment_settings_update"
-        tools:layout="@layout/fragment_settings_update" />
+        tools:layout="@layout/fragment_settings_update" >
+        <argument
+            android:name="jobRateEntity"
+            app:argType="ke.co.shambapay.data.model.JobRateEntity"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>

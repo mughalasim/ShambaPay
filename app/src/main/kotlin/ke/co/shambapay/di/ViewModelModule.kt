@@ -5,6 +5,7 @@ import ke.co.shambapay.ui.employees.EmployeeListViewModel
 import ke.co.shambapay.ui.login.LoginViewModel
 import ke.co.shambapay.ui.profile.ProfileViewModel
 import ke.co.shambapay.ui.register.RegisterViewModel
+import ke.co.shambapay.ui.settings.SettingsViewModel
 import ke.co.shambapay.ui.upload.UploadViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -22,5 +23,7 @@ val viewModelModule = module {
     viewModel { CaptureViewModel(get(), get()) }
 
     viewModel { ProfileViewModel(get()) }
+
+    viewModel { SettingsViewModel(get()) }
 
 }

@@ -20,4 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <ke.co.shambapay.ui.widget.JobRateListWidget
+        android:id="@+id/widget_list_job_rate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>
