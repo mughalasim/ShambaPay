@@ -22,6 +22,10 @@ object QueryBuilder {
         return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_COMPANIES}/${companyId}/${BuildConfig.DB_REF_SETTINGS}"
     }
 
+    fun getRates(companyId: String, rateId: String): String {
+        return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_COMPANIES}/${companyId}/${BuildConfig.DB_REF_SETTINGS}/${BuildConfig.DB_REF_RATES}/${rateId}"
+    }
+
     fun geUser(userId: String): String {
         return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_USERS}/${userId}"
     }

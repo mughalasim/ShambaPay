@@ -23,11 +23,11 @@ class UiGlobalState {
         } else {
             response.add("Select a rate")
             for (item in settings!!.rates){
-                response.add("${item.jobType.name.lowercase().replaceFirstChar {
+                response.add("${item.value.jobType.name.lowercase().replaceFirstChar {
                     if (it.isLowerCase()) it.titlecase(
                         Locale.getDefault()
                     ) else it.toString()
-                }} in ${item.measurement} at a rate of ${item.rate}")
+                }} in ${item.value.measurement} at a rate of ${item.value.rate}")
             }
             return response
         }
@@ -38,7 +38,7 @@ class UiGlobalState {
         if (settings == null || settings?.rates == null){
             return ""
         } else {
-           return settings!!.rates[index].rateId
+           return settings!!.rates.keys.elementAt(index)
         }
     }
 

@@ -19,6 +19,7 @@ buildscript {
         DB_REF_EMPLOYEES = '"Employees"'
         DB_REF_WORK = '"Work"'
         DB_REF_SETTINGS = '"Settings"'
+        DB_REF_RATES = '"rates"'
 
     }
     dependencies {

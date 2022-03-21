@@ -20,7 +20,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment() {
 
-    private val viewModel: SettingsViewModel by viewModel()
     lateinit var binding: FragmentSettingsBinding
     private val adapter =  CustomAdapter(mutableListOf<JobRateEntity>())
     private val globalState: UiGlobalState by inject()
@@ -46,29 +45,16 @@ class SettingsFragment : Fragment() {
         })
 
         binding.refresh.setOnRefreshListener {
-            binding.refresh.isRefreshing = true
-            viewModel.refreshData()
+            binding.refresh.isRefreshing = false
+            adapter.updateData(globalState.settings!!.rates.values.toList())
         }
 
-        viewModel.state.observe(viewLifecycleOwner) {
-            binding.refresh.isRefreshing = false
-            when(it){
-                is BaseState.UpdateUI -> {
-                    binding.widgetLoading.update(it.message, false)
-                }
-                is BaseState.Success<*> -> {
-                    adapter.updateData(globalState.settings!!.rates)
-                    binding.widgetLoading.update("", false)
-                }
-            }
-        }
+        adapter.updateData(globalState.settings!!.rates.values.toList())
 
         binding.btnAddRates.setOnClickListener {
             val action = SettingsFragmentDirections.actionSettingsFragmentToSettingsUpdateFragment()
             findNavController().navigate(action)
         }
-
-        viewModel.refreshData()
 
     }
 

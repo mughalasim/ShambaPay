@@ -2,14 +2,19 @@ package ke.co.shambapay.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import ke.co.shambapay.R
+import ke.co.shambapay.data.model.SettingsEntity
 import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.ActivityMainBinding
+import ke.co.shambapay.domain.Failures
+import ke.co.shambapay.domain.QueryBuilder
+import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.ui.UiGlobalState
 import org.koin.android.ext.android.inject
 
@@ -17,6 +22,23 @@ class MainActivity: AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
     private val state: UiGlobalState by inject()
+
+    private val eventListener = object : ValueEventListener{
+        override fun onDataChange(snapshot: DataSnapshot) {
+            Log.e("TEST", snapshot.toString())
+            try {
+                val settingsEntity: SettingsEntity? = snapshot.getValue(SettingsEntity::class.java)
+                if (settingsEntity != null){
+                    state.settings = settingsEntity
+                }
+            } catch (e: Exception){
+                logOut()
+            }
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +66,8 @@ class MainActivity: AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.bottomNav.setupWithNavController(navController)
+
+        FirebaseDatabase.getInstance().getReference(QueryBuilder.getSettings(state.user!!.companyId)).addValueEventListener(eventListener)
 
     }
 

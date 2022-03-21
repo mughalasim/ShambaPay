@@ -15,6 +15,10 @@ val useCaseModule = module {
 
     single { GetSettingsUseCase(get()) }
 
+    single { SetRateUseCase(get()) }
+
+    single { DeleteRateUseCase(get()) }
+
     single { GetLoginUseCase() }
 
     single { SetUserUseCase() }

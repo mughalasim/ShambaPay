@@ -38,17 +38,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/widget_loading"
+        app:layout_constraintBottom_toTopOf="@+id/refresh"
         app:layout_constraintTop_toBottomOf="@+id/txt_company_name" />
 
-    <ke.co.shambapay.ui.widget.LoadingWidget
-        android:id="@+id/widget_loading"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/banner_rates"
-        app:layout_constraintBottom_toTopOf="@+id/refresh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
@@ -57,7 +49,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_add_rates"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/widget_loading">
+        app:layout_constraintTop_toBottomOf="@+id/banner_rates">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"

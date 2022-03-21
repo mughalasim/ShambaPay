@@ -35,7 +35,7 @@ android {
         buildConfigField 'String', 'DB_REF_EMPLOYEES', DB_REF_EMPLOYEES
         buildConfigField 'String', 'DB_REF_WORK', DB_REF_WORK
         buildConfigField 'String', 'DB_REF_SETTINGS', DB_REF_SETTINGS
-
+        buildConfigField 'String', 'DB_REF_RATES', DB_REF_RATES
     }
 
     compileOptions {

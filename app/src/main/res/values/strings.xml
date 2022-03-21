@@ -23,6 +23,7 @@
     <string name="txt_register">Register new owner</string>
     <string name="txt_capture">Capture work</string>
     <string name="txt_cancel">Cancel</string>
+    <string name="txt_delete">Delete</string>
     <string name="txt_set_units">Set units</string>
     <string name="txt_search_by_name">Search by Name</string>
     <string name="txt_upload">Upload</string>
@@ -30,10 +31,13 @@
     <string name="txt_select_file">Select a file to upload</string>
     <string name="txt_upload_employees">Upload all employee records</string>
     <string name="txt_upload_work">Upload all employee work records</string>
-    <string name="txt_add_rate">Add new Job rate</string>
+    <string name="txt_add_rate">Add new job rate</string>
+    <string name="txt_update_rate">Update job rate</string>
     <string name="txt_job_type">Job Type: %s</string>
     <string name="txt_job_rate">Rate: %s</string>
     <string name="txt_job_measured_in">Measured in: %s</string>
+    <string name="txt_set_rate">Set a new rate</string>
+    <string name="txt_set_measurement">Set measurement name (i.e Weight)</string>
 
     <plurals name="plural_year">
         <item quantity="one">%d year</item>
