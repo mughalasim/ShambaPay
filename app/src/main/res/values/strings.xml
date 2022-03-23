@@ -23,6 +23,8 @@
     <string name="txt_register">Register new owner</string>
     <string name="txt_capture">Capture work</string>
     <string name="txt_cancel">Cancel</string>
+    <string name="txt_back">Back</string>
+    <string name="txt_print_report">Print report</string>
     <string name="txt_delete">Delete</string>
     <string name="txt_set_units">Set units</string>
     <string name="txt_search_by_name">Search by Name</string>
