@@ -18,7 +18,7 @@ class WorkListWidget @JvmOverloads constructor(
         WidgetListWorkBinding.inflate(LayoutInflater.from(context), this, true)
 
     fun setUp(model: WorkEntity) {
-        binding.txtDate.text = model.date.toParsedDate()
+        binding.txtDate.text = model.date.toString()
         binding.txtUnit.text = model.unit.toString()
     }
 

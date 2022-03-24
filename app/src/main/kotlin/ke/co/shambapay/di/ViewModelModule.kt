@@ -25,7 +25,7 @@ val viewModelModule = module {
 
     viewModel { ProfileViewModel(get()) }
 
-    viewModel { ReportViewModel() }
+    viewModel { ReportViewModel(get()) }
 
     viewModel { SettingsUpdateViewModel(get(), get()) }
 

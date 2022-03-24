@@ -29,4 +29,6 @@ val useCaseModule = module {
 
     single { SetPasswordResetUseCase() }
 
+    single { GetReportUseCase(get()) }
+
 }

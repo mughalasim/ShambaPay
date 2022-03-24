@@ -9,13 +9,12 @@ object QueryBuilder {
         return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_COMPANIES}/${companyId}/${BuildConfig.DB_REF_EMPLOYEES}"
     }
 
-    fun getWork(companyId: String, employeeId: String, year: Int, month: Int): String {
-        return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_COMPANIES}/${companyId}/${BuildConfig.DB_REF_WORK}/${employeeId}/${year}/${month}"
+    fun setWork(companyId: String, employeeId: String, date: DateTime): String {
+        return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_COMPANIES}/${companyId}/${BuildConfig.DB_REF_WORK}/${employeeId}-${date.year}-${date.monthOfYear}-${date.dayOfMonth}"
     }
 
-    fun setWork(companyId: String, employeeId: String): String {
-        val date = DateTime.now()
-        return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_COMPANIES}/${companyId}/${BuildConfig.DB_REF_WORK}/${employeeId}/${date.year}/${date.monthOfYear}/${date.dayOfMonth}"
+    fun getWork(companyId: String): String {
+        return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_COMPANIES}/${companyId}/${BuildConfig.DB_REF_WORK}"
     }
 
     fun getSettings(companyId: String): String {

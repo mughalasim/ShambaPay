@@ -42,4 +42,12 @@ class UiGlobalState {
         }
     }
 
+    fun getTotalForRateIdAndUnit(rateId: String, unit:Double): Double{
+        if (settings == null || settings?.rates == null){
+            return 0.0
+        } else {
+            return settings!!.rates[rateId]?.rate ?: 0.0 * unit
+        }
+    }
+
 }

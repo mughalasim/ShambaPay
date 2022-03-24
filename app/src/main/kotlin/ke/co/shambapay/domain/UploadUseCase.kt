@@ -167,12 +167,12 @@ class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.I
                 return BaseResult.Failure(Failures.WithMessage("Missing Job ID on one of the employees"))
             }
 
-            if (columns[2].isEmpty()) {
-                return BaseResult.Failure(Failures.WithMessage("Missing Rate on one of the employees"))
-            }
+//            if (columns[2].isEmpty()) {
+//                return BaseResult.Failure(Failures.WithMessage("Missing Rate on one of the employees"))
+//            }
 
             val employeeId = columns[0]
-            val rateId = columns[1].trim() + columns[2].trim()
+            val rateId = columns[1].trim()
 
             val workList = columns.drop(3)
 
@@ -182,18 +182,19 @@ class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.I
                         val date = DateTime.now().withDate(year, month, index + 1)
                         FirebaseDatabase.getInstance().reference
                             .child(
-                                QueryBuilder.getWork(
-                                    companyId,
-                                    employeeId,
-                                    year,
-                                    month
-                                ) + "/${index + 1}"
+                                QueryBuilder.setWork(
+                                    companyId = companyId,
+                                    employeeId = employeeId,
+                                    date = date
+                                )
                             )
                             .setValue (
                                 WorkEntity (
-                                    date = date.toString(),
+                                    date = date.millis,
+                                    employeeId = employeeId,
+                                    rateId = rateId.lowercase(),
                                     unit = workUnit.toDoubleOrNull(),
-                                    rateId = rateId.lowercase()
+                                    total = globalState.getTotalForRateIdAndUnit(rateId, workUnit.toDouble())
                                 )
                             )
 

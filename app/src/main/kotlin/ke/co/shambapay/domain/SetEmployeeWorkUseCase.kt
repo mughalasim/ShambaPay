@@ -8,12 +8,16 @@ import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.ui.UiGlobalState
 import kotlinx.coroutines.CompletableDeferred
+import org.joda.time.DateTime
 import java.io.InputStream
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 class SetEmployeeWorkUseCase(private val globalState: UiGlobalState) : BaseUseCase<SetEmployeeWorkUseCase.Input, Unit, Failures>() {
 
     sealed class Input {
-        data class Details(val workEntity: WorkEntity, val employeeId: String): Input()
+        data class Details(val workEntity: WorkEntity, val employeeId: String, val date: DateTime): Input()
     }
 
     override suspend fun run(input: Input): BaseResult<Unit, Failures> {
@@ -26,7 +30,8 @@ class SetEmployeeWorkUseCase(private val globalState: UiGlobalState) : BaseUseCa
 
         val deferred = CompletableDeferred<BaseResult<Unit, Failures>>()
 
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.setWork(globalState.user!!.companyId, input.employeeId)).setValue(input.workEntity).
+        FirebaseDatabase.getInstance().getReference(QueryBuilder.setWork(globalState.user!!.companyId, input.employeeId, input.date))
+            .setValue(input.workEntity).
         addOnSuccessListener{
             deferred.complete(BaseResult.Success(Unit))
         }.addOnFailureListener {

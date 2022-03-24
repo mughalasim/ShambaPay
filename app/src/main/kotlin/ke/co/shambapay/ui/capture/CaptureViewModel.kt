@@ -70,16 +70,19 @@ class CaptureViewModel(
         _rateId.postValue(rateId)
     }
 
-    fun updateEmployeeWork(employeeID: String) {
+    fun updateEmployeeWork(employeeId: String) {
 
+        val date = DateTime.now()
         val workEntity = WorkEntity (
-            date = DateTime.now().toString(),
+            date = date.millis,
+            employeeId = employeeId,
+            rateId = rateId.value!!,
             unit = unit.value!!,
-            rateId = rateId.value!!
+            total = globalState.getTotalForRateIdAndUnit(rateId.value!!, unit.value!!)
         )
 
         _state.postValue(BaseState.UpdateUI(true, "Capturing data, Please wait..."))
-        setEmployeeWorkUseCase.invoke(viewModelScope, SetEmployeeWorkUseCase.Input.Details(workEntity, employeeID)){
+        setEmployeeWorkUseCase.invoke(viewModelScope, SetEmployeeWorkUseCase.Input.Details(workEntity, employeeId, date)){
             it.result(
                 onSuccess = {
                     _state.postValue(BaseState.Success(Unit))
