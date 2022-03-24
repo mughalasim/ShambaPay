@@ -184,11 +184,13 @@ class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.I
                             .child(
                                 QueryBuilder.getWork(
                                     companyId,
-                                    employeeId
-                                ) + "/" + date.toMonthYearString() + "/${index + 1}"
+                                    employeeId,
+                                    year,
+                                    month
+                                ) + "/${index + 1}"
                             )
-                            .setValue(
-                                WorkEntity(
+                            .setValue (
+                                WorkEntity (
                                     date = date.toString(),
                                     unit = workUnit.toDoubleOrNull(),
                                     rateId = rateId.lowercase()

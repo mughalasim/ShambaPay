@@ -11,6 +11,10 @@
         android:icon="@drawable/ic_settings"
         android:title="Settings" />
 
+    <item
+        android:id="@+id/reportQueryFragment"
+        android:icon="@drawable/ic_save"
+        android:title="Reports" />
 
 
 </menu>

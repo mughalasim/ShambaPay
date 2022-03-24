@@ -40,6 +40,7 @@
     <string name="txt_job_measured_in">Measured in: %s</string>
     <string name="txt_set_rate">Set a new rate</string>
     <string name="txt_set_measurement">Set measurement name (i.e Weight)</string>
+    <string name="txt_save">Save</string>
 
     <plurals name="plural_year">
         <item quantity="one">%d year</item>

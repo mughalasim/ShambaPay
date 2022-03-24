@@ -79,8 +79,7 @@
             android:defaultValue="0" />
         <argument
             android:name="reportType"
-            app:argType="ke.co.shambapay.data.model.ReportType"
-            android:defaultValue="PAYROLL_SUMMARY_REPORT" />
+            app:argType="ke.co.shambapay.data.model.ReportType" />
         <argument
             android:name="employee"
             app:argType="ke.co.shambapay.data.model.EmployeeEntity"

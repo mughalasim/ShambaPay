@@ -13,7 +13,7 @@ class GetWorkUseCase(val globalState: UiGlobalState): BaseUseCase<GetWorkUseCase
         data class List(val list: kotlin.collections.List<WorkEntity>): Output()
     }
 
-    data class Input(val employeeId: String)
+    data class Input(val employeeId: String, val year: Int, val month: Int)
 
 
     override suspend fun run(input: Input): BaseResult<Output, Failures> {
@@ -21,7 +21,7 @@ class GetWorkUseCase(val globalState: UiGlobalState): BaseUseCase<GetWorkUseCase
         if (globalState.user == null) return BaseResult.Failure(Failures.NotAuthenticated)
 
         val def = CompletableDeferred<BaseResult<Output, Failures>>()
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.getWork(globalState.user!!.companyId, input.employeeId)).get().
+        FirebaseDatabase.getInstance().getReference(QueryBuilder.getWork(globalState.user!!.companyId, input.employeeId, input.year, input.month)).get().
         addOnSuccessListener{
             try {
                 BaseResult.Success(Output.List(it.children as List<WorkEntity>))

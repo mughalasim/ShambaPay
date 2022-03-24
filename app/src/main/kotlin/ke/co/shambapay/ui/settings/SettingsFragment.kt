@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.data.model.JobRateEntity
 import ke.co.shambapay.data.model.SettingsEntity
+import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.FragmentSettingsBinding
 import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.UiGlobalState
@@ -39,8 +41,9 @@ class SettingsFragment : Fragment() {
 
         adapter.setOnItemClickListener(object : CustomAdapter.OnItemClickListener{
             override fun onItemClicked(data: Any?) {
-                val action = SettingsFragmentDirections.actionSettingsFragmentToSettingsUpdateFragment(data as JobRateEntity)
-                findNavController().navigate(action)
+                if (globalState.user!!.userType == UserType.ADMIN){
+                    findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToSettingsUpdateFragment(data as JobRateEntity))
+                }
             }
         })
 
@@ -51,6 +54,7 @@ class SettingsFragment : Fragment() {
 
         adapter.updateData(globalState.settings!!.rates.values.toList())
 
+        binding.btnAddRates.isVisible = globalState.user!!.userType == UserType.ADMIN
         binding.btnAddRates.setOnClickListener {
             val action = SettingsFragmentDirections.actionSettingsFragmentToSettingsUpdateFragment()
             findNavController().navigate(action)

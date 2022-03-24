@@ -12,8 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import ke.co.shambapay.R
 import ke.co.shambapay.data.model.JobType
+import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.FragmentSettingsUpdateBinding
 import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.UiGlobalState
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsUpdateFragment : Fragment() {
