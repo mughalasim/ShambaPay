@@ -10,6 +10,7 @@ import ke.co.shambapay.data.model.ReportEntity
 import ke.co.shambapay.databinding.FragmentReportViewBinding
 import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.adapter.CustomAdapter
+import org.joda.time.DateTime
 import org.koin.android.ext.android.inject
 
 class ReportViewFragment : Fragment() {
@@ -27,7 +28,7 @@ class ReportViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.banner.setUp(args.reportType.name.lowercase().replace("_", " "))
+        binding.banner.setUp("Report: " + args.reportType.name.lowercase().replace("_", " ") + " for ${args.date.toString("MMM (yyyy)")}")
 
         binding.recycler.adapter = adapter
 
@@ -37,7 +38,12 @@ class ReportViewFragment : Fragment() {
                     binding.widgetLoading.update(it.message, it.showLoading)
                 }
                 is BaseState.Success<*> -> {
-                    adapter.updateData(it as MutableList<ReportEntity>)
+                    binding.widgetLoading.update("", false)
+                    when(it.data){
+                        is ReportViewModel.ViewModelOutput.Report ->{
+                            adapter.updateData(it.data.list as MutableList<ReportEntity>)
+                        }
+                    }
                 }
             }
         }
@@ -49,13 +55,11 @@ class ReportViewFragment : Fragment() {
             }
         })
 
-//        adapter.updateData(globalState.settings!!.rates.values.toList())
-
         binding.txtBack.setOnClickListener {
             activity?.onBackPressed()
         }
 
-        viewModel.fetchReport(args.reportType, args.year, args.month)
+        viewModel.fetchReport(args.reportType, args.date, args.employee)
 
 
     }

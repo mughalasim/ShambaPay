@@ -25,7 +25,7 @@ class SetUserUseCase : BaseUseCase<UserEntity, Boolean, Failures>() {
                 deferredCreate.complete(BaseResult.Failure(Failures.WithMessage("Unable to create user")))
             }
         }.addOnFailureListener {
-            deferredCreate.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
+            deferredCreate.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
         }
 
         val result = deferredCreate.await()
@@ -37,7 +37,7 @@ class SetUserUseCase : BaseUseCase<UserEntity, Boolean, Failures>() {
         addOnSuccessListener{
             deferred.complete(BaseResult.Success(true))
         }.addOnFailureListener {
-            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
+            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
         }
 
         return deferred.await()

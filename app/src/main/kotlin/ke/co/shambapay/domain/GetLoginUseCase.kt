@@ -18,7 +18,7 @@ class GetLoginUseCase : BaseUseCase<GetLoginUseCase.Input, Boolean, Failures>() 
                deferred.complete(BaseResult.Success(true))
         }.
         addOnFailureListener {
-            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
+            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
         }
 
         return deferred.await()

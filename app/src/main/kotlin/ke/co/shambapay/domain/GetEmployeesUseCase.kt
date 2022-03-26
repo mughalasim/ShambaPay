@@ -36,10 +36,10 @@ class GetEmployeesUseCase(val globalState: UiGlobalState): BaseUseCase<String?, 
                     }
                 }
             } catch (e: Exception){
-                def.complete(BaseResult.Failure(Failures.WithMessage("There is an issue with one of the data sets: " + e.localizedMessage)))
+                def.complete(BaseResult.Failure(Failures.WithMessage("There is an issue with one of the data sets: " + e.localizedMessage ?: "")))
             }
         }.addOnFailureListener {
-            def.complete(BaseResult.Failure(Failures.WithMessage("${it.localizedMessage}")))
+            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
         }
         return def.await()
     }

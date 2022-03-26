@@ -25,7 +25,6 @@ class MainActivity: AppCompatActivity() {
 
     private val eventListener = object : ValueEventListener{
         override fun onDataChange(snapshot: DataSnapshot) {
-            Log.e("TEST", snapshot.toString())
             try {
                 val settingsEntity: SettingsEntity? = snapshot.getValue(SettingsEntity::class.java)
                 if (settingsEntity != null){

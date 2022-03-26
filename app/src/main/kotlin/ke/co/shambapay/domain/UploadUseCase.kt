@@ -7,7 +7,6 @@ import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.ui.UiGlobalState
 import ke.co.shambapay.utils.CSVReader
-import ke.co.shambapay.utils.toMonthYearString
 import kotlinx.coroutines.CompletableDeferred
 import org.joda.time.DateTime
 import java.io.InputStream
@@ -62,7 +61,7 @@ class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.I
             def.complete(BaseResult.Success(Unit))
 
         }.addOnFailureListener {
-            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
+            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
         }
         return def.await()
     }
@@ -123,7 +122,7 @@ class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.I
                     )
                 )
             } catch (e: Exception){
-                return BaseResult.Failure(Failures.WithMessage(e.localizedMessage + "On row: " + columns))
+                return BaseResult.Failure(Failures.WithMessage(e.localizedMessage ?: "On row: $columns"))
             }
 
             row = reader.readRow()?.asList()
@@ -164,7 +163,7 @@ class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.I
             }
 
             if (columns[1].isEmpty()) {
-                return BaseResult.Failure(Failures.WithMessage("Missing Job ID on one of the employees"))
+                return BaseResult.Failure(Failures.WithMessage("Missing Job Rate ID on one of the employees"))
             }
 
 //            if (columns[2].isEmpty()) {
@@ -190,16 +189,17 @@ class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.I
                             )
                             .setValue (
                                 WorkEntity (
-                                    date = date.millis,
+                                    dateString = date.toString(),
                                     employeeId = employeeId,
-                                    rateId = rateId.lowercase(),
+                                    rateId = rateId,
                                     unit = workUnit.toDoubleOrNull(),
-                                    total = globalState.getTotalForRateIdAndUnit(rateId, workUnit.toDouble())
+                                    yearPlusMonth = date.year + date.monthOfYear,
+                                    employeeIdPlusMonth = employeeId + date.monthOfYear
                                 )
                             )
 
                     } catch (e: Exception) {
-                        return BaseResult.Failure(Failures.WithMessage(e.localizedMessage))
+                        return BaseResult.Failure(Failures.WithMessage(e.localizedMessage ?: ""))
                     }
                 }
             }

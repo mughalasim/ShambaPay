@@ -74,11 +74,12 @@ class CaptureViewModel(
 
         val date = DateTime.now()
         val workEntity = WorkEntity (
-            date = date.millis,
+            dateString = date.toString(),
             employeeId = employeeId,
             rateId = rateId.value!!,
             unit = unit.value!!,
-            total = globalState.getTotalForRateIdAndUnit(rateId.value!!, unit.value!!)
+            yearPlusMonth = date.year + date.monthOfYear,
+            employeeIdPlusMonth = employeeId + date.monthOfYear
         )
 
         _state.postValue(BaseState.UpdateUI(true, "Capturing data, Please wait..."))

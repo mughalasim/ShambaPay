@@ -3,13 +3,19 @@ package ke.co.shambapay.ui.reports
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import ke.co.shambapay.data.model.EmployeeEntity
+import ke.co.shambapay.data.model.ReportEntity
 import ke.co.shambapay.data.model.ReportType
+import ke.co.shambapay.domain.Failures
+import ke.co.shambapay.domain.GetEmployeesUseCase
 import ke.co.shambapay.domain.GetReportUseCase
 import ke.co.shambapay.domain.base.BaseState
 import org.joda.time.DateTime
 
 class ReportViewModel(
-    private val getReportUseCase: GetReportUseCase
+    private val getReportUseCase: GetReportUseCase,
+    private val getEmployeesUseCase: GetEmployeesUseCase
 ) : ViewModel() {
 
     private val _state = MutableLiveData<BaseState>()
@@ -18,11 +24,18 @@ class ReportViewModel(
     private val _canSubmit = MutableLiveData<Boolean>()
     val canSubmit: LiveData<Boolean> = _canSubmit
 
+    private val _employees = MutableLiveData<List<EmployeeEntity>>()
+    val employees: LiveData<List<EmployeeEntity>> = _employees
+
     init {
         _state.postValue(BaseState.UpdateUI(false, ""))
         _canSubmit.postValue(false)
     }
 
+    sealed class ViewModelOutput {
+        data class Report(val list: List<ReportEntity>) : ViewModelOutput()
+        data class Employee(val list: List<String>) : ViewModelOutput()
+    }
 
     fun validate (
         year: String?,
@@ -48,8 +61,48 @@ class ReportViewModel(
 
     }
 
-    fun fetchReport(reportType: ReportType, year: Int, month: Int) {
+    fun fetchReport(reportType: ReportType, date: DateTime, employeeEntity: EmployeeEntity?) {
+        _state.postValue(BaseState.UpdateUI(true, "Generating the report, Please wait...."))
+        getReportUseCase.invoke(viewModelScope, GetReportUseCase.Input(reportType, date, employeeEntity)){
+            it.result(
+                onSuccess = { list ->
+                    _state.postValue(BaseState.Success(ViewModelOutput.Report(list)))
+                },
+                onFailure = { failure ->
+                    when(failure){
+                        is Failures.WithMessage -> {_state.postValue(BaseState.UpdateUI(false, failure.message))}
 
+                        else ->{_state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))}
+                    }
+                }
+            )
+        }
+    }
+
+    fun getEmployee (index: Int): EmployeeEntity? {
+        return employees.value?.get(index)
+    }
+
+    fun fetchEmployees() {
+        _state.postValue(BaseState.UpdateUI(true, "Fetching all employees, Please wait...."))
+        getEmployeesUseCase.invoke(viewModelScope, ""){
+            it.result(
+                onSuccess = { list ->
+                    _employees.postValue(list)
+                    val data = list.map { entity ->
+                        entity.getFullName()
+                    }
+                    _state.postValue(BaseState.Success(ViewModelOutput.Employee(data)))
+                },
+                onFailure = { failure ->
+                    when(failure){
+                        is Failures.WithMessage -> {_state.postValue(BaseState.UpdateUI(false, failure.message))}
+
+                        else ->{_state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))}
+                    }
+                }
+            )
+        }
     }
 
 }

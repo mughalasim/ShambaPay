@@ -11,4 +11,9 @@
         android:icon="@drawable/ic_employees"
         android:title="Employees" />
 
+    <item
+        android:id="@+id/reportQueryFragment"
+        android:icon="@drawable/ic_save"
+        android:title="Reports" />
+
 </menu>
