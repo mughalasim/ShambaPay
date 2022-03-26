@@ -125,8 +125,8 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$ktx_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$ktx_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation"
 
     // KOIN Dependency Injection
     implementation "io.insert-koin:koin-android:3.0.2"

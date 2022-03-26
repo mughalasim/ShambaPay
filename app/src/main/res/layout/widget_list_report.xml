@@ -25,16 +25,17 @@
 
     <TextView
         android:id="@+id/txt_unit"
+        android:layout_width="wrap_content"
         style="@style/TextNormalBold"
         app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="34 Kgs" />
+        tools:text="18.10" />
 
     <TextView
         android:id="@+id/txt_item"
         style="@style/TextNormalBold"
         tools:text="Total tea picked"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
+        app:layout_constraintEnd_toStartOf="@+id/txt_unit"
         app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintTop_toTopOf="parent" />
 

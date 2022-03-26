@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import ke.co.shambapay.data.model.ReportEntity
+import ke.co.shambapay.data.model.ReportType
 import ke.co.shambapay.databinding.FragmentReportViewBinding
 import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.adapter.CustomAdapter
+import ke.co.shambapay.utils.PDFConverter
 import org.joda.time.DateTime
 import org.koin.android.ext.android.inject
 
@@ -59,8 +61,26 @@ class ReportViewFragment : Fragment() {
             activity?.onBackPressed()
         }
 
-        viewModel.fetchReport(args.reportType, args.date, args.employee)
+        binding.txtSave.setOnClickListener {
+            val dateString = args.date.toString("yyyy_MM")
+            val fileName = when (args.reportType){
+                ReportType.PAYROLL_SUMMARY -> {
+                    "Payroll_Report_$dateString"
+                }
+                ReportType.EMPLOYEE_PERFORMANCE -> {
+                    "Employee_Performance_Report_${dateString}_${args.employee?.getFullNameUnderScore()}"
+                }
+                ReportType.BANK_PAYMENT_DETAILS -> {
+                    "Bank_Payment_Report_$dateString"
+                }
+                ReportType.PAYSLIP -> {
+                    "Employee_Payslip_${dateString}_${args.employee?.getFullNameUnderScore()}"
+                }
+            }
+            PDFConverter().createPdf(context!!, binding.root, activity!!, fileName)
+        }
 
+        viewModel.fetchReport(args.reportType, args.date, args.employee, args.employees)
 
     }
 

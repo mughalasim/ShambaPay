@@ -11,6 +11,7 @@ buildscript {
         coroutines_version = '1.6.0-native-mt'
         koin_version = '2.41'
         ktx_version = '2.4.1'
+        navigation = '2.5.0-alpha03'
 
         DB_REF_ROOT = '"Live"'
         DB_REF_ROOT_STAGING = '"Staging"'
@@ -25,7 +26,7 @@ buildscript {
     dependencies {
         classpath 'com.google.gms:google-services:4.3.10'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$ktx_version"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation"
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

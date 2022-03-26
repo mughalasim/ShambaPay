@@ -1,9 +1,6 @@
 package ke.co.shambapay.ui.reports
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.data.model.ReportEntity
 import ke.co.shambapay.data.model.ReportType
@@ -61,9 +58,14 @@ class ReportViewModel(
 
     }
 
-    fun fetchReport(reportType: ReportType, date: DateTime, employeeEntity: EmployeeEntity?) {
+    fun fetchReport(reportType: ReportType, date: DateTime, employee: EmployeeEntity?, employees: Array<EmployeeEntity>?) {
         _state.postValue(BaseState.UpdateUI(true, "Generating the report, Please wait...."))
-        getReportUseCase.invoke(viewModelScope, GetReportUseCase.Input(reportType, date, employeeEntity)){
+        getReportUseCase.invoke(viewModelScope, GetReportUseCase.Input(
+                reportType = reportType,
+                date = date,
+                employee = employee,
+                employees = employees?.asList()
+            )){
             it.result(
                 onSuccess = { list ->
                     _state.postValue(BaseState.Success(ViewModelOutput.Report(list)))
@@ -81,6 +83,10 @@ class ReportViewModel(
 
     fun getEmployee (index: Int): EmployeeEntity? {
         return employees.value?.get(index)
+    }
+
+    fun getEmployees (): Array<EmployeeEntity>? {
+        return employees.value?.toTypedArray()
     }
 
     fun fetchEmployees() {

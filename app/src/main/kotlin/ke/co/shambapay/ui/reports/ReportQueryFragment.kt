@@ -72,7 +72,8 @@ class ReportQueryFragment : Fragment() {
             findNavController().navigate(ReportQueryFragmentDirections.actionReportQueryFragmentToReportViewFragment(
                 date = DateTime.now().withDate(binding.etYear.text.toString().toInt(), binding.etMonth.text.toString().toInt(), 1),
                 reportType = ReportType.values()[binding.spinnerReportType.selectedItemPosition],
-                employee = viewModel.getEmployee(binding.spinnerEmployee.selectedItemPosition)
+                employee = viewModel.getEmployee(binding.spinnerEmployee.selectedItemPosition),
+                employees = viewModel.getEmployees()
             ))
         }
 

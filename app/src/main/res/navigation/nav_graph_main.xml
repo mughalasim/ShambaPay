@@ -79,6 +79,10 @@
         <argument
             android:name="date"
             app:argType="org.joda.time.DateTime" />
+        <argument
+            android:name="employees"
+            app:nullable="true"
+            app:argType="ke.co.shambapay.data.model.EmployeeEntity[]" />
     </fragment>
     <fragment
         android:id="@+id/reportQueryFragment"

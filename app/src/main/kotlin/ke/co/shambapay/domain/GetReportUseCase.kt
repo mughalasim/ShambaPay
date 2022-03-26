@@ -7,11 +7,10 @@ import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.ui.UiGlobalState
 import kotlinx.coroutines.CompletableDeferred
 import org.joda.time.DateTime
-import java.math.RoundingMode
 
 class GetReportUseCase(val globalState: UiGlobalState): BaseUseCase<GetReportUseCase.Input, List<ReportEntity>, Failures>() {
 
-    data class Input(val reportType: ReportType, val date: DateTime, val employeeEntity: EmployeeEntity?)
+    data class Input(val reportType: ReportType, val date: DateTime, val employee: EmployeeEntity?, val employees: List<EmployeeEntity>?)
 
     override suspend fun run(input: Input): BaseResult<List<ReportEntity>, Failures> {
 
@@ -32,16 +31,17 @@ class GetReportUseCase(val globalState: UiGlobalState): BaseUseCase<GetReportUse
             }
 
             ReportType.EMPLOYEE_PERFORMANCE -> {
-                if (input.employeeEntity == null) return BaseResult.Failure(Failures.WithMessage("Employee not selected"))
-                return BaseResult.Success(getEmployeePerformanceSummary(allWork, input.employeeEntity))
+                if (input.employee == null) return BaseResult.Failure(Failures.WithMessage("Employee not selected"))
+                return BaseResult.Success(getEmployeePerformanceSummary(allWork, input.employee))
             }
 
             ReportType.BANK_PAYMENT_DETAILS -> {
-                return BaseResult.Success(getPayrollSummary(allWork))
+                if(input.employees.isNullOrEmpty()) return BaseResult.Failure(Failures.WithMessage("Failed to fetch all employees"))
+                return BaseResult.Success(getBankPaymentsToAllEmployees(allWork, input.employees))
             }
 
             ReportType.PAYSLIP -> {
-                if (input.employeeEntity == null) return BaseResult.Failure(Failures.WithMessage("Employee not selected"))
+                if (input.employee == null) return BaseResult.Failure(Failures.WithMessage("Employee not selected"))
                 return BaseResult.Success(getPayrollSummary(allWork))
             }
         }
@@ -133,6 +133,29 @@ class GetReportUseCase(val globalState: UiGlobalState): BaseUseCase<GetReportUse
                 responseList.add(ReportEntity("${jobRateEntity.jobType.name.lowercase()} measured in ${jobRateEntity.measurement.lowercase()}", totalUnits))
                 responseList.add(ReportEntity("Cost for ${jobRateEntity.jobType.name} (rate: ${jobRateEntity.rate})", totalCost))
             }
+        }
+
+        responseList.add(ReportEntity(item = if(grandTotal != 0.0) "Grand Total" else "No work done for the selected month", unit = grandTotal, isHeading = grandTotal != 0.0))
+
+        return responseList
+    }
+
+    private fun getBankPaymentsToAllEmployees(allWork: List<WorkEntity>, employees: List<EmployeeEntity>): List<ReportEntity> {
+        var grandTotal = 0.0
+
+        val responseList: MutableList<ReportEntity> = mutableListOf()
+
+        employees.forEach {  employee ->
+            val allEmployeesWork = allWork.filter { it.employeeId == employee.id }
+            var employeesTotal = 0.0
+
+            allEmployeesWork.forEach { work ->
+                employeesTotal += globalState.getTotalForRateIdAndUnit( work.rateId, work.unit)
+            }
+
+            grandTotal += employeesTotal
+
+            if (employeesTotal != 0.0) responseList.add(ReportEntity("${employee.getFullName()} - ${employee.phone}", employeesTotal))
         }
 
         responseList.add(ReportEntity(item = if(grandTotal != 0.0) "Grand Total" else "No work done for the selected month", unit = grandTotal, isHeading = grandTotal != 0.0))
