@@ -5,6 +5,7 @@ import ke.co.shambapay.data.model.*
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.ui.UiGlobalState
+import ke.co.shambapay.utils.TaxFormula
 import kotlinx.coroutines.CompletableDeferred
 import org.joda.time.DateTime
 
@@ -42,11 +43,10 @@ class GetReportUseCase(val globalState: UiGlobalState): BaseUseCase<GetReportUse
 
             ReportType.PAYSLIP -> {
                 if (input.employee == null) return BaseResult.Failure(Failures.WithMessage("Employee not selected"))
-                return BaseResult.Success(getPayrollSummary(allWork))
+                return BaseResult.Success(getEmployeePaySlip(allWork, input.employee))
             }
         }
     }
-
 
     private suspend fun getAllWork(input: Input): BaseResult<List<WorkEntity>, Failures> {
 
@@ -136,6 +136,66 @@ class GetReportUseCase(val globalState: UiGlobalState): BaseUseCase<GetReportUse
         }
 
         responseList.add(ReportEntity(item = if(grandTotal != 0.0) "Grand Total" else "No work done for the selected month", unit = grandTotal, isHeading = grandTotal != 0.0))
+
+        return responseList
+    }
+
+    private fun getEmployeePaySlip(allWork: List<WorkEntity>, employeeEntity: EmployeeEntity): List<ReportEntity> {
+        var grossPay = 0.0
+
+        val responseList: MutableList<ReportEntity> = mutableListOf()
+
+        val employeesWork = allWork.filter { it.employeeId ==  employeeEntity.id}
+
+        responseList.add(ReportEntity("Employee: ${employeeEntity.getFullName()}", 0.0, isHeading = true))
+        responseList.add(ReportEntity("Phone: ${employeeEntity.phone}", 0.0, isHeading = true))
+
+        globalState.settings?.rates?.forEach { (rateId, jobRateEntity) ->
+            val work = employeesWork.filter { it.rateId == rateId }
+
+            var totalUnits = 0.0
+
+            if (work.isNotEmpty()){
+                responseList.add(ReportEntity("Income for ${jobRateEntity.jobType.name.lowercase()}", 0.0, isHeading = true))
+
+                work.forEach {
+                    totalUnits += it.unit ?: 0.0
+                }
+
+                val totalCost = globalState.getTotalForRateIdAndUnit(rateId, totalUnits)
+                grossPay += totalCost
+
+                responseList.add(ReportEntity("${String.format("%,.2f", totalUnits).trim()} ${jobRateEntity.measurement.lowercase()} @ rate of ${jobRateEntity.rate}", totalCost))
+            }
+        }
+
+        if (grossPay == 0.0){
+            responseList.add(ReportEntity(item = "No work done for the selected month", unit = grossPay, isHeading = false))
+        } else {
+
+            responseList.add(ReportEntity(item = "Gross income", unit = grossPay, isHeading = true))
+
+            responseList.add(ReportEntity(item = "NSSF", unit = TaxFormula().getNssfRate()))
+
+            val taxable = grossPay - TaxFormula().getNssfRate()
+            responseList.add(ReportEntity(item = "Taxable pay", unit = taxable))
+
+            val payee = TaxFormula().getPayForGrossIncome(taxable)
+            responseList.add(ReportEntity(item = "PAYEE", unit = payee))
+
+            val personalRelief = TaxFormula().getPersonalRelief(payee)
+            responseList.add(ReportEntity(item = "Personal relief", unit = personalRelief))
+
+            val nhif = TaxFormula().getNhifForGrossIncome(taxable)
+            responseList.add(ReportEntity(item = "Nhif", unit = nhif))
+
+            val taxPayable = if (payee == 0.0 || payee < personalRelief) 0.0 else (payee - personalRelief)
+            responseList.add(ReportEntity(item = "Tax Payable", unit = taxPayable))
+
+            val netPay = grossPay - (taxPayable + nhif + TaxFormula().getNssfRate())
+            responseList.add(ReportEntity(item = "Net income", unit = netPay, isHeading = true))
+
+        }
 
         return responseList
     }

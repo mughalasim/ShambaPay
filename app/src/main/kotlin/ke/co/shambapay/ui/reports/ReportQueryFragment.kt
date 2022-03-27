@@ -4,21 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import ke.co.shambapay.data.model.EmployeeEntity
-import ke.co.shambapay.data.model.ReportEntity
 import ke.co.shambapay.data.model.ReportType
-import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.FragmentReportQueryBinding
 import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.UiGlobalState
 import org.joda.time.DateTime
-import org.koin.android.ext.android.bind
 import org.koin.android.ext.android.inject
 
 class ReportQueryFragment : Fragment() {

@@ -17,9 +17,9 @@ class UiGlobalState {
     fun getDropDownOptions(): List<String> {
         val response: MutableList<String> = mutableListOf()
 
-        if (settings == null || settings?.rates == null){
+        return if (settings == null || settings?.rates == null){
             response.add("No rates have been set, please contact your administrator")
-            return response
+            response
         } else {
             response.add("Select a rate")
             for (item in settings!!.rates){
@@ -29,24 +29,24 @@ class UiGlobalState {
                     ) else it.toString()
                 }} in ${item.value.measurement} at a rate of ${item.value.rate}")
             }
-            return response
+            response
         }
 
     }
 
     fun getRateIdForIndex(index: Int): String {
-        if (settings == null || settings?.rates == null){
-            return ""
+        return if (settings == null || settings?.rates == null){
+            ""
         } else {
-           return settings!!.rates.keys.elementAt(index)
+            settings!!.rates.keys.elementAt(index)
         }
     }
 
     fun getTotalForRateIdAndUnit(rateId: String, unit:Double?): Double{
-        if (settings == null || settings?.rates == null){
-            return 0.0
+        return if (settings == null || settings?.rates == null){
+            0.0
         } else {
-            return (settings!!.rates[rateId]?.rate ?: 0.0) * (unit ?: 0.0)
+            (settings!!.rates[rateId]?.rate ?: 0.0) * (unit ?: 0.0)
         }
     }
 

@@ -3,7 +3,6 @@ package ke.co.shambapay.ui.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ke.co.shambapay.R
-import ke.co.shambapay.databinding.ActivityMainBinding
 import ke.co.shambapay.databinding.ActivityStartBinding
 
 class StartActivity: AppCompatActivity() {

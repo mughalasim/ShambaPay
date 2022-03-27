@@ -7,18 +7,12 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.data.model.JobRateEntity
-import ke.co.shambapay.data.model.SettingsEntity
 import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.FragmentSettingsBinding
-import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.UiGlobalState
 import ke.co.shambapay.ui.adapter.CustomAdapter
-import ke.co.shambapay.ui.employees.EmployeeListFragmentDirections
-import ke.co.shambapay.ui.employees.EmployeeListViewModel
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment() {
 

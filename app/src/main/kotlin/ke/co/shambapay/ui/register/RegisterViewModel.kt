@@ -1,5 +1,6 @@
 package ke.co.shambapay.ui.register
 
+import android.annotation.SuppressLint
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,28 +14,28 @@ import ke.co.shambapay.domain.base.BaseState
 import org.joda.time.DateTime
 
 class RegisterViewModel(
-    val setUserUseCase: SetUserUseCase
+    private val setUserUseCase: SetUserUseCase
 ) : ViewModel() {
 
-    val _state = MutableLiveData<BaseState>()
+    private val _state = MutableLiveData<BaseState>()
     val state: LiveData<BaseState> = _state
 
-    val _email = MutableLiveData<String>()
+    private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
 
-    val _companyName = MutableLiveData<String>()
+    private val _companyName = MutableLiveData<String>()
     val companyName: LiveData<String> = _companyName
 
-    val _telephone = MutableLiveData<String>()
+    private val _telephone = MutableLiveData<String>()
     val telephone: LiveData<String> = _telephone
 
-    val _firstName = MutableLiveData<String>()
+    private val _firstName = MutableLiveData<String>()
     val firstName: LiveData<String> = _firstName
 
-    val _lastName = MutableLiveData<String>()
+    private val _lastName = MutableLiveData<String>()
     val lastName: LiveData<String> = _lastName
 
-    val _canRegister = MutableLiveData<Boolean>()
+    private val _canRegister = MutableLiveData<Boolean>()
     val canRegister: LiveData<Boolean> = _canRegister
 
     init {
@@ -42,6 +43,7 @@ class RegisterViewModel(
         _canRegister.postValue(false)
     }
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun validate(
         email: String?,
         firstName: String?,
@@ -92,11 +94,11 @@ class RegisterViewModel(
         _canRegister.postValue(true)
         _state.postValue(BaseState.UpdateUI(false, ""))
 
-        _email.postValue(email!!)
-        _companyName.postValue(companyName!!)
-        _firstName.postValue(firstName!!)
-        _lastName.postValue(lastName!!)
-        _telephone.postValue(telephone!!)
+        _email.postValue(email)
+        _companyName.postValue(companyName)
+        _firstName.postValue(firstName)
+        _lastName.postValue(lastName)
+        _telephone.postValue(telephone)
     }
 
     fun registerUser() {

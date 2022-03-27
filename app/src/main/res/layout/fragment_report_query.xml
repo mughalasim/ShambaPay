@@ -16,14 +16,14 @@
             style="@style/TextLarge"
             android:layout_width="match_parent"
             android:gravity="center"
-            android:text="Report Query" />
+            android:text="@string/txt_report_query" />
 
         <TextView
             style="@style/TextSmall"
             android:layout_width="wrap_content"
             android:layout_marginTop="@dimen/padding_large"
             android:gravity="center"
-            android:text="Select report type" />
+            android:text="@string/txt_select_report_type" />
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/spinner_report_type"
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_marginTop="@dimen/padding_large"
                 android:gravity="center"
-                android:text="Select an Employee" />
+                android:text="@string/txt_select_an_employee" />
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spinner_employee"
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_marginTop="@dimen/padding_large"
             android:gravity="center"
-            android:text="Set year" />
+            android:text="@string/txt_set_year" />
 
         <EditText
             android:id="@+id/et_year"
@@ -69,14 +69,14 @@
             android:digits="0123456789"
             android:inputType="number"
             android:text="@string/txt_year"
-            tools:ignore="Autofill" />
+            tools:ignore="Autofill,LabelFor" />
 
         <TextView
             style="@style/TextSmall"
             android:layout_width="wrap_content"
             android:layout_marginTop="@dimen/padding_large"
             android:gravity="center"
-            android:text="Set month" />
+            android:text="@string/txt_set_month" />
 
         <EditText
             android:id="@+id/et_month"
@@ -86,7 +86,7 @@
             android:digits="0123456789"
             android:inputType="number"
             android:text="@string/txt_month"
-            tools:ignore="Autofill" />
+            tools:ignore="Autofill,LabelFor"  />
 
         <ke.co.shambapay.ui.widget.LoadingWidget
             android:id="@+id/widget_loading"
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_large"
             android:enabled="false"
-            android:text="Generate report" />
+            android:text="@string/txt_generate_report" />
 
     </LinearLayout>
 

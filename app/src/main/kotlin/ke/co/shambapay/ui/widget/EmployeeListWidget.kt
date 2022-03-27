@@ -1,13 +1,11 @@
 package ke.co.shambapay.ui.widget
 
 import android.content.Context
-import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import ke.co.shambapay.data.model.EmployeeEntity
-import ke.co.shambapay.databinding.WidgetEmployeeBinding
 import ke.co.shambapay.databinding.WidgetListEmployeeBinding
 
 class EmployeeListWidget @JvmOverloads constructor(

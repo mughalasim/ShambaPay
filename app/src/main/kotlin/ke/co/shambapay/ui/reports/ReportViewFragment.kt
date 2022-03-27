@@ -12,7 +12,6 @@ import ke.co.shambapay.databinding.FragmentReportViewBinding
 import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.adapter.CustomAdapter
 import ke.co.shambapay.utils.PDFConverter
-import org.joda.time.DateTime
 import org.koin.android.ext.android.inject
 
 class ReportViewFragment : Fragment() {

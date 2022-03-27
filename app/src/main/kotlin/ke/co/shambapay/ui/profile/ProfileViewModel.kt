@@ -1,36 +1,27 @@
 package ke.co.shambapay.ui.profile
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ke.co.shambapay.data.model.WorkEntity
-import ke.co.shambapay.domain.*
+import ke.co.shambapay.domain.Failures
+import ke.co.shambapay.domain.SetPasswordUseCase
 import ke.co.shambapay.domain.base.BaseState
-import ke.co.shambapay.ui.UiGlobalState
-import org.joda.time.DateTime
 
 class ProfileViewModel(
     private val setPasswordUseCase: SetPasswordUseCase
 ): ViewModel() {
 
-    val _state = MutableLiveData<BaseState>()
+    private val _state = MutableLiveData<BaseState>()
     val state: LiveData<BaseState> = _state
 
-    val _newPassword = MutableLiveData<String>()
-    val newPassword: LiveData<String> = _newPassword
-
-    val _confirmPassword = MutableLiveData<String>()
-    val confirmPassword: LiveData<String> = _confirmPassword
-
-    val _canSubmit = MutableLiveData<Boolean>()
+    private val _canSubmit = MutableLiveData<Boolean>()
     val canSubmit: LiveData<Boolean> = _canSubmit
 
     init {
         _state.postValue(BaseState.UpdateUI(false, ""))
         _canSubmit.postValue(false)
-        _newPassword.postValue("")
-        _confirmPassword.postValue("")
     }
 
     fun validatePassword (
@@ -54,9 +45,6 @@ class ProfileViewModel(
 
         _canSubmit.postValue(true)
         _state.postValue(BaseState.UpdateUI(false, ""))
-
-        _newPassword.postValue(newPassword!!)
-        _confirmPassword.postValue(confirmPassword!!)
     }
 
     fun updatePassword(password: String) {

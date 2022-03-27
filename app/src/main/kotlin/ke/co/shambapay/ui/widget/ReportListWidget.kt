@@ -7,13 +7,8 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import ke.co.shambapay.R
-import ke.co.shambapay.data.model.JobRateEntity
 import ke.co.shambapay.data.model.ReportEntity
-import ke.co.shambapay.data.model.WorkEntity
-import ke.co.shambapay.databinding.WidgetListJobRateBinding
 import ke.co.shambapay.databinding.WidgetListReportBinding
-import ke.co.shambapay.databinding.WidgetListWorkBinding
-import ke.co.shambapay.utils.toParsedDate
 
 class ReportListWidget @JvmOverloads constructor(
     context: Context,

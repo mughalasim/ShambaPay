@@ -6,10 +6,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import ke.co.shambapay.R
 import ke.co.shambapay.data.model.JobRateEntity
-import ke.co.shambapay.data.model.WorkEntity
 import ke.co.shambapay.databinding.WidgetListJobRateBinding
-import ke.co.shambapay.databinding.WidgetListWorkBinding
-import ke.co.shambapay.utils.toParsedDate
 
 class JobRateListWidget @JvmOverloads constructor(
     context: Context,

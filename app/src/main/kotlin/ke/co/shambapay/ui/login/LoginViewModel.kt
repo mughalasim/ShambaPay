@@ -19,16 +19,16 @@ class LoginViewModel(
     private val globalState: UiGlobalState
 ) : ViewModel() {
 
-    val _state = MutableLiveData<BaseState>()
+    private val _state = MutableLiveData<BaseState>()
     val state: LiveData<BaseState> = _state
 
-    val _email = MutableLiveData<String?>()
+    private val _email = MutableLiveData<String?>()
     val email: LiveData<String?> = _email
 
-    val _password = MutableLiveData<String?>()
+    private val _password = MutableLiveData<String?>()
     val password: LiveData<String?> = _password
 
-    val _canLogIn = MutableLiveData<Boolean>()
+    private val _canLogIn = MutableLiveData<Boolean>()
     val canLogIn: LiveData<Boolean> = _canLogIn
 
     init {

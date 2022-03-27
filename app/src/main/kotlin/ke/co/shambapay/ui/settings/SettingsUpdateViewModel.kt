@@ -1,5 +1,6 @@
 package ke.co.shambapay.ui.settings
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,13 +22,13 @@ class SettingsUpdateViewModel(
     val state: LiveData<BaseState> = _state
 
     private val _measurement = MutableLiveData<String>()
-    val measurement: LiveData<String> = _measurement
+    private val measurement: LiveData<String> = _measurement
 
     private val _jobTypePosition = MutableLiveData<Int>()
-    val jobTypePosition: LiveData<Int> = _jobTypePosition
+    private val jobTypePosition: LiveData<Int> = _jobTypePosition
 
     private val _rate = MutableLiveData<Double>()
-    val rate: LiveData<Double> = _rate
+    private val rate: LiveData<Double> = _rate
 
     private val _rateId = MutableLiveData<String>()
     val rateId: LiveData<String> = _rateId
@@ -47,6 +48,7 @@ class SettingsUpdateViewModel(
         _rateId.postValue(rateId ?: "")
     }
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun validate(
         position: Int,
         measurement: String?,
@@ -71,9 +73,9 @@ class SettingsUpdateViewModel(
             return
         }
 
-        _measurement.postValue(measurement!!)
+        _measurement.postValue(measurement)
         _jobTypePosition.postValue(position)
-        _rate.postValue(rateUnit!!)
+        _rate.postValue(rateUnit)
 
         _state.postValue(BaseState.UpdateUI(false, ""))
         _canSubmit.postValue(true)
@@ -83,7 +85,7 @@ class SettingsUpdateViewModel(
         val entity = JobRateEntity(
             rateId = rateId.value!!.ifEmpty { UUID.randomUUID().toString() },
             measurement = measurement.value!!,
-            jobType = JobType.values().get(jobTypePosition.value!!),
+            jobType = JobType.values()[jobTypePosition.value!!],
             rate = rate.value!!
         )
 

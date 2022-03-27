@@ -2,19 +2,19 @@ package ke.co.shambapay.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import ke.co.shambapay.R
 import ke.co.shambapay.data.model.SettingsEntity
 import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.ActivityMainBinding
-import ke.co.shambapay.domain.Failures
 import ke.co.shambapay.domain.QueryBuilder
-import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.ui.UiGlobalState
 import org.koin.android.ext.android.inject
 

@@ -2,17 +2,12 @@ package ke.co.shambapay.domain
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.data.model.WorkEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.ui.UiGlobalState
 import kotlinx.coroutines.CompletableDeferred
 import org.joda.time.DateTime
-import java.io.InputStream
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 
 class SetEmployeeWorkUseCase(private val globalState: UiGlobalState) : BaseUseCase<SetEmployeeWorkUseCase.Input, Unit, Failures>() {
 

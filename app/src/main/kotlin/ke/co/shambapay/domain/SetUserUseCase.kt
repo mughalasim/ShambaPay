@@ -13,7 +13,7 @@ class SetUserUseCase : BaseUseCase<UserEntity, Boolean, Failures>() {
 
         FirebaseAuth.getInstance().currentUser ?: return BaseResult.Failure(Failures.NotAuthenticated)
 
-        var entity: UserEntity = input
+        val entity: UserEntity = input
         val deferredCreate = CompletableDeferred<BaseResult<Boolean, Failures>>()
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(input.email, "123456").

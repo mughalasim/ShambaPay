@@ -1,7 +1,6 @@
 package ke.co.shambapay.domain
 
 import com.google.firebase.database.FirebaseDatabase
-import ke.co.shambapay.data.model.JobRateEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.ui.UiGlobalState

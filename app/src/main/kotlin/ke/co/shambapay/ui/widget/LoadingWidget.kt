@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
-import ke.co.shambapay.databinding.WidgetBannerBinding
 import ke.co.shambapay.databinding.WidgetLoadingBinding
 
 class LoadingWidget @JvmOverloads constructor(

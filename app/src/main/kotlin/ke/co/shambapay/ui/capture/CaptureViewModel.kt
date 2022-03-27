@@ -1,5 +1,6 @@
 package ke.co.shambapay.ui.capture
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,16 +16,16 @@ class CaptureViewModel(
     private val setEmployeeWorkUseCase: SetEmployeeWorkUseCase
 ): ViewModel() {
 
-    val _state = MutableLiveData<BaseState>()
+    private val _state = MutableLiveData<BaseState>()
     val state: LiveData<BaseState> = _state
 
-    val _unit = MutableLiveData<Double>()
+    private val _unit = MutableLiveData<Double>()
     val unit: LiveData<Double> = _unit
 
-    val _rateId = MutableLiveData<String>()
+    private val _rateId = MutableLiveData<String>()
     val rateId: LiveData<String> = _rateId
 
-    val _canSubmit = MutableLiveData<Boolean>()
+    private val _canSubmit = MutableLiveData<Boolean>()
     val canSubmit: LiveData<Boolean> = _canSubmit
 
     init {
@@ -34,6 +35,7 @@ class CaptureViewModel(
         _rateId.postValue("")
     }
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun validate(
         unit: String?,
         position: Int,
@@ -66,7 +68,7 @@ class CaptureViewModel(
         _canSubmit.postValue(true)
         _state.postValue(BaseState.UpdateUI(false, ""))
 
-        _unit.postValue(workUnit!!)
+        _unit.postValue(workUnit)
         _rateId.postValue(rateId)
     }
 

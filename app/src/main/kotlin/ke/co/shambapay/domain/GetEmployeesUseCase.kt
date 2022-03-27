@@ -2,7 +2,6 @@ package ke.co.shambapay.domain
 
 import com.google.firebase.database.FirebaseDatabase
 import ke.co.shambapay.data.model.EmployeeEntity
-import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.ui.UiGlobalState
@@ -36,7 +35,7 @@ class GetEmployeesUseCase(val globalState: UiGlobalState): BaseUseCase<String?, 
                     }
                 }
             } catch (e: Exception){
-                def.complete(BaseResult.Failure(Failures.WithMessage("There is an issue with one of the data sets: " + e.localizedMessage ?: "")))
+                def.complete(BaseResult.Failure(Failures.WithMessage("There is an issue with one of the data sets: " + e.localizedMessage)))
             }
         }.addOnFailureListener {
             def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))

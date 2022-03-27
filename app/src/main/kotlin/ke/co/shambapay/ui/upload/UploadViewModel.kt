@@ -1,5 +1,6 @@
 package ke.co.shambapay.ui.upload
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,25 +12,25 @@ import org.joda.time.DateTime
 import java.io.InputStream
 
 class UploadViewModel(
-    val uploadUseCase: UploadUseCase
+    private val uploadUseCase: UploadUseCase
 ) :ViewModel() {
 
-    val _state = MutableLiveData<BaseState>()
+    private val _state = MutableLiveData<BaseState>()
     val state: LiveData<BaseState> = _state
 
-    val _month = MutableLiveData<Int>()
-    val month: LiveData<Int> = _month
+    private val _month = MutableLiveData<Int>()
+    private val month: LiveData<Int> = _month
 
-    val _year = MutableLiveData<Int>()
-    val year: LiveData<Int> = _year
+    private val _year = MutableLiveData<Int>()
+    private val year: LiveData<Int> = _year
 
-    val _inputStream = MutableLiveData<InputStream?>()
-    val inputStream: LiveData<InputStream?> = _inputStream
+    private val _inputStream = MutableLiveData<InputStream?>()
+    private val inputStream: LiveData<InputStream?> = _inputStream
 
-    val _canUploadEmployees = MutableLiveData<Boolean>()
+    private val _canUploadEmployees = MutableLiveData<Boolean>()
     val canUploadEmployees: LiveData<Boolean> = _canUploadEmployees
 
-    val _canUploadWork = MutableLiveData<Boolean>()
+    private val _canUploadWork = MutableLiveData<Boolean>()
     val canUploadWork: LiveData<Boolean> = _canUploadWork
 
     init {
@@ -38,6 +39,7 @@ class UploadViewModel(
         _canUploadWork.postValue(false)
     }
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun validateUploadWork (
         month: String?,
         year: String?
@@ -65,8 +67,8 @@ class UploadViewModel(
         _canUploadWork.postValue(true)
         _state.postValue(BaseState.UpdateUI(false, ""))
 
-        _month.postValue(convertedMonth!!)
-        _year.postValue(convertedYear!!)
+        _month.postValue(convertedMonth)
+        _year.postValue(convertedYear)
     }
 
     fun setInputStream(inputStream: InputStream?){

@@ -5,10 +5,8 @@ import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.data.model.SettingsEntity
 import ke.co.shambapay.data.model.UserEntity
-import ke.co.shambapay.databinding.WidgetEmployeeBinding
 import ke.co.shambapay.databinding.WidgetUserBinding
 
 class UserWidget @JvmOverloads constructor(
