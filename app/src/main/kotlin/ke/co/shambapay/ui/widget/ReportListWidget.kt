@@ -24,7 +24,7 @@ class ReportListWidget @JvmOverloads constructor(
         binding.txtUnit.text = String.format("%,.2f", model.unit).trim()
         binding.txtUnit.isVisible = model.unit != 0.0
         if (model.isHeading){
-            binding.layout.setBackgroundColor(ContextCompat.getColor(context, R.color.grey))
+            binding.layout.setBackgroundColor(ContextCompat.getColor(context, R.color.grey_light))
         } else {
             binding.layout.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent))
         }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
-    android:background="@color/grey"
+    android:background="@color/grey_light"
     android:layout_width="match_parent"
     android:paddingTop="@dimen/padding_medium"
     android:paddingBottom="@dimen/padding_medium"

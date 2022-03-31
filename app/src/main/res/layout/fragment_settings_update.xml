@@ -22,7 +22,7 @@
             android:id="@+id/spinner_job_type"
             android:layout_marginTop="@dimen/padding_large"
             android:layout_width="match_parent"
-            android:background="@drawable/background_border_grey"
+            android:background="@drawable/background_border_green"
             android:layout_height="wrap_content" />
 
         <EditText

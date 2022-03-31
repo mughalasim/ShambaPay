@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/padding_large"
-            android:background="@drawable/background_border_grey" />
+            android:background="@drawable/background_border_green" />
 
         <LinearLayout
             android:id="@+id/ll_select_employee"
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_large"
-                android:background="@drawable/background_border_grey" />
+                android:background="@drawable/background_border_green" />
 
         </LinearLayout>
 

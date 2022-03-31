@@ -2,15 +2,15 @@
     <!-- Base application theme. -->
     <style name="Theme.Main" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/green_main</item>
+        <item name="colorPrimaryVariant">@color/green_main</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorSecondary">@color/gold</item>
+        <item name="colorSecondaryVariant">@color/gold</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/grey</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/grey_light</item>
         <!-- Customize your theme here. -->
         <item name="chipCornerRadius">@dimen/border_corner_radius</item>
     </style>
@@ -19,7 +19,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">@dimen/padding_medium</item>
-        <item name="android:background">@color/grey</item>
+        <item name="android:background">@color/grey_light</item>
     </style>
 
     <style name="StandardText" parent="Theme.Main">
@@ -30,13 +30,13 @@
     <style name="TextLarge" parent="StandardText">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/purple_700</item>
+        <item name="android:textColor">@color/brown</item>
     </style>
 
     <style name="TextNormal" parent="StandardText">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/teal_700</item>
+        <item name="android:textColor">@color/brown</item>
     </style>
 
     <style name="TextNormalBold" parent="StandardText">
@@ -47,12 +47,12 @@
     <style name="TextSmallBold" parent="StandardText">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/purple_700</item>
+        <item name="android:textColor">@color/brown</item>
     </style>
 
     <style name="TextSmall" parent="StandardText">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Caption</item>
-        <item name="android:textColor">@color/teal_700</item>
+        <item name="android:textColor">@color/brown</item>
     </style>
 
 
@@ -60,8 +60,9 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
-        <item name="android:textColor">@color/purple_700</item>
-        <item name="android:background">@drawable/background_border_grey</item>
+        <item name="android:textColor">@color/brown</item>
+        <item name="android:textColorHint">@color/red</item>
+        <item name="android:background">@drawable/background_border_green</item>
         <item name="android:padding">@dimen/padding_large</item>
         <item name="android:selectAllOnFocus">true</item>
         <item name="android:layout_marginTop">@dimen/padding_large</item>
