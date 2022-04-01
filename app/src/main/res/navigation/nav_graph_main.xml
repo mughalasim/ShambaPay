@@ -53,6 +53,12 @@
         <action
             android:id="@+id/action_settingsFragment_to_settingsUpdateFragment"
             app:destination="@id/settingsUpdateFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_uploadEmployeesFragment"
+            app:destination="@id/uploadEmployeesFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_uploadWorkFragment"
+            app:destination="@id/uploadWorkFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsUpdateFragment"

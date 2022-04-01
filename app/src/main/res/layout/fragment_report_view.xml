@@ -20,7 +20,8 @@
         <ImageButton
             android:id="@+id/txt_back"
             style="@style/EditText"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/icon_small"
+            android:layout_height="@dimen/icon_small"
             android:padding="@dimen/padding_small"
             android:layout_marginStart="@dimen/page_guide_line"
             android:src="@drawable/ic_close"
@@ -30,7 +31,8 @@
             android:id="@+id/txt_save"
             style="@style/EditText"
             android:layout_marginStart="@dimen/padding_medium"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/icon_small"
+            android:layout_height="@dimen/icon_small"
             android:padding="@dimen/padding_small"
             android:src="@drawable/ic_save"
             android:contentDescription="@string/txt_save" />

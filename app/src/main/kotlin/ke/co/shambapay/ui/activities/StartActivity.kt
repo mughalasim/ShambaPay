@@ -2,6 +2,7 @@ package ke.co.shambapay.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import ke.co.shambapay.BuildConfig
 import ke.co.shambapay.R
 import ke.co.shambapay.databinding.ActivityStartBinding
 
@@ -15,8 +16,7 @@ class StartActivity: AppCompatActivity() {
         binding = ActivityStartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.banner.setUp(getString(R.string.app_name))
-
+        binding.txtVersion.text = getString(R.string.txt_version, BuildConfig.VERSION_NAME)
 
     }
 }

@@ -76,7 +76,7 @@ class ReportViewFragment : Fragment() {
                     "Employee_Payslip_${dateString}_${args.employee?.getFullNameUnderScore()}"
                 }
             }
-            PDFConverter().createPdf(context!!, binding.root, activity!!, fileName)
+            PDFConverter().createPdf(context!!, binding.container, activity!!, fileName)
         }
 
         viewModel.fetchReport(args.reportType, args.date, args.employee, args.employees)

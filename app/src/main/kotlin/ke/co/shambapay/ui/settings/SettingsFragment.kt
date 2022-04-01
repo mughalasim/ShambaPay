@@ -17,10 +17,14 @@ import org.koin.android.ext.android.inject
 class SettingsFragment : Fragment() {
 
     lateinit var binding: FragmentSettingsBinding
-    private val adapter =  CustomAdapter(mutableListOf<JobRateEntity>())
+    private val adapter = CustomAdapter(mutableListOf<JobRateEntity>())
     private val globalState: UiGlobalState by inject()
 
-    override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentSettingsBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -35,7 +39,7 @@ class SettingsFragment : Fragment() {
 
         adapter.setOnItemClickListener(object : CustomAdapter.OnItemClickListener{
             override fun onItemClicked(data: Any?) {
-                if (globalState.user!!.userType == UserType.ADMIN){
+                if (globalState.isAdmin()){
                     findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToSettingsUpdateFragment(data as JobRateEntity))
                 }
             }
@@ -48,12 +52,22 @@ class SettingsFragment : Fragment() {
 
         adapter.updateData(globalState.settings!!.rates.values.toList())
 
-        binding.btnAddRates.isVisible = globalState.user!!.userType == UserType.ADMIN
+        binding.btnAddRates.isVisible = globalState.isAdmin()
         binding.btnAddRates.setOnClickListener {
-            val action = SettingsFragmentDirections.actionSettingsFragmentToSettingsUpdateFragment()
-            findNavController().navigate(action)
+            findNavController().navigate(
+                SettingsFragmentDirections.actionSettingsFragmentToSettingsUpdateFragment()
+            )
         }
 
+        binding.btnUploadEmployees.isVisible = globalState.isAdmin()
+        binding.btnUploadEmployees.setOnClickListener {
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToUploadEmployeesFragment())
+        }
+
+        binding.btnUploadWork.isVisible = globalState.isAdmin()
+        binding.btnUploadWork.setOnClickListener {
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToUploadWorkFragment())
+        }
     }
 
 }

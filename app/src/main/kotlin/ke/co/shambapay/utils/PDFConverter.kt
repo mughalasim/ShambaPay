@@ -14,6 +14,7 @@ import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileOutputStream
 
+@Suppress("DEPRECATION")
 class PDFConverter {
 
     fun createPdf (context: Context, view: View, activity: Activity, fileName: String) {
@@ -42,7 +43,7 @@ class PDFConverter {
         val canvas = Canvas(src)
         view.draw(canvas)
 
-        val bitmap = Bitmap.createScaledBitmap(src, 595, 842, true)
+        val bitmap = Bitmap.createScaledBitmap(src, displayMetrics.widthPixels, displayMetrics.heightPixels, true)
 
         val pdfDocument = PdfDocument()
         val pageInfo = PdfDocument.PageInfo.Builder(bitmap.width, bitmap.height, 1).create()

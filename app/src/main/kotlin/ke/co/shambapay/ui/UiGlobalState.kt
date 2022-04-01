@@ -2,6 +2,7 @@ package ke.co.shambapay.ui
 
 import ke.co.shambapay.data.model.SettingsEntity
 import ke.co.shambapay.data.model.UserEntity
+import ke.co.shambapay.data.model.UserType
 import java.util.*
 
 class UiGlobalState {
@@ -48,6 +49,10 @@ class UiGlobalState {
         } else {
             (settings!!.rates[rateId]?.rate ?: 0.0) * (unit ?: 0.0)
         }
+    }
+
+    fun isAdmin(): Boolean{
+        return user!!.userType == UserType.ADMIN
     }
 
 }
