@@ -3,18 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_marginBottom="@dimen/padding_medium"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/padding_medium">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
+        android:id="@+id/guide_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="@dimen/page_guide_line" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineEnd"
+        android:id="@+id/guide_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -23,106 +23,105 @@
     <TextView
         android:id="@+id/txt_full_name"
         style="@style/TextLarge"
-        android:layout_marginTop="@dimen/padding_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Full name" />
 
     <TextView
         android:id="@+id/txt_company_name"
         style="@style/TextNormalBold"
-        android:layout_marginTop="@dimen/padding_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_full_name"
         app:layout_constraintBottom_toTopOf="@+id/banner"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@+id/txt_full_name"
         tools:text="Company Name" />
 
     <ke.co.shambapay.ui.widget.BannerWidget
         android:id="@+id/banner"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/padding_medium"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_company_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_company_name" />
 
     <TextView
         android:id="@+id/label_company_id"
-        style="@style/TextSmallBold"
+        style="@style/TextNormal"
+        android:layout_marginTop="0dp"
         android:text="@string/txt_company_id"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toBottomOf="@+id/banner" />
 
     <TextView
         android:id="@+id/txt_company_id"
-        style="@style/TextNormal"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/label_company_id"
+        style="@style/TextNormalBold"
+        android:layout_marginStart="@dimen/padding_medium"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/label_company_id"
+        app:layout_constraintEnd_toStartOf="@+id/guide_end"
+        app:layout_constraintStart_toEndOf="@+id/label_company_id"
+        app:layout_constraintTop_toTopOf="@+id/label_company_id"
         tools:text="123456789" />
 
     <TextView
         android:id="@+id/label_phone"
-        style="@style/TextSmallBold"
-        android:layout_marginTop="@dimen/padding_medium"
+        style="@style/TextNormal"
         android:text="@string/txt_telephone"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toBottomOf="@+id/txt_company_id" />
 
     <TextView
         android:id="@+id/txt_phone"
-        style="@style/TextNormal"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/label_phone"
+        style="@style/TextNormalBold"
+        android:layout_marginStart="@dimen/padding_medium"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/label_phone"
+        app:layout_constraintEnd_toStartOf="@+id/guide_end"
+        app:layout_constraintStart_toEndOf="@+id/label_phone"
+        app:layout_constraintTop_toTopOf="@+id/label_phone"
         tools:text="(44) 0123 456 789" />
 
     <TextView
         android:id="@+id/label_user_type"
-        style="@style/TextSmallBold"
-        android:layout_marginTop="@dimen/padding_medium"
+        style="@style/TextNormal"
         android:text="@string/txt_user_type"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toBottomOf="@+id/txt_phone" />
 
     <TextView
         android:id="@+id/txt_user_type"
-        style="@style/TextNormal"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/label_user_type"
+        style="@style/TextNormalBold"
+        android:layout_marginStart="@dimen/padding_medium"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/label_user_type"
+        app:layout_constraintEnd_toStartOf="@+id/guide_end"
+        app:layout_constraintStart_toEndOf="@+id/label_user_type"
+        app:layout_constraintTop_toTopOf="@+id/label_user_type"
         tools:text="ADMIN" />
 
     <TextView
         android:id="@+id/label_email"
-        style="@style/TextSmallBold"
-        android:layout_marginTop="@dimen/padding_medium"
+        style="@style/TextNormal"
         android:text="@string/txt_email"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toBottomOf="@+id/txt_user_type" />
 
     <TextView
         android:id="@+id/txt_email"
-        style="@style/TextNormal"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/label_email"
+        style="@style/TextNormalBold"
+        android:layout_marginStart="@dimen/padding_medium"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/label_email"
+        app:layout_constraintEnd_toStartOf="@+id/guide_end"
+        app:layout_constraintStart_toEndOf="@+id/label_email"
+        app:layout_constraintTop_toTopOf="@+id/label_email"
         tools:text="email@example.com" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

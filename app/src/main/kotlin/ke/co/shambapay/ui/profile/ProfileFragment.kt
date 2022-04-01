@@ -62,10 +62,6 @@ class ProfileFragment : Fragment() {
             viewModel.updatePassword(binding.etNewPassword.text.toString())
         }
 
-        binding.txtLogout.setOnClickListener {
-            (activity as MainActivity).logOut()
-        }
-
     }
 
 }

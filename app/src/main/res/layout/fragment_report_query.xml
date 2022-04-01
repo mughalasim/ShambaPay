@@ -9,28 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/padding_large">
+        android:layout_marginStart="@dimen/page_guide_line"
+        android:layout_marginEnd="@dimen/page_guide_line">
 
         <TextView
             android:id="@+id/txt_title"
             style="@style/TextLarge"
             android:layout_width="match_parent"
-            android:gravity="center"
             android:text="@string/txt_report_query" />
 
         <TextView
-            style="@style/TextSmall"
+            style="@style/TextNormal"
             android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/padding_large"
-            android:gravity="center"
             android:text="@string/txt_select_report_type" />
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/spinner_report_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_large"
-            android:background="@drawable/background_border_green" />
+            style="@style/EditText" />
 
         <LinearLayout
             android:id="@+id/ll_select_employee"
@@ -39,67 +34,54 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/TextSmall"
+                style="@style/TextNormal"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="@dimen/padding_large"
                 android:gravity="center"
                 android:text="@string/txt_select_an_employee" />
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spinner_employee"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_large"
-                android:background="@drawable/background_border_green" />
+                style="@style/EditText"/>
 
         </LinearLayout>
 
         <TextView
-            style="@style/TextSmall"
+            style="@style/TextNormal"
             android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/padding_large"
-            android:gravity="center"
             android:text="@string/txt_set_year" />
 
         <EditText
             android:id="@+id/et_year"
             style="@style/EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:digits="0123456789"
             android:inputType="number"
             android:text="@string/txt_year"
             tools:ignore="Autofill,LabelFor" />
 
         <TextView
-            style="@style/TextSmall"
+            style="@style/TextNormal"
             android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/padding_large"
             android:gravity="center"
             android:text="@string/txt_set_month" />
 
         <EditText
             android:id="@+id/et_month"
             style="@style/EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:digits="0123456789"
             android:inputType="number"
             android:text="@string/txt_month"
             tools:ignore="Autofill,LabelFor"  />
 
+        <Button
+            android:id="@+id/btn_generate"
+            style="@style/Button"
+            android:enabled="false"
+            android:text="@string/txt_generate_report" />
+
         <ke.co.shambapay.ui.widget.LoadingWidget
             android:id="@+id/widget_loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/btn_generate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_large"
-            android:enabled="false"
-            android:text="@string/txt_generate_report" />
 
     </LinearLayout>
 

@@ -4,51 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@drawable/background_border_green"
-    android:layout_marginTop="@dimen/padding_medium"
-    android:paddingBottom="@dimen/padding_small"
-    android:paddingTop="@dimen/padding_small"
+    android:layout_marginTop="@dimen/padding_large"
+    android:paddingBottom="@dimen/padding_medium"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
+        android:id="@+id/guide_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/padding_large" />
+        app:layout_constraintGuide_begin="@dimen/page_guide_line" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineEnd"
+        android:id="@+id/guide_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/padding_large" />
+        app:layout_constraintGuide_end="@dimen/page_guide_line" />
 
     <TextView
         android:id="@+id/txt_full_name"
         style="@style/TextNormalBold"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/img"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Full name" />
+        tools:text="Asim Mughal" />
 
     <TextView
-        android:id="@+id/label_national_id"
-        style="@style/TextSmall"
-        android:paddingTop="@dimen/padding_small"
-        android:text="@string/txt_national_id"
+        android:id="@+id/label_phone"
+        style="@style/TextNormal"
+        android:text="@string/txt_telephone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toBottomOf="@+id/txt_full_name" />
 
     <TextView
-        android:id="@+id/txt_national_id"
+        android:id="@+id/txt_phone"
         style="@style/TextNormalBold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/chip_captured"
-        app:layout_constraintStart_toEndOf="@id/label_national_id"
-        app:layout_constraintTop_toBottomOf="@+id/txt_full_name"
-        android:layout_marginStart="@dimen/padding_small"
-        tools:text="123456789" />
+        android:layout_marginStart="@dimen/padding_medium"
+        android:layout_marginTop="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/img"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/label_phone"
+        app:layout_constraintTop_toTopOf="@+id/label_phone"
+        app:layout_constraintBottom_toBottomOf="@+id/label_phone"
+        tools:text="0712 345 678" />
 
     <ImageView
         android:id="@+id/img"
@@ -56,17 +56,8 @@
         android:layout_height="@dimen/icon_small"
         android:contentDescription="@string/txt_login"
         android:src="@drawable/ic_chevron_right"
-        app:layout_constraintBottom_toBottomOf="@+id/txt_national_id"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_phone"
+        app:layout_constraintEnd_toStartOf="@+id/guide_end"
         app:layout_constraintTop_toTopOf="@+id/txt_full_name" />
-
-    <com.google.android.material.chip.Chip
-        android:id="@+id/chip_captured"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_captured"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

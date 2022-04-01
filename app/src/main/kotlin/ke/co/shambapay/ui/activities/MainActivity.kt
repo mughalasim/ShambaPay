@@ -45,8 +45,6 @@ class MainActivity: AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.banner.setUp(getString(R.string.app_name))
-
         when(state.user?.userType as UserType) {
             UserType.ADMIN -> {
                 binding.bottomNav.inflateMenu(R.menu.bottom_menu_admin)
@@ -67,6 +65,10 @@ class MainActivity: AppCompatActivity() {
         binding.bottomNav.setupWithNavController(navController)
 
         FirebaseDatabase.getInstance().getReference(QueryBuilder.getSettings(state.user!!.companyId)).addValueEventListener(eventListener)
+
+        binding.txtLogout.setOnClickListener {
+            logOut()
+        }
 
     }
 

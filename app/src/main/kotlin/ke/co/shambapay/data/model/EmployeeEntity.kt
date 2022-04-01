@@ -14,8 +14,7 @@ data class EmployeeEntity (
     val nhif: String = "",
     val nssf: String = "",
     val phone: Long = 0,
-    val areaCode: Int = 0,
-    var isCaptured: Boolean? = null
+    val areaCode: Int = 0
 ): Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -29,8 +28,7 @@ data class EmployeeEntity (
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readLong(),
-        parcel.readInt(),
-        parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        parcel.readInt()
     )
 
     constructor(): this(
@@ -65,7 +63,6 @@ data class EmployeeEntity (
         parcel.writeString(nssf)
         parcel.writeLong(phone)
         parcel.writeInt(areaCode)
-        parcel.writeValue(isCaptured)
     }
 
     override fun describeContents(): Int {

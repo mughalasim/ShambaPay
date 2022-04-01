@@ -3,21 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
-    android:background="@color/grey_light"
     android:layout_width="match_parent"
-    android:paddingTop="@dimen/padding_medium"
     android:paddingBottom="@dimen/padding_medium"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
+        android:id="@+id/guide_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="@dimen/page_guide_line" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineEnd"
+        android:id="@+id/guide_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -27,7 +25,7 @@
         android:id="@+id/txt_unit"
         android:layout_width="wrap_content"
         style="@style/TextNormalBold"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="18.10" />
 
@@ -36,7 +34,7 @@
         style="@style/TextNormalBold"
         tools:text="Total tea picked"
         app:layout_constraintEnd_toStartOf="@+id/txt_unit"
-        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

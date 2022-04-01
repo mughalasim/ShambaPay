@@ -1,73 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".ui.capture.CaptureFragment">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ke.co.shambapay.ui.widget.EmployeeWidget
+            android:id="@+id/widget_employee"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ke.co.shambapay.ui.widget.BannerWidget
+            android:id="@+id/banner_capture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/page_guide_line"
+            android:layout_marginEnd="@dimen/page_guide_line">
 
-            <ke.co.shambapay.ui.widget.EmployeeWidget
-                android:id="@+id/widget_employee"
+            <TextView
+                style="@style/TextNormal"
+                android:layout_marginTop="0dp"
+                android:layout_width="wrap_content"
+                android:text="@string/txt_set_job_type" />
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinner_job_type"
+                style="@style/EditText"/>
+
+            <TextView
+                style="@style/TextNormal"
+                android:layout_width="wrap_content"
+                android:text="@string/txt_set_units" />
+
+            <EditText
+                android:id="@+id/et_unit"
+                style="@style/EditText"
+                android:digits=".0123456789"
+                android:hint="@string/txt_set_units"
+                android:inputType="number"
+                tools:ignore="Autofill" />
+
+            <Button
+                android:id="@+id/btn_capture"
+                style="@style/Button"
+                android:enabled="false"
+                android:text="@string/txt_capture" />
+
+            <Button
+                android:id="@+id/btn_cancel"
+                style="@style/Button"
+                android:text="@string/txt_cancel" />
+
+            <ke.co.shambapay.ui.widget.LoadingWidget
+                android:id="@+id/widget_loading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/padding_large"
-                android:orientation="vertical">
-
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/spinner_job_type"
-                    android:layout_width="match_parent"
-                    android:background="@drawable/background_border_green"
-                    android:layout_height="wrap_content" />
-
-                <EditText
-                    android:id="@+id/et_unit"
-                    style="@style/EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:digits=".0123456789"
-                    android:hint="@string/txt_set_units"
-                    android:inputType="number"
-                    tools:ignore="Autofill" />
-
-
-                <ke.co.shambapay.ui.widget.LoadingWidget
-                    android:id="@+id/widget_loading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <Button
-                    android:id="@+id/btn_capture"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_large"
-                    android:enabled="false"
-                    android:text="@string/txt_capture" />
-
-                <Button
-                    android:id="@+id/btn_cancel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_large"
-                    android:text="@string/txt_cancel" />
-
-            </LinearLayout>
-
         </LinearLayout>
 
-    </ScrollView>
+    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

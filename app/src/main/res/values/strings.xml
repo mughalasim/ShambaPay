@@ -31,10 +31,11 @@
     <string name="txt_upload">Upload</string>
     <string name="txt_employees">Employees</string>
     <string name="txt_select_file">Select a file to upload</string>
-    <string name="txt_upload_employees">Upload all employee records</string>
-    <string name="txt_upload_work">Upload all employee work records</string>
-    <string name="txt_add_rate">Add new job rate</string>
+    <string name="txt_upload_employees">Upload all employees</string>
+    <string name="txt_upload_work">Upload work for selected date</string>
+    <string name="txt_add_rate">Add a new job rate</string>
     <string name="txt_update_rate">Update job rate</string>
+    <string name="txt_set_job_type">Select a Job Type</string>
     <string name="txt_job_type">Job Type: %s</string>
     <string name="txt_job_rate">Rate: %s</string>
     <string name="txt_job_measured_in">Measured in: %s</string>

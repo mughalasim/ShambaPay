@@ -8,34 +8,40 @@
     tools:context="ui.settings.SettingsFragment">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
+        android:id="@+id/guide_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="@dimen/padding_large" />
+        app:layout_constraintGuide_begin="@dimen/page_guide_line" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineEnd"
+        android:id="@+id/guide_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="@dimen/padding_large" />
+        app:layout_constraintGuide_end="@dimen/page_guide_line" />
+
+    <TextView
+        android:id="@+id/txt_title"
+        style="@style/TextLarge"
+        android:text="@string/txt_settings"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"/>
 
     <TextView
         android:id="@+id/txt_company_name"
-        style="@style/TextNormal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/padding_large"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextNormalBold"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@+id/txt_title"
         tools:text="Company Name: Farms ABC" />
 
     <ke.co.shambapay.ui.widget.BannerWidget
         android:id="@+id/banner_rates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/refresh"
@@ -47,8 +53,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_add_rates"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toBottomOf="@+id/banner_rates">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -61,13 +67,31 @@
 
     <Button
         android:id="@+id/btn_add_rates"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/padding_large"
         android:text="@string/txt_add_rate"
+        style="@style/Button"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_upload_employees"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintStart_toStartOf="@+id/guide_start" />
+
+    <Button
+        android:id="@+id/btn_upload_employees"
+        android:text="@string/txt_upload_employees"
+        style="@style/Button"
+        android:layout_width="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_upload_work"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintStart_toStartOf="@+id/guide_start" />
+
+    <Button
+        android:id="@+id/btn_upload_work"
+        android:layout_marginBottom="@dimen/padding_medium"
+        android:text="@string/txt_upload_work"
+        style="@style/Button"
+        android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
-        app:layout_constraintStart_toStartOf="@+id/guideline" />
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintStart_toStartOf="@+id/guide_start" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

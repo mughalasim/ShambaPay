@@ -4,7 +4,7 @@
 
     <stroke
         android:width="@dimen/line_thickness"
-        android:color="@color/green_dark" />
+        android:color="@color/green_main" />
 
     <padding
         android:bottom="@dimen/line_thickness"

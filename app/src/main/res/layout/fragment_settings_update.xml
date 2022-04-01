@@ -8,22 +8,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/padding_large"
+        android:layout_marginEnd="@dimen/page_guide_line"
+        android:layout_marginStart="@dimen/page_guide_line"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/txt_title"
             style="@style/TextLarge"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:text="@string/txt_add_rate" />
 
+        <TextView
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:text="@string/txt_set_job_type" />
+
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/spinner_job_type"
-            android:layout_marginTop="@dimen/padding_large"
-            android:layout_width="match_parent"
-            android:background="@drawable/background_border_green"
-            android:layout_height="wrap_content" />
+            style="@style/EditText" />
+
+        <TextView
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:text="@string/txt_set_measurement" />
 
         <EditText
             style="@style/EditText"
@@ -33,6 +40,11 @@
             android:hint="@string/txt_set_measurement"
             android:inputType="textAutoCorrect"
             tools:ignore="Autofill" />
+
+        <TextView
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:text="@string/txt_set_rate" />
 
         <EditText
             android:id="@+id/et_rate"
@@ -44,32 +56,26 @@
             android:digits=".0123456789"
             tools:ignore="Autofill" />
 
-        <ke.co.shambapay.ui.widget.LoadingWidget
-            android:id="@+id/widget_loading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <Button
             android:id="@+id/btn_capture"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_large"
+            style="@style/Button"
             android:enabled="false"
             android:text="@string/txt_add_rate" />
 
         <Button
             android:id="@+id/btn_delete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_large"
+            style="@style/Button"
             android:text="@string/txt_delete" />
 
         <Button
             android:id="@+id/btn_cancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_large"
+            style="@style/Button"
             android:text="@string/txt_cancel" />
+
+        <ke.co.shambapay.ui.widget.LoadingWidget
+            android:id="@+id/widget_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

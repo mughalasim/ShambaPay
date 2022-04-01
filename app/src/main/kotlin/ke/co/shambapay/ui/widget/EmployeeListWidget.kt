@@ -19,8 +19,7 @@ class EmployeeListWidget @JvmOverloads constructor(
 
     fun setUp(model: EmployeeEntity) {
         binding.txtFullName.text = model.getFullName()
-        binding.txtNationalId.text = model.getNID()
-        binding.chipCaptured.isVisible = model.isCaptured == true
+        binding.txtPhone.text = if (model.phone == 0L) model.phone.toString() else "Not available"
     }
 
 }

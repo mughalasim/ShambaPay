@@ -7,14 +7,14 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
+        android:id="@+id/guide_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="@dimen/page_guide_line" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelineEnd"
+        android:id="@+id/guide_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -23,10 +23,8 @@
     <TextView
         android:id="@+id/txt_full_name"
         style="@style/TextLarge"
-        android:layout_marginTop="@dimen/padding_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Full name" />
 
@@ -41,77 +39,73 @@
 
     <TextView
         android:id="@+id/label_national_id"
-        style="@style/TextSmallBold"
+        style="@style/TextNormal"
         android:text="@string/txt_national_id"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
+        android:layout_marginTop="0dp"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toBottomOf="@+id/banner" />
 
     <TextView
         android:id="@+id/txt_national_id"
-        style="@style/TextNormal"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/label_national_id"
+        style="@style/TextNormalBold"
+        android:layout_marginTop="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/guide_end"
+        app:layout_constraintStart_toEndOf="@+id/label_national_id"
+        android:layout_marginStart="@dimen/padding_medium"
+        app:layout_constraintBottom_toBottomOf="@+id/label_national_id"
+        app:layout_constraintTop_toTopOf="@+id/label_national_id"
         tools:text="123456789" />
 
     <TextView
         android:id="@+id/label_phone"
-        style="@style/TextSmallBold"
-        android:layout_marginTop="@dimen/padding_medium"
+        style="@style/TextNormal"
         android:text="@string/txt_telephone"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/txt_national_id" />
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@+id/label_national_id" />
 
     <TextView
         android:id="@+id/txt_phone"
-        style="@style/TextNormal"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/label_phone"
+        style="@style/TextNormalBold"
+        android:layout_marginTop="0dp"
+        app:layout_constraintStart_toEndOf="@+id/label_phone"
+        android:layout_marginStart="@dimen/padding_medium"
+        app:layout_constraintBottom_toBottomOf="@+id/label_phone"
         tools:text="(44) 0123 456 789" />
 
     <TextView
         android:id="@+id/label_nhif"
-        style="@style/TextSmallBold"
-        android:layout_marginTop="@dimen/padding_medium"
+        style="@style/TextNormal"
         android:text="@string/txt_nhif"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toBottomOf="@+id/txt_phone" />
 
     <TextView
         android:id="@+id/txt_nhif"
-        style="@style/TextNormal"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/label_nhif"
+        style="@style/TextNormalBold"
+        android:layout_marginTop="0dp"
+        app:layout_constraintStart_toEndOf="@+id/label_nhif"
+        android:layout_marginStart="@dimen/padding_medium"
+        app:layout_constraintBottom_toBottomOf="@+id/label_nhif"
         tools:text="123456" />
 
     <TextView
         android:id="@+id/label_nssf"
-        style="@style/TextSmallBold"
-        android:layout_marginTop="@dimen/padding_medium"
+        style="@style/TextNormal"
         android:text="@string/txt_nssf"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toBottomOf="@+id/txt_nhif" />
 
     <TextView
         android:id="@+id/txt_nssf"
-        style="@style/TextNormal"
-        app:layout_constraintEnd_toStartOf="@+id/guidelineEnd"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/label_nssf"
+        style="@style/TextNormalBold"
+        android:layout_marginTop="0dp"
+        app:layout_constraintStart_toEndOf="@+id/label_nssf"
+        android:layout_marginStart="@dimen/padding_medium"
+        app:layout_constraintBottom_toBottomOf="@+id/label_nssf"
         tools:text="123456" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

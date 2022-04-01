@@ -1,70 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".ui.upload.UploadWorkFragment">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/page_guide_line"
+        android:layout_marginStart="@dimen/page_guide_line"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/txt_title"
+            style="@style/TextLarge"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/padding_large">
+            android:text="@string/txt_upload_work" />
 
-            <TextView
-                android:id="@+id/txt_title"
-                style="@style/TextLarge"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:text="@string/txt_upload_work" />
+        <TextView
+            android:id="@+id/label_year"
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:text="@string/txt_set_year" />
 
-            <EditText
-                android:id="@+id/et_year"
-                style="@style/EditText"
-                android:hint="@string/txt_year"
-                android:inputType="number"
-                tools:ignore="Autofill" />
+        <EditText
+            android:id="@+id/et_year"
+            style="@style/EditText"
+            android:hint="@string/txt_year"
+            android:inputType="number"
+            tools:ignore="Autofill" />
 
-            <EditText
-                android:id="@+id/et_month"
-                style="@style/EditText"
-                android:hint="@string/txt_month"
-                android:inputType="number"
-                tools:ignore="Autofill" />
+        <TextView
+            android:id="@+id/label_month"
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:text="@string/txt_set_month" />
 
-            <Button
-                android:id="@+id/btn_select_file"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_large"
-                android:layout_marginBottom="@dimen/padding_large"
-                android:enabled="true"
-                android:text="@string/txt_select_file" />
+        <EditText
+            android:id="@+id/et_month"
+            style="@style/EditText"
+            android:hint="@string/txt_month"
+            android:inputType="number"
+            tools:ignore="Autofill" />
 
+        <Button
+            android:id="@+id/btn_select_file"
+            style="@style/Button"
+            android:text="@string/txt_select_file" />
 
-            <ke.co.shambapay.ui.widget.LoadingWidget
-                android:id="@+id/widget_loading"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_upload"
+            style="@style/Button"
+            android:enabled="false"
+            android:text="@string/txt_upload" />
 
-            <Button
-                android:id="@+id/btn_upload"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_large"
-                android:layout_marginBottom="@dimen/padding_large"
-                android:enabled="false"
-                android:text="@string/txt_upload" />
+        <ke.co.shambapay.ui.widget.LoadingWidget
+            android:id="@+id/widget_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-        </LinearLayout>
+    </LinearLayout>
 
-    </ScrollView>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

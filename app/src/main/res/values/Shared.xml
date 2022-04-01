@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="StandardText" parent="Theme.Main">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/padding_medium</item>
+    </style>
+
+    <style name="StandardEditText" parent="Theme.Main">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:paddingStart">@dimen/page_guide_line</item>
+        <item name="android:paddingEnd">@dimen/page_guide_line</item>
+        <item name="android:paddingTop">@dimen/padding_medium</item>
+        <item name="android:paddingBottom">@dimen/padding_medium</item>
+        <item name="android:selectAllOnFocus">true</item>
+        <item name="android:layout_marginTop">@dimen/padding_small</item>
+    </style>
+
+    <style name="Button" parent="Theme.Main">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/padding_medium</item>
+    </style>
+
+</resources>
