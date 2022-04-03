@@ -2,6 +2,7 @@ package ke.co.shambapay.ui.adapter
 
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import ke.co.shambapay.data.model.CompanyEntity
 import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.data.model.JobRateEntity
 import ke.co.shambapay.data.model.ReportEntity
@@ -15,6 +16,7 @@ class CustomViewHolder (
         binding.widgetListEmployee.isVisible = false
         binding.widgetListJobRate.isVisible = false
         binding.widgetListReport.isVisible = false
+        binding.widgetListCompany.isVisible = false
 
         when (data){
             is EmployeeEntity -> {
@@ -33,6 +35,12 @@ class CustomViewHolder (
                 binding.widgetListReport.setUp(data)
                 binding.widgetListReport.setOnClickListener { listener.onItemClicked(data) }
                 binding.widgetListReport.isVisible = true
+            }
+
+            is CompanyEntity -> {
+                binding.widgetListCompany.setUp(data)
+                binding.widgetListCompany.setOnClickListener { listener.onItemClicked(data) }
+                binding.widgetListCompany.isVisible = true
             }
 
         }

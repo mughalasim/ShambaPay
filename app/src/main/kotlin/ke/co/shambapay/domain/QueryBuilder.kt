@@ -5,6 +5,10 @@ import org.joda.time.DateTime
 
 object QueryBuilder {
 
+    fun getCompanies(): String {
+        return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_COMPANIES}"
+    }
+
     fun getEmployees(companyId: String): String {
         return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_COMPANIES}/${companyId}/${BuildConfig.DB_REF_EMPLOYEES}"
     }
@@ -19,6 +23,10 @@ object QueryBuilder {
 
     fun getSettings(companyId: String): String {
         return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_COMPANIES}/${companyId}/${BuildConfig.DB_REF_SETTINGS}"
+    }
+
+    fun getCompanyName(companyId: String): String {
+        return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_COMPANIES}/${companyId}/${BuildConfig.DB_REF_SETTINGS}/companyName"
     }
 
     fun getRates(companyId: String, rateId: String): String {

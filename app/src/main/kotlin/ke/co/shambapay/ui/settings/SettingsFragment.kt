@@ -5,18 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ke.co.shambapay.data.model.JobRateEntity
-import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.FragmentSettingsBinding
+import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.UiGlobalState
 import ke.co.shambapay.ui.adapter.CustomAdapter
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsFragment : Fragment() {
 
     lateinit var binding: FragmentSettingsBinding
+    private val viewModel: SettingsViewModel by viewModel()
     private val adapter = CustomAdapter(mutableListOf<JobRateEntity>())
     private val globalState: UiGlobalState by inject()
 
@@ -33,6 +36,8 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.bannerRates.setUp("Company rates")
+        binding.llEditCompanyName.isVisible = false
+        binding.txtCompanyName.isVisible = true
         binding.txtCompanyName.text = globalState.settings!!.companyName
 
         binding.recycler.adapter = adapter
@@ -68,6 +73,44 @@ class SettingsFragment : Fragment() {
         binding.btnUploadWork.setOnClickListener {
             findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToUploadWorkFragment())
         }
+
+        binding.btnEditCompanyName.isVisible = globalState.isAdmin()
+        binding.btnEditCompanyName.setOnClickListener {
+            binding.llEditCompanyName.isVisible = true
+            binding.txtCompanyName.isVisible = false
+            binding.btnEditCompanyName.isVisible = false
+            binding.etCompanyName.setText(globalState.settings!!.companyName)
+        }
+
+        binding.btnCancel.setOnClickListener {
+            binding.llEditCompanyName.isVisible = false
+            binding.txtCompanyName.isVisible = true
+            binding.btnEditCompanyName.isVisible = true
+        }
+
+        binding.etCompanyName.addTextChangedListener {
+            binding.btnUpdate.isEnabled = (it.toString().isNotEmpty() && (it.toString() != globalState.settings!!.companyName))
+        }
+
+        binding.btnUpdate.setOnClickListener {
+            viewModel.setCompanyName(binding.etCompanyName.text.toString())
+        }
+
+        viewModel.state.observe(viewLifecycleOwner){
+            when(it){
+                is BaseState.UpdateUI -> {
+                    binding.widgetLoading.update(it.message, it.showLoading)
+                }
+                is BaseState.Success<*> -> {
+                    binding.widgetLoading.update("", false)
+                    binding.llEditCompanyName.isVisible = false
+                    binding.txtCompanyName.isVisible = true
+                    binding.btnEditCompanyName.isVisible = true
+                    binding.txtCompanyName.text = it.data as String
+                }
+            }
+        }
+
     }
 
 }

@@ -32,20 +32,35 @@
     <TextView
         android:id="@+id/txt_company_name"
         style="@style/TextNormalBold"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/padding_medium"
+        app:layout_constraintBottom_toTopOf="@+id/ll_edit_company_name"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
         app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toBottomOf="@+id/txt_title"
         tools:text="Company Name: Farms ABC" />
 
+    <ImageButton
+        android:id="@+id/btn_edit_company_name"
+        style="@style/EditText"
+        android:visibility="gone"
+        android:layout_width="@dimen/icon_small"
+        android:layout_height="@dimen/icon_small"
+        android:contentDescription="@string/txt_edit"
+        android:padding="@dimen/padding_small"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_company_name"
+        app:layout_constraintEnd_toStartOf="@+id/guide_end"
+        app:layout_constraintTop_toTopOf="@+id/txt_title" />
+
     <ke.co.shambapay.ui.widget.BannerWidget
         android:id="@+id/banner_rates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_medium"
+        app:layout_constraintTop_toBottomOf="@+id/ll_edit_company_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/refresh"
-        app:layout_constraintTop_toBottomOf="@+id/txt_company_name" />
+        app:layout_constraintBottom_toTopOf="@+id/refresh" />
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -92,6 +107,51 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
         app:layout_constraintStart_toStartOf="@+id/guide_start" />
+
+    <LinearLayout
+        android:id="@+id/ll_edit_company_name"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/txt_company_name"
+        app:layout_constraintBottom_toTopOf="@+id/banner_rates"
+        android:layout_marginEnd="@dimen/page_guide_line"
+        android:layout_marginStart="@dimen/page_guide_line"
+        android:layout_height="wrap_content">
+
+        <TextView
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:text="@string/txt_company_name" />
+
+        <EditText
+            android:id="@+id/et_company_name"
+            style="@style/EditText"
+            android:layout_marginBottom="@dimen/padding_small"
+            android:hint="@string/txt_company_name"
+            android:imeOptions="actionDone"
+            android:inputType="textPersonName"
+            tools:ignore="Autofill" />
+
+        <Button
+            android:id="@+id/btn_update"
+            style="@style/Button"
+            android:layout_marginTop="0dp"
+            android:enabled="false"
+            android:text="@string/txt_update" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="@style/Button"
+            android:layout_marginTop="0dp"
+            android:text="@string/txt_cancel" />
+
+        <ke.co.shambapay.ui.widget.LoadingWidget
+            android:id="@+id/widget_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

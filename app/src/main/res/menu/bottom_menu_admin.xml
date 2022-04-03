@@ -8,8 +8,13 @@
 
     <item
         android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_registration"
+        android:icon="@drawable/ic_settings"
         android:title="@string/txt_settings" />
+
+    <item
+        android:id="@+id/companyListFragment"
+        android:icon="@drawable/ic_registration"
+        android:title="@string/txt_manage_companies" />
 
     <item
         android:id="@+id/reportQueryFragment"

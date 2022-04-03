@@ -98,4 +98,9 @@
             android:id="@+id/action_reportQueryFragment_to_reportViewFragment"
             app:destination="@id/reportViewFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/companyListFragment"
+        android:name="ke.co.shambapay.ui.company.CompanyListFragment"
+        android:label="fragment_companies"
+        tools:layout="@layout/fragment_companies" />
 </navigation>

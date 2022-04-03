@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/background_border_green"
+    android:layout_marginTop="@dimen/padding_large"
+    android:paddingBottom="@dimen/padding_medium"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/page_guide_line" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/page_guide_line" />
+
+    <TextView
+        android:id="@+id/txt_full_name"
+        style="@style/TextNormalBold"
+        app:layout_constraintEnd_toStartOf="@+id/img"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Asim Mughal" />
+
+    <TextView
+        android:id="@+id/label_company_id"
+        style="@style/TextNormal"
+        android:text="@string/txt_company_id"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintTop_toBottomOf="@+id/txt_full_name" />
+
+    <TextView
+        android:id="@+id/txt_company_id"
+        style="@style/TextNormalBold"
+        android:layout_marginStart="@dimen/padding_medium"
+        android:layout_marginTop="0dp"
+        app:layout_constraintEnd_toStartOf="@+id/img"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/label_company_id"
+        app:layout_constraintTop_toTopOf="@+id/label_company_id"
+        app:layout_constraintBottom_toBottomOf="@+id/label_company_id"
+        tools:text="0712 345 678" />
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="@dimen/icon_small"
+        android:layout_height="@dimen/icon_small"
+        android:contentDescription="@string/txt_login"
+        android:src="@drawable/ic_check"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_company_id"
+        app:layout_constraintEnd_toStartOf="@+id/guide_end"
+        app:layout_constraintTop_toTopOf="@+id/txt_full_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,7 +30,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activities.MainActivity" />
+        <activity android:name=".ui.activities.MainActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
     </application>
 

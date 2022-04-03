@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import ke.co.shambapay.data.model.ReportType
 import ke.co.shambapay.databinding.FragmentReportQueryBinding
 import ke.co.shambapay.domain.base.BaseState
-import ke.co.shambapay.ui.UiGlobalState
 import org.joda.time.DateTime
 import org.koin.android.ext.android.inject
 
@@ -19,7 +18,6 @@ class ReportQueryFragment : Fragment() {
 
     lateinit var binding: FragmentReportQueryBinding
     private val viewModel: ReportViewModel by inject()
-    private val globalState: UiGlobalState by inject()
 
     override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
         binding = FragmentReportQueryBinding.inflate(layoutInflater)

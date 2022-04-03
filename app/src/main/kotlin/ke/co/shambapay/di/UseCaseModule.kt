@@ -31,4 +31,8 @@ val useCaseModule = module {
 
     single { GetReportUseCase(get()) }
 
+    single { SetCompanyNameUseCase(get()) }
+
+    single { GetCompaniesUseCase(get()) }
+
 }

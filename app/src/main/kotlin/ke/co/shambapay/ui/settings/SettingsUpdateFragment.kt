@@ -78,7 +78,7 @@ class SettingsUpdateFragment : Fragment() {
             viewModel.setRateId(it.rateId)
             binding.etRate.setText(it.rate.toString())
             binding.etMeasured.setText(it.measurement)
-            binding.btnCapture.setText(getString(R.string.txt_update_rate))
+            binding.btnCapture.setText(getString(R.string.txt_update))
         }
 
         binding.btnDelete.isVisible = args.jobRateEntity != null
