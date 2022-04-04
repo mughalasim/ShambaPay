@@ -49,7 +49,7 @@
         android:id="@+id/registerFragment"
         android:name="ke.co.shambapay.ui.user.UserUpdateFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_user_update" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="ke.co.shambapay.ui.settings.SettingsFragment"

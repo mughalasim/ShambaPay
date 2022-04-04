@@ -16,52 +16,66 @@
             android:id="@+id/txt_title"
             style="@style/TextLarge"
             android:layout_width="match_parent"
-            android:text="@string/txt_register" />
+            android:text="@string/txt_add_update_user" />
 
-        <EditText
-            android:id="@+id/et_company_name"
-            style="@style/EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/txt_company_name"
-            android:inputType="textPersonName"
-            tools:ignore="Autofill" />
-
-        <EditText
-            android:id="@+id/et_first_name"
-            style="@style/EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/txt_first_name"
-            android:inputType="textPersonName"
-            tools:ignore="Autofill" />
-
-        <EditText
-            android:id="@+id/et_last_name"
-            style="@style/EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/txt_last_name"
-            android:inputType="textPersonName"
-            tools:ignore="Autofill" />
+        <TextView
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:text="@string/txt_email" />
 
         <EditText
             android:id="@+id/et_email"
             style="@style/EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/txt_email"
             android:inputType="textEmailAddress"
             tools:ignore="Autofill" />
 
+        <TextView
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:text="@string/txt_first_name" />
+
+        <EditText
+            android:id="@+id/et_first_name"
+            style="@style/EditText"
+            android:hint="@string/txt_first_name"
+            android:inputType="textPersonName"
+            tools:ignore="Autofill" />
+
+        <TextView
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:text="@string/txt_last_name" />
+
+        <EditText
+            android:id="@+id/et_last_name"
+            style="@style/EditText"
+            android:hint="@string/txt_last_name"
+            android:inputType="textPersonName"
+            tools:ignore="Autofill" />
+
+        <TextView
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:text="@string/txt_telephone" />
+
         <EditText
             android:id="@+id/et_telephone"
             style="@style/EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/txt_telephone"
             android:inputType="phone"
+            android:digits="0123456789"
             tools:ignore="Autofill" />
+
+        <TextView
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="@string/txt_user_type" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinner_user_type"
+            style="@style/EditText"/>
 
 
         <ke.co.shambapay.ui.widget.LoadingWidget
@@ -70,12 +84,15 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:id="@+id/btn_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_large"
+            android:id="@+id/btn_confirm"
+            style="@style/Button"
             android:enabled="false"
-            android:text="@string/txt_register" />
+            android:text="@string/txt_add_update_user" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="@style/Button"
+            android:text="@string/txt_cancel" />
 
     </LinearLayout>
 

@@ -7,26 +7,28 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import ke.co.shambapay.databinding.FragmentRegisterBinding
+import ke.co.shambapay.databinding.FragmentUserUpdateBinding
 import ke.co.shambapay.domain.base.BaseState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserUpdateFragment: Fragment() {
 
     private val viewModel: UserUpdateViewModel by viewModel()
-    lateinit var binding: FragmentRegisterBinding
+    lateinit var binding: FragmentUserUpdateBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentRegisterBinding.inflate(layoutInflater)
+        binding = FragmentUserUpdateBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // TODO - fix me
+
         viewModel.state.observe(viewLifecycleOwner){
             when(it){
                 is BaseState.UpdateUI -> {
-                    binding.btnRegister.isEnabled = !it.showLoading
                     binding.widgetLoading.update(it.message, it.showLoading)
                 }
                 is BaseState.Success<*> -> {
@@ -36,14 +38,10 @@ class UserUpdateFragment: Fragment() {
         }
 
         viewModel.canRegister.observe(viewLifecycleOwner){
-            binding.btnRegister.isVisible = it
+            binding.btnConfirm.isVisible = it
         }
 
         binding.etEmail.addTextChangedListener {
-            updateViewModel()
-        }
-
-        binding.etCompanyName.addTextChangedListener {
             updateViewModel()
         }
 
@@ -59,7 +57,7 @@ class UserUpdateFragment: Fragment() {
             updateViewModel()
         }
 
-        binding.btnRegister.setOnClickListener {
+        binding.btnConfirm.setOnClickListener {
             viewModel.registerUser()
         }
     }
@@ -69,7 +67,6 @@ class UserUpdateFragment: Fragment() {
             binding.etEmail.text.toString(),
             binding.etFirstName.text.toString(),
             binding.etLastName.text.toString(),
-            binding.etCompanyName.text.toString(),
             binding.etTelephone.text.toString(),
         )
     }

@@ -33,6 +33,7 @@ class UserListFragment: Fragment() {
 
         adapter.setOnItemClickListener(object : CustomAdapter.OnItemClickListener{
             override fun onItemClicked(data: Any?) {
+                // TODO - Navigate to the UserUpdateFragment to edit these details
 //                val action = EmployeeListFragmentDirections.actionEmployeeListFragmentToCaptureFragment(data as UserEntity)
 //                findNavController().navigate(action)
             }
