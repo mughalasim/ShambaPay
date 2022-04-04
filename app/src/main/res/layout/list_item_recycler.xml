@@ -24,4 +24,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <ke.co.shambapay.ui.widget.UserListWidget
+        android:id="@+id/widget_list_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

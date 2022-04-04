@@ -1,36 +1,36 @@
-package ke.co.shambapay.ui.employees
+package ke.co.shambapay.ui.user
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ke.co.shambapay.data.model.EmployeeEntity
+import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.domain.Failures
-import ke.co.shambapay.domain.GetEmployeesUseCase
+import ke.co.shambapay.domain.GetUsersUseCase
 import ke.co.shambapay.domain.base.BaseState
 
-class EmployeeListViewModel(
-    private val getEmployeesUseCase: GetEmployeesUseCase
+class UserListViewModel(
+    private val getUsersUseCase: GetUsersUseCase
 ) : ViewModel() {
 
     private val _state = MutableLiveData<BaseState>()
     val state: LiveData<BaseState> = _state
 
-    private val _data = MutableLiveData<List<EmployeeEntity>>()
-    val data: LiveData<List<EmployeeEntity>> = _data
+    private val _users = MutableLiveData<List<UserEntity>>()
+    val users: LiveData<List<UserEntity>> = _users
 
 
-    fun getEmployees(companyId: String? = null, textFilter: String?) {
-        _state.postValue(BaseState.UpdateUI(true, "Fetching employees, Please wait..."))
+    fun getAllUsers(companyId: String) {
+        _state.postValue(BaseState.UpdateUI(true, "Fetching all users in this company, Please wait..."))
 
-        getEmployeesUseCase.invoke(viewModelScope, GetEmployeesUseCase.Input(companyId, textFilter ?: "")){
+        getUsersUseCase.invoke(viewModelScope, companyId){
             it.result(onSuccess = { list ->
                 if (list.isEmpty()){
                     _state.postValue(BaseState.UpdateUI(false, "No results found"))
                 } else {
                     _state.postValue(BaseState.UpdateUI(false, ""))
                 }
-                _data.postValue(list)
+                _users.postValue(list)
 
             }, onFailure = { failure ->
                 when(failure){

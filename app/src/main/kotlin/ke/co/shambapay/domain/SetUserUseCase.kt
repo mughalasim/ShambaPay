@@ -33,7 +33,7 @@ class SetUserUseCase : BaseUseCase<UserEntity, Boolean, Failures>() {
 
         val deferred = CompletableDeferred<BaseResult<Boolean, Failures>>()
 
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.geUser(input.id)).setValue(input).
+        FirebaseDatabase.getInstance().getReference(QueryBuilder.geUser(entity.id)).setValue(entity).
         addOnSuccessListener{
             deferred.complete(BaseResult.Success(true))
         }.addOnFailureListener {

@@ -1,4 +1,4 @@
-package ke.co.shambapay.ui.register
+package ke.co.shambapay.ui.user
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,9 +11,9 @@ import ke.co.shambapay.databinding.FragmentRegisterBinding
 import ke.co.shambapay.domain.base.BaseState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RegisterFragment: Fragment() {
+class UserUpdateFragment: Fragment() {
 
-    private val viewModel: RegisterViewModel by viewModel()
+    private val viewModel: UserUpdateViewModel by viewModel()
     lateinit var binding: FragmentRegisterBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

@@ -7,14 +7,18 @@ import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.ui.UiGlobalState
 import kotlinx.coroutines.CompletableDeferred
 
-class GetEmployeesUseCase(val globalState: UiGlobalState): BaseUseCase<String?, List<EmployeeEntity>, Failures>() {
+class GetEmployeesUseCase(val globalState: UiGlobalState): BaseUseCase<GetEmployeesUseCase.Input, List<EmployeeEntity>, Failures>() {
 
-    override suspend fun run(input: String?): BaseResult<List<EmployeeEntity>, Failures> {
+    data class Input(val companyId: String? = null, val filter: String)
+
+    override suspend fun run(input: Input): BaseResult<List<EmployeeEntity>, Failures> {
 
         if (globalState.user == null) return BaseResult.Failure(Failures.NotAuthenticated)
 
+        val query = if(input.companyId.isNullOrBlank()) QueryBuilder.getEmployees(globalState.user!!.companyId) else QueryBuilder.getEmployees(input.companyId)
+
         val def = CompletableDeferred<BaseResult<List<EmployeeEntity>, Failures>>()
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.getEmployees(globalState.user!!.companyId)).get().
+        FirebaseDatabase.getInstance().getReference(query).get().
         addOnSuccessListener{ dataSnapshot ->
             try {
                 if (!dataSnapshot.hasChildren()){
@@ -25,8 +29,8 @@ class GetEmployeesUseCase(val globalState: UiGlobalState): BaseUseCase<String?, 
                     }.sortedBy {
                         it.firstName
                     }
-                    if (!input.isNullOrEmpty()){
-                        val filter = input.lowercase()
+                    if (input.filter.isNotEmpty()){
+                        val filter = input.filter.lowercase()
                         def.complete(BaseResult.Success(list.filter {
                             it.firstName.contains(filter, true)
                         }))

@@ -9,6 +9,10 @@ object QueryBuilder {
         return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_COMPANIES}"
     }
 
+    fun getUsers(): String {
+        return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_USERS}"
+    }
+
     fun getEmployees(companyId: String): String {
         return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_COMPANIES}/${companyId}/${BuildConfig.DB_REF_EMPLOYEES}"
     }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import ke.co.shambapay.data.model.CompanyEntity
 import ke.co.shambapay.databinding.FragmentCompaniesBinding
 import ke.co.shambapay.domain.base.BaseState
@@ -29,12 +30,16 @@ class CompanyListFragment: Fragment() {
 
         adapter.setOnItemClickListener(object : CustomAdapter.OnItemClickListener{
             override fun onItemClicked(data: Any?) {
-//                val action = EmployeeListFragmentDirections.actionEmployeeListFragmentToCaptureFragment(data as EmployeeEntity)
-//                findNavController().navigate(action)
+                val settings = (data as CompanyEntity).Settings
+                val action = CompanyListFragmentDirections.actionCompanyListFragmentToUserListFragment(
+                    companyId = settings.companyId,
+                    companyName = settings.companyName
+                )
+                findNavController().navigate(action)
             }
         })
 
-        viewModel.data.observe(viewLifecycleOwner) {
+        viewModel.companies.observe(viewLifecycleOwner) {
             adapter.updateData(it)
         }
 
@@ -48,7 +53,7 @@ class CompanyListFragment: Fragment() {
             }
         }
 
-        viewModel.getRecyclerData()
+        viewModel.getAllCompanies()
 
     }
 

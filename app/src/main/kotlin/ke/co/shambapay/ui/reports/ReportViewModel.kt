@@ -1,6 +1,9 @@
 package ke.co.shambapay.ui.reports
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.data.model.ReportEntity
 import ke.co.shambapay.data.model.ReportType
@@ -91,7 +94,7 @@ class ReportViewModel(
 
     fun fetchEmployees() {
         _state.postValue(BaseState.UpdateUI(true, "Fetching all employees, Please wait...."))
-        getEmployeesUseCase.invoke(viewModelScope, ""){
+        getEmployeesUseCase.invoke(viewModelScope, GetEmployeesUseCase.Input(filter = "")){
             it.result(
                 onSuccess = { list ->
                     _employees.postValue(list)

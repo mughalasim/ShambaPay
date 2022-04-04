@@ -1,4 +1,4 @@
-package ke.co.shambapay.ui.register
+package ke.co.shambapay.ui.user
 
 import android.annotation.SuppressLint
 import android.util.Patterns
@@ -11,9 +11,9 @@ import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.domain.Failures
 import ke.co.shambapay.domain.SetUserUseCase
 import ke.co.shambapay.domain.base.BaseState
-import org.joda.time.DateTime
+import java.util.*
 
-class RegisterViewModel(
+class UserUpdateViewModel(
     private val setUserUseCase: SetUserUseCase
 ) : ViewModel() {
 
@@ -105,7 +105,7 @@ class RegisterViewModel(
 
         val userEntity = UserEntity (
             id = "",
-            companyId = companyName.value + DateTime.now().toString(),
+            companyId = UUID.randomUUID().toString(),
             firstName = firstName.value!!,
             lastName = lastName.value!!,
             email = email.value!!,

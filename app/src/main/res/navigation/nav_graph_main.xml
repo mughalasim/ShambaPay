@@ -15,6 +15,11 @@
             app:destination="@id/captureFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="companyId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/captureFragment"
@@ -42,7 +47,7 @@
         tools:layout="@layout/fragment_upload_work" />
     <fragment
         android:id="@+id/registerFragment"
-        android:name="ke.co.shambapay.ui.register.RegisterFragment"
+        android:name="ke.co.shambapay.ui.user.UserUpdateFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
     <fragment
@@ -102,5 +107,24 @@
         android:id="@+id/companyListFragment"
         android:name="ke.co.shambapay.ui.company.CompanyListFragment"
         android:label="fragment_companies"
-        tools:layout="@layout/fragment_companies" />
+        tools:layout="@layout/fragment_companies" >
+        <action
+            android:id="@+id/action_companyListFragment_to_userListFragment"
+            app:destination="@id/userListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userListFragment"
+        android:name="ke.co.shambapay.ui.user.UserListFragment"
+        android:label="fragment_users"
+        tools:layout="@layout/fragment_users" >
+        <action
+            android:id="@+id/action_userListFragment_to_employeeListFragment"
+            app:destination="@id/employeeListFragment" />
+        <argument
+            android:name="companyId"
+            app:argType="string" />
+        <argument
+            android:name="companyName"
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -16,11 +16,10 @@ class CompanyListViewModel(
     private val _state = MutableLiveData<BaseState>()
     val state: LiveData<BaseState> = _state
 
-    private val _data = MutableLiveData<List<CompanyEntity>>()
-    val data: LiveData<List<CompanyEntity>> = _data
+    private val _companies = MutableLiveData<List<CompanyEntity>>()
+    val companies: LiveData<List<CompanyEntity>> = _companies
 
-
-    fun getRecyclerData() {
+    fun getAllCompanies() {
         _state.postValue(BaseState.UpdateUI(true, "Fetching all companies, Please wait..."))
 
         getCompaniesUseCase.invoke(viewModelScope, Unit){
@@ -30,7 +29,7 @@ class CompanyListViewModel(
                 } else {
                     _state.postValue(BaseState.UpdateUI(false, ""))
                 }
-                _data.postValue(list)
+                _companies.postValue(list)
 
             }, onFailure = { failure ->
                 when(failure){
