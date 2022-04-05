@@ -11,6 +11,8 @@ val useCaseModule = module {
 
     single { GetEmployeesUseCase(get()) }
 
+    single { SetEmployeeUseCase() }
+
     single { GetWorkUseCase(get()) }
 
     single { GetSettingsUseCase(get()) }

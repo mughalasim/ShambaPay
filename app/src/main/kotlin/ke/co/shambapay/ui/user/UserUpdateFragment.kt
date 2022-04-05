@@ -24,7 +24,7 @@ class UserUpdateFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO - fix me
+        // TODO - Fix me
 
         viewModel.state.observe(viewLifecycleOwner){
             when(it){

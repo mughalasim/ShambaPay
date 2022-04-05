@@ -38,7 +38,7 @@ class EmployeeListFragment: Fragment() {
         adapter.setOnItemClickListener(object : CustomAdapter.OnItemClickListener{
             override fun onItemClicked(data: Any?) {
                 if (globalState.isAdmin()){
-                   // TODO - Add navigation to view employee details to be updated
+                   // TODO - Add navigation to EmployeeUpdate Fragment
                 } else {
                     val action = EmployeeListFragmentDirections.actionEmployeeListFragmentToCaptureFragment(data as EmployeeEntity)
                     findNavController().navigate(action)

@@ -79,7 +79,8 @@
     <fragment
         android:id="@+id/reportViewFragment"
         android:name="ke.co.shambapay.ui.reports.ReportViewFragment"
-        android:label="ReportViewFragment" >
+        android:label="fragment_report_view"
+        tools:layout="@layout/fragment_report_view">
         <argument
             android:name="reportType"
             app:argType="ke.co.shambapay.data.model.ReportType" />
@@ -92,13 +93,14 @@
             app:argType="org.joda.time.DateTime" />
         <argument
             android:name="employees"
-            app:nullable="true"
-            app:argType="ke.co.shambapay.data.model.EmployeeEntity[]" />
+            app:argType="ke.co.shambapay.data.model.EmployeeEntity[]"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/reportQueryFragment"
         android:name="ke.co.shambapay.ui.reports.ReportQueryFragment"
-        android:label="ReportQueryFragment" >
+        android:label="fragment_report_query"
+        tools:layout="@layout/fragment_report_query">
         <action
             android:id="@+id/action_reportQueryFragment_to_reportViewFragment"
             app:destination="@id/reportViewFragment" />

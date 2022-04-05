@@ -77,6 +77,26 @@
             android:id="@+id/spinner_user_type"
             style="@style/EditText"/>
 
+        <LinearLayout
+            android:id="@+id/ll_edit_company_name"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/TextNormal"
+                android:layout_width="wrap_content"
+                android:text="@string/txt_company_name" />
+
+            <EditText
+                android:id="@+id/et_company_name"
+                style="@style/EditText"
+                android:hint="@string/txt_company_name"
+                android:inputType="textPersonName"
+                tools:ignore="Autofill" />
+
+        </LinearLayout>
+
 
         <ke.co.shambapay.ui.widget.LoadingWidget
             android:id="@+id/widget_loading"

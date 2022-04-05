@@ -116,7 +116,7 @@ class UserUpdateViewModel(
         )
 
         _state.postValue(BaseState.UpdateUI(true, "Setting up user, Please wait..."))
-        setUserUseCase.invoke(viewModelScope, userEntity){
+        setUserUseCase.invoke(viewModelScope, SetUserUseCase.Input(userEntity, "")){
 
             it.result(onSuccess = {
                 _state.postValue(BaseState.Success(Unit))
