@@ -25,9 +25,7 @@ class UserWidget @JvmOverloads constructor(
         binding.txtCompanyName.text = settings.companyName
         binding.txtEmail.text = user.email
         binding.txtUserType.text = user.userType.name
-        binding.txtPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())
-        val fullNumber = "${user.areaCode} ${user.phone}"
-        binding.txtPhone.text = fullNumber.ifEmpty { "Not set" }
+        binding.txtPhone.text = if(user.phone != 0L) user.phone.toString() else "Not set"
     }
 
 }

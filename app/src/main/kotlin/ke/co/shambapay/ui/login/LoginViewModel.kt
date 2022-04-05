@@ -23,10 +23,10 @@ class LoginViewModel(
     val state: LiveData<BaseState> = _state
 
     private val _email = MutableLiveData<String?>()
-    val email: LiveData<String?> = _email
+    private val email: LiveData<String?> = _email
 
     private val _password = MutableLiveData<String?>()
-    val password: LiveData<String?> = _password
+    private val password: LiveData<String?> = _password
 
     private val _canLogIn = MutableLiveData<Boolean>()
     val canLogIn: LiveData<Boolean> = _canLogIn
@@ -47,7 +47,7 @@ class LoginViewModel(
             _canLogIn.postValue(false)
             return
         }
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if(!Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()){
             _state.postValue(BaseState.UpdateUI(false, "Email is not valid"))
             _canLogIn.postValue(false)
             return
@@ -59,7 +59,7 @@ class LoginViewModel(
         }
         _state.postValue(BaseState.UpdateUI(false, ""))
         _canLogIn.postValue(true)
-        _email.postValue(email)
+        _email.postValue(email.trim())
         _password.postValue(password)
     }
 
@@ -76,7 +76,7 @@ class LoginViewModel(
         }
         _state.postValue(BaseState.UpdateUI(false, ""))
         _canLogIn.postValue(true)
-        _email.postValue(email)
+        _email.postValue(email.trim())
     }
 
     fun makeLoginRequest() {

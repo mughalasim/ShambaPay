@@ -166,14 +166,10 @@ class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.I
                 return BaseResult.Failure(Failures.WithMessage("Missing Job Rate ID on one of the employees"))
             }
 
-//            if (columns[2].isEmpty()) {
-//                return BaseResult.Failure(Failures.WithMessage("Missing Rate on one of the employees"))
-//            }
-
             val employeeId = columns[0]
             val rateId = columns[1].trim()
 
-            val workList = columns.drop(3)
+            val workList = columns.drop(2)
 
             workList.mapIndexed { index, workUnit ->
                 if (workUnit.isNotEmpty()) {

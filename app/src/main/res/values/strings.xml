@@ -57,6 +57,10 @@
     <string name="txt_add_employee">Add employee</string>
     <string name="txt_edit">Edit company name</string>
     <string name="txt_manage_companies">Companies</string>
+    <string name="warning_upload_work">Please note that YOU MUST have set the job rates before uploading the CSV file with the correct rate IDs obtained from Firebase. The Employee ID\'s will be obtained from your Employee upload CSV.</string>
+    <string name="rules_upload_work">CSV format rules: \n \n- Each CSV file will contain work done by all employees for the specified year and month ONLY \n- The first row will be reserved for titles ONLY \n \n- The columns will be: \n\t\ta. Employee ID \n\t\tb. Job Rate ID (obtained from Firebase) \n\t\tc. All the days of the month always starting from 1</string>
+    <string name="warning_upload_employees">Please note that YOU MUST have set UNIQUE EMPLOYEE ID\'s before uploading the CSV file</string>
+    <string name="rules_upload_employees">CSV format rules: \n \n- Each CSV file will contain all employees ONLY \n- The first row will be reserved for titles ONLY \n \n- The columns will be: \n\t\ta. Employee ID (Unique ID numbers and letters) \n\t\tb. First name \n\t\tc. Last Name \n\t\td. National ID (Numbers ONLY) \n\t\te. Phone Number (Numbers ONLY starting with area code) \n\t\tf. NSSF \n\t\tg. NHIF</string>
 
     <plurals name="plural_year">
         <item quantity="one">%d year</item>

@@ -5,8 +5,8 @@ buildscript {
         sdk_min = 21
         sdk_target = 32
         sdk_compile = 32
-        version_code = 5
-        version_name = "0.0.5"
+        version_code = 6
+        version_name = "0.0.6"
         kotlin_version = '1.6.10'
         coroutines_version = '1.6.0-native-mt'
         koin_version = '2.41'

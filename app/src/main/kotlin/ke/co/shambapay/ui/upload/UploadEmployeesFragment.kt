@@ -68,6 +68,10 @@ class UploadEmployeesFragment: Fragment() {
             viewModel.uploadEmployees()
         }
 
+        binding.btnBack.setOnClickListener {
+            activity?.onBackPressed()
+        }
+
 
     }
 

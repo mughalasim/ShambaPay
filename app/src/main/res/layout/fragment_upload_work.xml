@@ -20,6 +20,12 @@
             android:text="@string/txt_upload_work" />
 
         <TextView
+            style="@style/TextNormalBold"
+            android:layout_width="wrap_content"
+            android:textColor="@color/warning"
+            android:text="@string/warning_upload_work" />
+
+        <TextView
             android:id="@+id/label_year"
             style="@style/TextNormal"
             android:layout_width="wrap_content"
@@ -56,10 +62,21 @@
             android:enabled="false"
             android:text="@string/txt_upload" />
 
+        <Button
+            android:id="@+id/btn_back"
+            style="@style/Button"
+            android:text="@string/txt_back" />
+
         <ke.co.shambapay.ui.widget.LoadingWidget
             android:id="@+id/widget_loading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/TextNormalBold"
+            android:layout_width="wrap_content"
+            android:text="@string/rules_upload_work" />
+
 
     </LinearLayout>
 

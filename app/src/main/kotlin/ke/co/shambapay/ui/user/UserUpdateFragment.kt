@@ -63,11 +63,11 @@ class UserUpdateFragment: Fragment() {
     }
 
     private fun updateViewModel(){
-        viewModel.validate(
-            binding.etEmail.text.toString(),
-            binding.etFirstName.text.toString(),
-            binding.etLastName.text.toString(),
-            binding.etTelephone.text.toString(),
-        )
+//        viewModel.validate(
+//            binding.etEmail.text.toString(),
+//            binding.etFirstName.text.toString(),
+//            binding.etLastName.text.toString(),
+//            binding.etTelephone.text.toString(),
+//        )
     }
 }

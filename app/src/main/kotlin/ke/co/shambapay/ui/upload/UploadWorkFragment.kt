@@ -79,6 +79,9 @@ class UploadWorkFragment: Fragment() {
             viewModel.uploadWork()
         }
 
+        binding.btnBack.setOnClickListener {
+            activity?.onBackPressed()
+        }
 
     }
 

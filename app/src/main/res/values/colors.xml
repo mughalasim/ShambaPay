@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="gold">#F2A309</color>
+    <color name="warning">#FF2600</color>
     <color name="red">#9A3C22</color>
     <color name="brown">#623029</color>
     <color name="green_dark">#517518</color>
