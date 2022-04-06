@@ -27,6 +27,7 @@
             android:id="@+id/et_email"
             style="@style/EditText"
             android:hint="@string/txt_email"
+            android:selectAllOnFocus="true"
             android:inputType="textEmailAddress"
             tools:ignore="Autofill" />
 
@@ -40,6 +41,7 @@
             style="@style/EditText"
             android:layout_marginBottom="@dimen/padding_large"
             android:hint="@string/txt_password"
+            android:selectAllOnFocus="true"
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             tools:ignore="Autofill" />

@@ -45,17 +45,17 @@ class UserUpdateFragment: Fragment() {
             updateViewModel()
         }
 
-        binding.etFirstName.addTextChangedListener {
-            updateViewModel()
-        }
-
-        binding.etLastName.addTextChangedListener {
-            updateViewModel()
-        }
-
-        binding.etTelephone.addTextChangedListener {
-            updateViewModel()
-        }
+//        binding.etFirstName.addTextChangedListener {
+//            updateViewModel()
+//        }
+//
+//        binding.etLastName.addTextChangedListener {
+//            updateViewModel()
+//        }
+//
+//        binding.etTelephone.addTextChangedListener {
+//            updateViewModel()
+//        }
 
         binding.btnConfirm.setOnClickListener {
             viewModel.registerUser()

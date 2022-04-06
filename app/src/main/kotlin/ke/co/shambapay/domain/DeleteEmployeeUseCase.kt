@@ -7,19 +7,19 @@ import ke.co.shambapay.domain.base.BaseUseCase
 import kotlinx.coroutines.CompletableDeferred
 import java.util.*
 
-class SetEmployeeUseCase: BaseUseCase<SetEmployeeUseCase.Input, Unit, Failures>() {
+class DeleteEmployeeUseCase: BaseUseCase<DeleteEmployeeUseCase.Input, Unit, Failures>() {
 
     data class Input (val employee: EmployeeEntity, val companyId: String)
 
     override suspend fun run(input: Input): BaseResult<Unit, Failures> {
 
-        if (input.companyId.isEmpty()) return BaseResult.Failure(Failures.WithMessage("An employee cannot exist without a company"))
+        if (input.companyId.isEmpty()) return BaseResult.Failure(Failures.WithMessage("An employee cannot be deleted from an unknown company"))
 
         val def = CompletableDeferred<BaseResult<Unit, Failures>>()
 
         FirebaseDatabase.getInstance().
         getReference(QueryBuilder.getEmployee(input.companyId, input.employee.id)).
-        setValue(input.employee).
+        removeValue().
         addOnSuccessListener{
             def.complete(BaseResult.Success(Unit))
         }.

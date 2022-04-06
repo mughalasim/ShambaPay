@@ -20,6 +20,9 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_employeeListFragment_to_employeeUpdateFragment"
+            app:destination="@id/employeeUpdateFragment" />
     </fragment>
     <fragment
         android:id="@+id/captureFragment"
@@ -91,10 +94,6 @@
         <argument
             android:name="date"
             app:argType="org.joda.time.DateTime" />
-        <argument
-            android:name="employees"
-            app:argType="ke.co.shambapay.data.model.EmployeeEntity[]"
-            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/reportQueryFragment"
@@ -127,6 +126,19 @@
             app:argType="string" />
         <argument
             android:name="companyName"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/employeeUpdateFragment"
+        android:name="ke.co.shambapay.ui.employees.EmployeeUpdateFragment"
+        android:label="fragment_employee_update"
+        tools:layout="@layout/fragment_employee_update" >
+        <argument
+            android:name="employee"
+            app:argType="ke.co.shambapay.data.model.EmployeeEntity"
+            app:nullable="true" />
+        <argument
+            android:name="companyId"
             app:argType="string" />
     </fragment>
 </navigation>

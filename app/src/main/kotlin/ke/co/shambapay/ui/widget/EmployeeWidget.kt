@@ -19,8 +19,8 @@ class EmployeeWidget @JvmOverloads constructor(
 
     fun setUp(model: EmployeeEntity) {
         binding.banner.setUp("Information")
-        binding.txtFullName.text = model.getFullName()
-        binding.txtNationalId.text = model.getNID()
+        binding.txtFullName.text = model.fetchFullName()
+        binding.txtNationalId.text = model.fetchNationalId()
         binding.txtNhif.text = model.nhif.ifEmpty { "Not set" }
         binding.txtNssf.text = model.nssf.ifEmpty { "Not set" }
         binding.txtPhone.addTextChangedListener(PhoneNumberFormattingTextWatcher())

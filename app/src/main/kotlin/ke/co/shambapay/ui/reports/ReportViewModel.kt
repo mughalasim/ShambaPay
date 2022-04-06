@@ -61,13 +61,12 @@ class ReportViewModel(
 
     }
 
-    fun fetchReport(reportType: ReportType, date: DateTime, employee: EmployeeEntity?, employees: Array<EmployeeEntity>?) {
+    fun fetchReport(reportType: ReportType, date: DateTime, employee: EmployeeEntity?) {
         _state.postValue(BaseState.UpdateUI(true, "Generating the report, Please wait...."))
         getReportUseCase.invoke(viewModelScope, GetReportUseCase.Input(
                 reportType = reportType,
                 date = date,
-                employee = employee,
-                employees = employees?.asList()
+                employee = employee
             )){
             it.result(
                 onSuccess = { list ->
@@ -88,10 +87,6 @@ class ReportViewModel(
         return employees.value?.get(index)
     }
 
-    fun getEmployees (): Array<EmployeeEntity>? {
-        return employees.value?.toTypedArray()
-    }
-
     fun fetchEmployees() {
         _state.postValue(BaseState.UpdateUI(true, "Fetching all employees, Please wait...."))
         getEmployeesUseCase.invoke(viewModelScope, GetEmployeesUseCase.Input(filter = "")){
@@ -99,7 +94,7 @@ class ReportViewModel(
                 onSuccess = { list ->
                     _employees.postValue(list)
                     val data = list.map { entity ->
-                        entity.getFullName()
+                        entity.fetchFullName()
                     }
                     _state.postValue(BaseState.Success(ViewModelOutput.Employee(data)))
                 },

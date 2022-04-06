@@ -1,7 +1,6 @@
 package ke.co.shambapay.ui.widget
 
 import android.content.Context
-import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
@@ -20,7 +19,7 @@ class UserWidget @JvmOverloads constructor(
 
     fun setUp(user: UserEntity, settings: SettingsEntity) {
         binding.banner.setUp("Basic Information")
-        binding.txtFullName.text = user.getFullName()
+        binding.txtFullName.text = user.fetchFullName()
         binding.txtCompanyId.text = settings.companyId
         binding.txtCompanyName.text = settings.companyName
         binding.txtEmail.text = user.email

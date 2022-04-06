@@ -73,7 +73,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_back"
         app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
-        android:text="@string/txt_add_employee" />
+        android:text="@string/txt_add_" />
 
     <Button
         android:id="@+id/btn_back"

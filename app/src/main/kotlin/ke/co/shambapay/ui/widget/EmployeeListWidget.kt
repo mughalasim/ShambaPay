@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
-import androidx.core.view.isVisible
 import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.databinding.WidgetListEmployeeBinding
 
@@ -18,7 +17,7 @@ class EmployeeListWidget @JvmOverloads constructor(
         WidgetListEmployeeBinding.inflate(LayoutInflater.from(context), this, true)
 
     fun setUp(model: EmployeeEntity) {
-        binding.txtFullName.text = model.getFullName()
+        binding.txtFullName.text = model.fetchFullName()
         binding.txtPhone.text = if (model.phone != 0L) model.phone.toString() else "Not available"
     }
 

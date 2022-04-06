@@ -18,7 +18,7 @@ class UserListWidget @JvmOverloads constructor(
         WidgetListUserBinding.inflate(LayoutInflater.from(context), this, true)
 
     fun setUp(model: UserEntity) {
-        binding.txtUserName.text = model.getFullName()
+        binding.txtUserName.text = model.fetchFullName()
         binding.txtUserEmail.text = context.getString(R.string.txt_email_, model.email)
         binding.txtUserType.text = model.userType.name
     }

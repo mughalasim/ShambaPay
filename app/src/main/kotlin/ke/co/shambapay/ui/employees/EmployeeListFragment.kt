@@ -9,6 +9,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import ke.co.shambapay.R
 import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.databinding.FragmentEmployeesBinding
 import ke.co.shambapay.domain.base.BaseState
@@ -38,7 +39,12 @@ class EmployeeListFragment: Fragment() {
         adapter.setOnItemClickListener(object : CustomAdapter.OnItemClickListener{
             override fun onItemClicked(data: Any?) {
                 if (globalState.isAdmin()){
-                   // TODO - Add navigation to EmployeeUpdate Fragment
+                   findNavController().navigate(
+                       EmployeeListFragmentDirections.actionEmployeeListFragmentToEmployeeUpdateFragment(
+                           employee = data as EmployeeEntity,
+                           companyId = globalState.settings!!.companyId
+                       )
+                   )
                 } else {
                     val action = EmployeeListFragmentDirections.actionEmployeeListFragmentToCaptureFragment(data as EmployeeEntity)
                     findNavController().navigate(action)
@@ -80,8 +86,14 @@ class EmployeeListFragment: Fragment() {
             activity?.onBackPressed()
         }
 
+        binding.btnAdd.text = getString(R.string.txt_add_, getString(R.string.txt_employee))
         binding.btnAdd.setOnClickListener {
-            // TODO - Navigate to the EmployeeUpdate Fragment
+            findNavController().navigate(
+                EmployeeListFragmentDirections.actionEmployeeListFragmentToEmployeeUpdateFragment(
+                    employee = null,
+                    companyId = globalState.settings!!.companyId
+                )
+            )
         }
 
     }

@@ -15,7 +15,6 @@
         <item name="android:paddingEnd">@dimen/page_guide_line</item>
         <item name="android:paddingTop">@dimen/padding_medium</item>
         <item name="android:paddingBottom">@dimen/padding_medium</item>
-        <item name="android:selectAllOnFocus">true</item>
         <item name="android:layout_marginTop">@dimen/padding_small</item>
     </style>
 

@@ -4,13 +4,14 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.user.UserUpdateFragment">
+    tools:context=".ui.employees.EmployeeUpdateFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/padding_large">
+        android:layout_marginStart="@dimen/page_guide_line"
+        android:layout_marginEnd="@dimen/page_guide_line">
 
         <TextView
             android:id="@+id/txt_title"
@@ -18,49 +19,50 @@
             android:layout_width="match_parent"
             android:text="@string/txt_add_" />
 
-        <include layout="@layout/layout_basic_info"/>
+        <include
+            android:id="@+id/included"
+            layout="@layout/layout_basic_info"/>
 
         <TextView
             style="@style/TextNormal"
             android:layout_width="wrap_content"
-            android:text="@string/txt_email" />
+            android:text="@string/txt_national_id" />
 
         <EditText
-            android:id="@+id/et_email"
+            android:id="@+id/et_nid"
             style="@style/EditText"
-            android:hint="@string/txt_email"
-            android:inputType="textEmailAddress"
+            android:hint="@string/txt_national_id"
+            android:inputType="phone"
+            android:digits="0123456789"
             tools:ignore="Autofill" />
 
         <TextView
             style="@style/TextNormal"
             android:layout_width="wrap_content"
-            android:gravity="center"
-            android:text="@string/txt_user_type" />
+            android:text="@string/txt_nhif" />
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/spinner_user_type"
-            style="@style/EditText"/>
+        <EditText
+            android:id="@+id/et_nhif"
+            style="@style/EditText"
+            android:hint="@string/txt_nhif"
+            android:inputType="phone"
+            android:digits="0123456789"
+            tools:ignore="Autofill" />
 
-        <LinearLayout
-            android:id="@+id/ll_edit_company_name"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
 
-            <TextView
-                style="@style/TextNormal"
-                android:layout_width="wrap_content"
-                android:text="@string/txt_company_name" />
+        <TextView
+            style="@style/TextNormal"
+            android:layout_width="wrap_content"
+            android:text="@string/txt_nssf" />
 
-            <EditText
-                android:id="@+id/et_company_name"
-                style="@style/EditText"
-                android:hint="@string/txt_company_name"
-                android:inputType="textPersonName"
-                tools:ignore="Autofill" />
+        <EditText
+            android:id="@+id/et_nssf"
+            style="@style/EditText"
+            android:hint="@string/txt_nssf"
+            android:inputType="phone"
+            android:digits="0123456789"
+            tools:ignore="Autofill" />
 
-        </LinearLayout>
 
         <ke.co.shambapay.ui.widget.LoadingWidget
             android:id="@+id/widget_loading"
@@ -72,6 +74,11 @@
             style="@style/Button"
             android:enabled="false"
             android:text="@string/txt_add_" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            style="@style/Button"
+            android:text="@string/txt_delete" />
 
         <Button
             android:id="@+id/btn_cancel"

@@ -9,9 +9,12 @@ import ke.co.shambapay.utils.TaxFormula
 import kotlinx.coroutines.CompletableDeferred
 import org.joda.time.DateTime
 
-class GetReportUseCase(val globalState: UiGlobalState): BaseUseCase<GetReportUseCase.Input, List<ReportEntity>, Failures>() {
+class GetReportUseCase(
+    private val globalState: UiGlobalState,
+    private val getEmployeesUseCase: GetEmployeesUseCase
+    ): BaseUseCase<GetReportUseCase.Input, List<ReportEntity>, Failures>() {
 
-    data class Input(val reportType: ReportType, val date: DateTime, val employee: EmployeeEntity?, val employees: List<EmployeeEntity>?)
+    data class Input(val reportType: ReportType, val date: DateTime, val employee: EmployeeEntity?)
 
     override suspend fun run(input: Input): BaseResult<List<ReportEntity>, Failures> {
 
@@ -37,8 +40,11 @@ class GetReportUseCase(val globalState: UiGlobalState): BaseUseCase<GetReportUse
             }
 
             ReportType.BANK_PAYMENT_DETAILS -> {
-                if(input.employees.isNullOrEmpty()) return BaseResult.Failure(Failures.WithMessage("Failed to fetch all employees"))
-                return BaseResult.Success(getBankPaymentsToAllEmployees(allWork, input.employees))
+                val employeeResult = getEmployeesUseCase.run(GetEmployeesUseCase.Input(globalState.settings!!.companyId, ""))
+                if(employeeResult is BaseResult.Failure) return  employeeResult
+                val employees = (employeeResult as BaseResult.Success).successType
+                if(employees.isNullOrEmpty()) return BaseResult.Failure(Failures.WithMessage("Failed to fetch all employees"))
+                return BaseResult.Success(getBankPaymentsToAllEmployees(allWork, employees))
             }
 
             ReportType.PAYSLIP -> {
@@ -111,7 +117,7 @@ class GetReportUseCase(val globalState: UiGlobalState): BaseUseCase<GetReportUse
 
         val employeesWork = allWork.filter { it.employeeId ==  employeeEntity.id}
 
-        responseList.add(ReportEntity("Employee: ${employeeEntity.getFullName()}", 0.0, isHeading = true))
+        responseList.add(ReportEntity("Employee: ${employeeEntity.fetchFullName()}", 0.0, isHeading = true))
         responseList.add(ReportEntity("Phone: ${employeeEntity.phone}", 0.0, isHeading = true))
 
         globalState.settings?.rates?.forEach { (rateId, jobRateEntity) ->
@@ -147,7 +153,7 @@ class GetReportUseCase(val globalState: UiGlobalState): BaseUseCase<GetReportUse
 
         val employeesWork = allWork.filter { it.employeeId ==  employeeEntity.id}
 
-        responseList.add(ReportEntity("Employee: ${employeeEntity.getFullName()}", 0.0, isHeading = true))
+        responseList.add(ReportEntity("Employee: ${employeeEntity.fetchFullName()}", 0.0, isHeading = true))
         responseList.add(ReportEntity("Phone: ${employeeEntity.phone}", 0.0, isHeading = true))
 
         globalState.settings?.rates?.forEach { (rateId, jobRateEntity) ->
@@ -215,7 +221,7 @@ class GetReportUseCase(val globalState: UiGlobalState): BaseUseCase<GetReportUse
 
             grandTotal += employeesTotal
 
-            if (employeesTotal != 0.0) responseList.add(ReportEntity("${employee.getFullName()} - ${employee.phone}", employeesTotal))
+            if (employeesTotal != 0.0) responseList.add(ReportEntity("${employee.fetchFullName()} - ${employee.phone}", employeesTotal))
         }
 
         responseList.add(ReportEntity(item = if(grandTotal != 0.0) "Grand Total" else "No work done for the selected month", unit = grandTotal, isHeading = grandTotal != 0.0))

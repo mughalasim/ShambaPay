@@ -67,19 +67,19 @@ class ReportViewFragment : Fragment() {
                     "Payroll_Report_$dateString"
                 }
                 ReportType.EMPLOYEE_PERFORMANCE -> {
-                    "Employee_Performance_Report_${dateString}_${args.employee?.getFullNameUnderScore()}"
+                    "Employee_Performance_Report_${dateString}_${args.employee?.fetchFullNameUnderScore()}"
                 }
                 ReportType.BANK_PAYMENT_DETAILS -> {
                     "Bank_Payment_Report_$dateString"
                 }
                 ReportType.PAYSLIP -> {
-                    "Employee_Payslip_${dateString}_${args.employee?.getFullNameUnderScore()}"
+                    "Employee_Payslip_${dateString}_${args.employee?.fetchFullNameUnderScore()}"
                 }
             }
             PDFConverter().createPdf(context!!, binding.container, activity!!, fileName)
         }
 
-        viewModel.fetchReport(args.reportType, args.date, args.employee, args.employees)
+        viewModel.fetchReport(args.reportType, args.date, args.employee)
 
     }
 

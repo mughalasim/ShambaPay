@@ -13,6 +13,8 @@ val useCaseModule = module {
 
     single { SetEmployeeUseCase() }
 
+    single { DeleteEmployeeUseCase() }
+
     single { GetWorkUseCase(get()) }
 
     single { GetSettingsUseCase(get()) }
@@ -31,7 +33,7 @@ val useCaseModule = module {
 
     single { SetPasswordResetUseCase() }
 
-    single { GetReportUseCase(get()) }
+    single { GetReportUseCase(get(), get()) }
 
     single { SetCompanyNameUseCase(get()) }
 
