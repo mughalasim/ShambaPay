@@ -18,9 +18,9 @@ class CompanyListWidget @JvmOverloads constructor(
         WidgetListCompanyBinding.inflate(LayoutInflater.from(context), this, true)
 
     fun setUp(model: CompanyEntity) {
-        binding.txtFullName.text = model.Settings.companyName
-        binding.txtCompanyId.text = model.Settings.companyId
-        binding.img.isVisible = model.isDefault
+        binding.txtFullName.text = model.settings.companyName
+        binding.txtCompanyId.text = model.settings.companyId
+        binding.img.isVisible = model.fetchDefault ?: false
     }
 
 }

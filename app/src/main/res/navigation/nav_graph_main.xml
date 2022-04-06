@@ -49,11 +49,6 @@
         android:label="fragment_upload_work"
         tools:layout="@layout/fragment_upload_work" />
     <fragment
-        android:id="@+id/registerFragment"
-        android:name="ke.co.shambapay.ui.user.UserUpdateFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_user_update" />
-    <fragment
         android:id="@+id/settingsFragment"
         android:name="ke.co.shambapay.ui.settings.SettingsFragment"
         android:label="fragment_settings"
@@ -112,6 +107,9 @@
         <action
             android:id="@+id/action_companyListFragment_to_userListFragment"
             app:destination="@id/userListFragment" />
+        <action
+            android:id="@+id/action_companyListFragment_to_userUpdateFragment"
+            app:destination="@id/userUpdateFragment" />
     </fragment>
     <fragment
         android:id="@+id/userListFragment"
@@ -127,6 +125,9 @@
         <argument
             android:name="companyName"
             app:argType="string" />
+        <action
+            android:id="@+id/action_userListFragment_to_userUpdateFragment"
+            app:destination="@id/userUpdateFragment" />
     </fragment>
     <fragment
         android:id="@+id/employeeUpdateFragment"
@@ -137,6 +138,22 @@
             android:name="employee"
             app:argType="ke.co.shambapay.data.model.EmployeeEntity"
             app:nullable="true" />
+        <argument
+            android:name="companyId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/userUpdateFragment"
+        android:name="ke.co.shambapay.ui.user.UserUpdateFragment"
+        android:label="fragment_user_update"
+        tools:layout="@layout/fragment_user_update" >
+        <argument
+            android:name="user"
+            app:argType="ke.co.shambapay.data.model.UserEntity"
+            app:nullable="true" />
+        <argument
+            android:name="userType"
+            app:argType="ke.co.shambapay.data.model.UserType" />
         <argument
             android:name="companyId"
             app:argType="string" />

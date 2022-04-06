@@ -22,7 +22,7 @@ class GetCompaniesUseCase(val globalState: UiGlobalState): BaseUseCase<Unit, Lis
                 } else {
                     val list = dataSnapshot.children.map { data ->
                         data.getValue(CompanyEntity::class.java)!!.apply {
-                            isDefault = globalState.settings!!.companyId == this.Settings.companyId
+                            fetchDefault = globalState.settings!!.companyId == this.settings.companyId
                         }
                     }
                     def.complete(BaseResult.Success(list))

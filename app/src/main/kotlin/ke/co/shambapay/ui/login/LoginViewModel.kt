@@ -10,6 +10,7 @@ import ke.co.shambapay.domain.*
 import ke.co.shambapay.domain.base.BaseInput
 import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.UiGlobalState
+import ke.co.shambapay.utils.isInvalidEmail
 
 class LoginViewModel(
     private val getLoginUseCase: GetLoginUseCase,
@@ -69,7 +70,7 @@ class LoginViewModel(
             _canLogIn.postValue(false)
             return
         }
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if(email.isInvalidEmail()){
             _state.postValue(BaseState.UpdateUI(false, "Email is not valid"))
             _canLogIn.postValue(false)
             return

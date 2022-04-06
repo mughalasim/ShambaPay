@@ -1,66 +1,50 @@
 package ke.co.shambapay.ui.user
 
-import android.annotation.SuppressLint
-import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.data.model.UserType
-import ke.co.shambapay.domain.Failures
-import ke.co.shambapay.domain.SetUserUseCase
+import ke.co.shambapay.domain.*
 import ke.co.shambapay.domain.base.BaseState
-import java.util.*
+import ke.co.shambapay.utils.isInValidPhone
+import ke.co.shambapay.utils.isInvalidEmail
 
 class UserUpdateViewModel(
-    private val setUserUseCase: SetUserUseCase
+    private val setUserUseCase: SetUserUseCase,
+    private val registerUserUseCase: RegisterUserUseCase,
+    private val setCompanyUseCase: SetCompanyUseCase,
+    private val deleteUserAndCompanyUseCase: DeleteUserAndCompanyUseCase
 ) : ViewModel() {
 
     private val _state = MutableLiveData<BaseState>()
     val state: LiveData<BaseState> = _state
 
-    private val _email = MutableLiveData<String>()
-    val email: LiveData<String> = _email
+    private var entity: UserEntity? = null
 
-    private val _companyName = MutableLiveData<String>()
-    val companyName: LiveData<String> = _companyName
-
-    private val _telephone = MutableLiveData<String>()
-    val telephone: LiveData<String> = _telephone
-
-    private val _firstName = MutableLiveData<String>()
-    val firstName: LiveData<String> = _firstName
-
-    private val _lastName = MutableLiveData<String>()
-    val lastName: LiveData<String> = _lastName
-
-    private val _canRegister = MutableLiveData<Boolean>()
-    val canRegister: LiveData<Boolean> = _canRegister
+    private val _canSubmit = MutableLiveData<Boolean>()
+    val canSubmit: LiveData<Boolean> = _canSubmit
 
     init {
         _state.postValue(BaseState.UpdateUI(false, ""))
-        _canRegister.postValue(false)
+        _canSubmit.postValue(false)
     }
 
-    @SuppressLint("NullSafeMutableLiveData")
-    fun validate(
-        email: String?,
+    fun setEntity(user: UserEntity?){
+        entity = user
+    }
+
+    fun validate (
         firstName: String?,
         lastName: String?,
+        telephone: String?,
+        email: String?,
         companyName: String?,
-        telephone: String?
+        userType: UserType
     ){
-        _canRegister.postValue(false)
+        _canSubmit.postValue(false)
 
-        if (email.isNullOrEmpty()) {
-            _state.postValue(BaseState.UpdateUI(false, "Email cannot be empty"))
-            return
-        }
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            _state.postValue(BaseState.UpdateUI(false, "Email is not valid"))
-            return
-        }
         if (firstName.isNullOrEmpty()) {
             _state.postValue(BaseState.UpdateUI(false, "First name cannot be empty"))
             return
@@ -71,71 +55,159 @@ class UserUpdateViewModel(
             return
         }
 
-        if (companyName.isNullOrEmpty()) {
-            _state.postValue(BaseState.UpdateUI(false, "Company name cannot be empty"))
-            return
-        }
-
         if (telephone.isNullOrEmpty()) {
             _state.postValue(BaseState.UpdateUI(false, "Telephone cannot be empty"))
             return
         }
 
-        if (telephone.isNullOrEmpty()) {
-            _state.postValue(BaseState.UpdateUI(false, "Telephone cannot be empty"))
+        if (telephone.isInValidPhone()) {
+            _state.postValue(BaseState.UpdateUI(false, "Telephone is invalid and must start with the area code"))
             return
         }
 
-        if (!Patterns.PHONE.matcher(telephone).matches()) {
-            _state.postValue(BaseState.UpdateUI(false, "Telephone is invalid"))
+        if (email.isNullOrEmpty() || email.isInvalidEmail()) {
+            _state.postValue(BaseState.UpdateUI(false, "Invalid email address"))
             return
         }
 
-        _canRegister.postValue(true)
+        if (userType == UserType.OWNER){
+            if (companyName.isNullOrEmpty()){
+                _state.postValue(BaseState.UpdateUI(false, "Company name cannot be empty"))
+                return
+            }
+        }
+
+        _canSubmit.postValue(true)
         _state.postValue(BaseState.UpdateUI(false, ""))
 
-        _email.postValue(email)
-        _companyName.postValue(companyName)
-        _firstName.postValue(firstName)
-        _lastName.postValue(lastName)
-        _telephone.postValue(telephone)
     }
 
-    fun registerUser() {
+    fun updateUser (
+        firstName: String,
+        lastName: String,
+        telephone: String,
+        email: String,
+        companyName: String?,
+        companyId: String,
+        userType: UserType
+    ) {
+        val isUpdate = if (entity != null){
+           entity!!.apply {
+               this.firstName = firstName
+               this.lastName = lastName
+               this.phone = telephone.toLong()
+           }
+            true
+        } else {
+            entity =
+                UserEntity(
+                    id = "",
+                    companyId = companyId,
+                    firstName = firstName,
+                    lastName = lastName,
+                    email = email,
+                    phone = telephone.toLong(),
+                    areaCode = 254,
+                    userType = userType,
+                    fcmToken = "",
+                )
+            false
+        }
 
-        val userEntity = UserEntity (
-            id = "",
-            companyId = UUID.randomUUID().toString(),
-            firstName = firstName.value!!,
-            lastName = lastName.value!!,
-            email = email.value!!,
-            phone = telephone.value!!.toLong(),
-            areaCode = 254,
-            userType = UserType.OWNER,
-            fcmToken = "null"
-        )
+        if (isUpdate){
+            setUserToDatabase()
+        } else {
+            registerUser(companyName)
+        }
+    }
 
-        _state.postValue(BaseState.UpdateUI(true, "Setting up user, Please wait..."))
-        setUserUseCase.invoke(viewModelScope, SetUserUseCase.Input(userEntity, "")){
+    fun deleteUser() {
+        _state.postValue(BaseState.UpdateUI(true, "Deleting user, Please wait..."))
+        deleteUserAndCompanyUseCase.invoke(viewModelScope, entity!!){
 
             it.result(onSuccess = {
                 _state.postValue(BaseState.Success(Unit))
 
             }, onFailure = { failure ->
                 when(failure){
-                    is Failures.WithMessage -> {_state.postValue(
-                        BaseState.UpdateUI(
-                            false,
-                            failure.message
-                        )
-                    )}
+                    is Failures.WithMessage -> {
+                        _state.postValue(BaseState.UpdateUI(false, failure.message))
+                    }
 
-                    else ->{_state.postValue(
-                        BaseState.UpdateUI(
-                            false,
-                            "Unknown error when authenticating, please check back later"
-                        )
-                    )}
+                    else -> {
+                        _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))
+                    }
+                }
+            })
+        }
+    }
+
+    private fun registerUser(companyName: String?) {
+        _state.postValue(BaseState.UpdateUI(true, "Registering user, Please wait..."))
+        registerUserUseCase.invoke(viewModelScope, entity!!.email){
+
+            it.result(onSuccess = {
+                entity!!.apply { id = it }
+                if (companyName.isNullOrEmpty()){
+                    setUserToDatabase()
+                } else {
+                    setCompany(companyName)
+                }
+            }, onFailure = { failure ->
+                when(failure){
+                    is Failures.WithMessage -> {
+                        _state.postValue(BaseState.UpdateUI(false, failure.message))
+                    }
+
+                    else -> {
+                        _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))
+                    }
+                }
+            })
+        }
+    }
+
+    private fun setCompany(companyName: String) {
+        _state.postValue(BaseState.UpdateUI(true, "Setting up the company, Please wait..."))
+        setCompanyUseCase.invoke(viewModelScope, companyName){
+
+            it.result(onSuccess = {
+                entity!!.apply { companyId = it }
+                setUserToDatabase()
+            }, onFailure = { failure ->
+                deleteUser()
+                when(failure){
+                    is Failures.WithMessage -> {
+                        _state.postValue(BaseState.UpdateUI(false, failure.message))
+                    }
+
+                    else -> {
+                        _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))
+                    }
+                }
+            })
+        }
+    }
+
+
+
+    private fun setUserToDatabase() {
+        _state.postValue(BaseState.UpdateUI(true, "Setting user to the database, Please wait..."))
+        setUserUseCase.invoke(viewModelScope, entity!!){
+
+            it.result(onSuccess = {
+                _state.postValue(BaseState.Success(Unit))
+
+            }, onFailure = { failure ->
+                deleteUser()
+                when(failure){
+                    is Failures.WithMessage -> {
+                        _state.postValue(BaseState.UpdateUI(false, failure.message))
+                    }
+
+                    else -> {
+                        _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))
+                    }
                 }
             })
         }

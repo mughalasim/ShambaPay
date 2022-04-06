@@ -4,11 +4,11 @@ import java.io.Serializable
 
 data class UserEntity (
     var id: String = "",
-    val companyId: String = "",
-    val firstName: String = "",
-    val lastName: String = "",
+    var companyId: String = "",
+    var firstName: String = "",
+    var lastName: String = "",
     val email: String = "",
-    val phone: Long = 0,
+    var phone: Long = 0,
     val areaCode: Int = 0,
     val userType: UserType,
     val fcmToken: String = ""
@@ -27,4 +27,6 @@ data class UserEntity (
     )
 
     fun fetchFullName(): String = "$firstName $lastName"
+
+    fun fetchPhoneNumber(): String = if (phone == 0L) "" else phone.toString()
 }

@@ -35,20 +35,20 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/padding_medium"
-        app:layout_constraintBottom_toTopOf="@+id/btn_register"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
         app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toBottomOf="@+id/txt_title" />
 
     <Button
-        android:id="@+id/btn_register"
+        android:id="@+id/btn_add"
         style="@style/Button"
         android:layout_width="0dp"
         app:layout_constraintTop_toBottomOf="@+id/recycler"
         app:layout_constraintBottom_toTopOf="@+id/btn_employees"
         app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
-        android:text="@string/txt_register" />
+        android:text="@string/txt_add_" />
 
     <Button
         android:id="@+id/btn_employees"

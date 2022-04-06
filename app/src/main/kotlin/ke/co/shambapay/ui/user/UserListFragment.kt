@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import ke.co.shambapay.R
 import ke.co.shambapay.data.model.UserEntity
+import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.FragmentUsersBinding
 import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.adapter.CustomAdapter
@@ -33,9 +35,11 @@ class UserListFragment: Fragment() {
 
         adapter.setOnItemClickListener(object : CustomAdapter.OnItemClickListener{
             override fun onItemClicked(data: Any?) {
-                // TODO - Navigate to the UserUpdateFragment to edit these details
-//                val action = EmployeeListFragmentDirections.actionEmployeeListFragmentToCaptureFragment(data as UserEntity)
-//                findNavController().navigate(action)
+                val entity = data as UserEntity
+                if (entity.userType == UserType.SUPERVISOR){
+                    findNavController().navigate(UserListFragmentDirections.
+                    actionUserListFragmentToUserUpdateFragment(entity, UserType.SUPERVISOR, entity.companyId))
+                }
             }
         })
 
@@ -60,9 +64,10 @@ class UserListFragment: Fragment() {
             findNavController().navigate(action)
         }
 
-        binding.btnRegister.setOnClickListener {
-//            val action = UserListFragmentDirections.actionUserListFragmentToEmployeeListFragment(args.companyId)
-//            findNavController().navigate(action)
+        binding.btnAdd.text = getString(R.string.txt_add_, UserType.SUPERVISOR.name.lowercase())
+        binding.btnAdd.setOnClickListener {
+            findNavController().navigate(UserListFragmentDirections.
+            actionUserListFragmentToUserUpdateFragment(null, UserType.SUPERVISOR, args.companyId))
         }
 
         binding.btnBack.setOnClickListener {

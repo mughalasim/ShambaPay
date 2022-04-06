@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ke.co.shambapay.data.model.CompanyEntity
+import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.FragmentCompaniesBinding
 import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.adapter.CustomAdapter
@@ -30,7 +31,7 @@ class CompanyListFragment: Fragment() {
 
         adapter.setOnItemClickListener(object : CustomAdapter.OnItemClickListener{
             override fun onItemClicked(data: Any?) {
-                val settings = (data as CompanyEntity).Settings
+                val settings = (data as CompanyEntity).settings
                 val action = CompanyListFragmentDirections.actionCompanyListFragmentToUserListFragment(
                     companyId = settings.companyId,
                     companyName = settings.companyName
@@ -51,6 +52,11 @@ class CompanyListFragment: Fragment() {
                 is BaseState.Success<*> -> {}
 
             }
+        }
+
+        binding.btnRegister.setOnClickListener {
+            findNavController().navigate(
+                CompanyListFragmentDirections.actionCompanyListFragmentToUserUpdateFragment(null, UserType.OWNER, ""))
         }
 
         viewModel.getAllCompanies()

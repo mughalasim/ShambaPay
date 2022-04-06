@@ -17,6 +17,7 @@
     <string name="txt_company_id">Company ID</string>
     <string name="txt_nssf">NSSF</string>
     <string name="txt_nhif">NHIF</string>
+    <string name="txt_user">%s details</string>
     <string name="txt_user_type">Access level</string>
     <string name="txt_telephone">Telephone</string>
     <string name="txt_captured">Captured</string>

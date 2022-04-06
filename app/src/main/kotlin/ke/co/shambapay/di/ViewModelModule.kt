@@ -19,7 +19,7 @@ val viewModelModule = module {
 
     viewModel { LoginViewModel(get(), get(), get(), get(), get()) }
 
-    viewModel { UserUpdateViewModel(get()) }
+    viewModel { UserUpdateViewModel(get(), get(), get(), get()) }
 
     viewModel { EmployeeListViewModel(get()) }
 

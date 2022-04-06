@@ -15,7 +15,7 @@ class GetUserUseCase : BaseUseCase<BaseInput, UserEntity, Failures>() {
         val user = FirebaseAuth.getInstance().currentUser ?: return BaseResult.Failure(Failures.NotAuthenticated)
 
         val deferred = CompletableDeferred<BaseResult<UserEntity, Failures>>()
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.geUser(user.uid)).get().
+        FirebaseDatabase.getInstance().getReference(QueryBuilder.getUser(user.uid)).get().
         addOnSuccessListener{
             try {
                 val userEntity: UserEntity? = it.getValue(UserEntity::class.java)
