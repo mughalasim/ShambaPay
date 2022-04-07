@@ -22,8 +22,7 @@ class EmployeeUpdateViewModel(
     private val _state = MutableLiveData<BaseState>()
     val state: LiveData<BaseState> = _state
 
-    private val _entity = MutableLiveData<EmployeeEntity>()
-    private val entity: LiveData<EmployeeEntity> = _entity
+    private var entity:  EmployeeEntity? = null
 
     private val _companyId = MutableLiveData<String>()
     val companyId: LiveData<String> = _companyId
@@ -36,8 +35,8 @@ class EmployeeUpdateViewModel(
         _canSubmit.postValue(false)
     }
 
-    fun setEntity(entity: EmployeeEntity){
-        _entity.postValue(entity)
+    fun setEntity(employeeEntity: EmployeeEntity){
+        entity = employeeEntity
     }
 
     fun setCompanyId(companyId: String){
@@ -85,19 +84,19 @@ class EmployeeUpdateViewModel(
         nhif: String?,
         nssf: String?
     ) {
-        _entity.postValue(
+        entity =
             EmployeeEntity(
-                id = if (entity.value?.id == null) UUID.randomUUID()
-                    .toString() else entity.value!!.id,
+                id = if (entity?.id == null) UUID.randomUUID()
+                    .toString() else entity!!.id,
                 nationalId = nationalId?.toLongOrNull(),
                 firstName = firstName.trim(),
                 lastName = lastName.trim(),
                 nhif = nhif ?: "",
                 nssf = nssf ?: "",
                 phone = telephone.toLong()
-            ))
+            )
         _state.postValue(BaseState.UpdateUI(true, "Sending details to the server, Please wait..."))
-        setEmployeeUseCase.invoke(viewModelScope, SetEmployeeUseCase.Input(entity.value!!, companyId.value!!)){
+        setEmployeeUseCase.invoke(viewModelScope, SetEmployeeUseCase.Input(entity!!, companyId.value!!)){
 
             it.result(onSuccess = {
                 _state.postValue(BaseState.Success(Unit))
@@ -118,7 +117,7 @@ class EmployeeUpdateViewModel(
 
     fun deleteEmployee() {
         _state.postValue(BaseState.UpdateUI(true, "Sending details to the server, Please wait..."))
-        deleteEmployeeUseCase.invoke(viewModelScope, DeleteEmployeeUseCase.Input(entity.value!!, companyId.value!!)){
+        deleteEmployeeUseCase.invoke(viewModelScope, DeleteEmployeeUseCase.Input(entity!!, companyId.value!!)){
 
             it.result(onSuccess = {
                 _state.postValue(BaseState.Success(Unit))

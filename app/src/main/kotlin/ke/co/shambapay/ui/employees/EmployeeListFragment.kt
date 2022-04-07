@@ -42,7 +42,7 @@ class EmployeeListFragment: Fragment() {
                    findNavController().navigate(
                        EmployeeListFragmentDirections.actionEmployeeListFragmentToEmployeeUpdateFragment(
                            employee = data as EmployeeEntity,
-                           companyId = globalState.settings!!.companyId
+                           companyId = if(args.companyId.isNullOrEmpty()) globalState.settings!!.companyId else args.companyId!!
                        )
                    )
                 } else {
@@ -91,7 +91,7 @@ class EmployeeListFragment: Fragment() {
             findNavController().navigate(
                 EmployeeListFragmentDirections.actionEmployeeListFragmentToEmployeeUpdateFragment(
                     employee = null,
-                    companyId = globalState.settings!!.companyId
+                    companyId = if(args.companyId.isNullOrEmpty()) globalState.settings!!.companyId else args.companyId!!
                 )
             )
         }

@@ -33,6 +33,7 @@
     <string name="txt_search_by_name">Search by Name</string>
     <string name="txt_upload">Upload</string>
     <string name="txt_employees">Employees</string>
+    <string name="txt_employees_view">View all employees</string>
     <string name="txt_employee">Employee</string>
     <string name="txt_select_file">Select a file to upload</string>
     <string name="txt_upload_employees">Upload all employees</string>

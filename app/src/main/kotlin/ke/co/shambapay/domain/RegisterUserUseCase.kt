@@ -1,6 +1,7 @@
 package ke.co.shambapay.domain
 
 import com.google.firebase.auth.FirebaseAuth
+import ke.co.shambapay.BuildConfig
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.utils.isInvalidEmail
@@ -15,7 +16,7 @@ class RegisterUserUseCase: BaseUseCase<String, String, Failures>() {
         if (input.isEmpty() || input.isInvalidEmail()) return BaseResult.Failure(Failures.WithMessage("Invalid email"))
 
         val deferredCreate = CompletableDeferred<BaseResult<String, Failures>>()
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(input, "123456")
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(input, BuildConfig.DEFAULT_PASSWORD)
             .addOnSuccessListener {
                 if (it.user != null) {
                     deferredCreate.complete(BaseResult.Success(it.user!!.uid))
@@ -25,6 +26,19 @@ class RegisterUserUseCase: BaseUseCase<String, String, Failures>() {
             }.addOnFailureListener {
                 deferredCreate.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
             }
+
+        val response = deferredCreate.await()
+
+        if (response is Failures) return response
+
+        val deferredSignIn = CompletableDeferred<Boolean>()
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(BuildConfig.ADMIN_USERNAME, BuildConfig.ADMIN_PASSWORD).addOnSuccessListener {
+            deferredSignIn.complete(it.user==null)
+        }.addOnFailureListener {
+            deferredSignIn.complete(true)
+        }
+
+        if (deferredSignIn.await()) return BaseResult.Failure(Failures.NotAuthenticated)
 
         return deferredCreate.await()
     }

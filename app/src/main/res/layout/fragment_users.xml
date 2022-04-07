@@ -54,10 +54,19 @@
         android:id="@+id/btn_employees"
         style="@style/Button"
         android:layout_width="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_set_default"
+        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="@id/guide_end"
+        android:text="@string/txt_employees_view" />
+
+    <Button
+        android:id="@+id/btn_set_default"
+        style="@style/Button"
+        android:layout_width="0dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_back"
         app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
-        android:text="@string/txt_employees" />
+        android:text="Set as default" />
 
     <Button
         android:id="@+id/btn_back"

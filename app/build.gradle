@@ -36,6 +36,9 @@ android {
         buildConfigField 'String', 'DB_REF_WORK', DB_REF_WORK
         buildConfigField 'String', 'DB_REF_SETTINGS', DB_REF_SETTINGS
         buildConfigField 'String', 'DB_REF_RATES', DB_REF_RATES
+        buildConfigField 'String', 'DEFAULT_PASSWORD', DEFAULT_PASSWORD
+        buildConfigField 'String', 'ADMIN_PASSWORD', ADMIN_PASSWORD
+        buildConfigField 'String', 'ADMIN_USERNAME', ADMIN_USERNAME
     }
 
     compileOptions {

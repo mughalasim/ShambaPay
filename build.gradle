@@ -21,6 +21,9 @@ buildscript {
         DB_REF_WORK = '"Work"'
         DB_REF_SETTINGS = '"settings"'
         DB_REF_RATES = '"rates"'
+        DEFAULT_PASSWORD = '"123456"'
+        ADMIN_PASSWORD = '"123456"'
+        ADMIN_USERNAME = '"admin@test.com"'
 
     }
     dependencies {
