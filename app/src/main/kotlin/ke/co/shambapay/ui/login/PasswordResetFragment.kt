@@ -42,6 +42,7 @@ class PasswordResetFragment : Fragment() {
         viewModel.state.observe(viewLifecycleOwner){
             when(it){
                 is BaseState.Success<*> ->{
+                    binding.etEmail.setText("")
                     activity?.onBackPressed()
                 }
                 is BaseState.UpdateUI ->{

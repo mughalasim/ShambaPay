@@ -102,7 +102,7 @@ class LoginViewModel(
         _state.postValue(BaseState.UpdateUI(true, "Verifying email, Please wait..."))
         setPasswordResetUseCase.invoke(viewModelScope, email.value!!){
             it.result(onSuccess = {
-                _state.postValue(BaseState.UpdateUI(false, ""))
+                _state.postValue(BaseState.Success(Unit))
 
             }, onFailure = { failure ->
                 when(failure){

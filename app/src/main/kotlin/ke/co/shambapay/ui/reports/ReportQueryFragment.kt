@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -50,6 +52,17 @@ class ReportQueryFragment : Fragment() {
 
         binding.spinnerReportType.adapter =
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, ReportType.values())
+
+        binding.spinnerReportType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                binding.llSelectEmployee.isVisible = (position == 1 || position == 3)
+            }
+
+        }
 
 
         binding.etYear.addTextChangedListener {
