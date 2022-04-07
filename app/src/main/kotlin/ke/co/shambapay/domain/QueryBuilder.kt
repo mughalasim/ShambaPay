@@ -49,5 +49,8 @@ object QueryBuilder {
         return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_USERS}/${userId}"
     }
 
+    fun getUserCompanyId(userId: String): String {
+        return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_USERS}/${userId}/companyId"
+    }
 
 }

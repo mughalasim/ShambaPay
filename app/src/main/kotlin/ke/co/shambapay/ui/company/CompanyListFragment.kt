@@ -34,7 +34,8 @@ class CompanyListFragment: Fragment() {
                 val settings = (data as CompanyEntity).settings
                 val action = CompanyListFragmentDirections.actionCompanyListFragmentToUserListFragment(
                     companyId = settings.companyId,
-                    companyName = settings.companyName
+                    companyName = settings.companyName,
+                    canSetAsDefault = data.fetchDefault != true
                 )
                 findNavController().navigate(action)
             }
@@ -56,7 +57,11 @@ class CompanyListFragment: Fragment() {
 
         binding.btnRegister.setOnClickListener {
             findNavController().navigate(
-                CompanyListFragmentDirections.actionCompanyListFragmentToUserUpdateFragment(null, UserType.OWNER, ""))
+                CompanyListFragmentDirections.actionCompanyListFragmentToUserUpdateFragment(
+                    user = null,
+                    userType = UserType.OWNER,
+                    companyId = "" // New registration
+                ))
         }
 
         viewModel.getAllCompanies()

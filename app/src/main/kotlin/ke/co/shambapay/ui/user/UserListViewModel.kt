@@ -7,10 +7,12 @@ import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.domain.Failures
 import ke.co.shambapay.domain.GetUsersUseCase
+import ke.co.shambapay.domain.SetCompanyIdUseCase
 import ke.co.shambapay.domain.base.BaseState
 
 class UserListViewModel(
-    private val getUsersUseCase: GetUsersUseCase
+    private val getUsersUseCase: GetUsersUseCase,
+    private val setCompanyIdUseCase: SetCompanyIdUseCase
 ) : ViewModel() {
 
     private val _state = MutableLiveData<BaseState>()
@@ -32,6 +34,26 @@ class UserListViewModel(
                 }
                 _users.postValue(list)
 
+            }, onFailure = { failure ->
+                when(failure){
+                    is Failures.WithMessage -> {
+                        _state.postValue(BaseState.UpdateUI(false, failure.message))
+                    }
+
+                    else ->{
+                        _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))
+                    }
+                }
+            })
+        }
+    }
+
+    fun setDefaultCompanyId(companyId: String){
+        _state.postValue(BaseState.UpdateUI(true, "Setting your company ID, you will need to login again..."))
+
+        setCompanyIdUseCase.invoke(viewModelScope, companyId){
+            it.result(onSuccess = {
+               _state.postValue(BaseState.Success(Unit))
             }, onFailure = { failure ->
                 when(failure){
                     is Failures.WithMessage -> {

@@ -39,6 +39,6 @@ val viewModelModule = module {
 
     viewModel { CompanyListViewModel(get()) }
 
-    viewModel { UserListViewModel(get()) }
+    viewModel { UserListViewModel(get(), get()) }
 
 }

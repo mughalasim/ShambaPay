@@ -1,8 +1,12 @@
 package ke.co.shambapay.ui
 
+import android.app.Activity
+import android.content.Intent
+import com.google.firebase.auth.FirebaseAuth
 import ke.co.shambapay.data.model.SettingsEntity
 import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.data.model.UserType
+import ke.co.shambapay.ui.activities.StartActivity
 import java.util.*
 
 class UiGlobalState {
@@ -10,7 +14,16 @@ class UiGlobalState {
     var user: UserEntity? = null
     var settings: SettingsEntity? = null
 
-    fun clear(){
+    fun logout(activity: Activity) {
+        clear()
+        FirebaseAuth.getInstance().signOut()
+        activity.startActivity(Intent(activity, StartActivity::class.java).apply {
+            /*If you want to add any intent extras*/
+        })
+        activity.finish()
+    }
+
+    fun clear() {
         user = null
         settings = null
     }

@@ -37,6 +37,8 @@ val useCaseModule = module {
 
     single { SetCompanyNameUseCase(get()) }
 
+    single { SetCompanyIdUseCase(get()) }
+
     single { GetCompaniesUseCase(get()) }
 
     single { SetCompanyUseCase() }

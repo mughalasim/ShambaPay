@@ -1,11 +1,9 @@
 package ke.co.shambapay.ui.activities
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -22,6 +20,7 @@ class MainActivity: AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
     private val state: UiGlobalState by inject()
+    private val activity = this
 
     private val eventListener = object : ValueEventListener{
         override fun onDataChange(snapshot: DataSnapshot) {
@@ -31,7 +30,7 @@ class MainActivity: AppCompatActivity() {
                     state.settings = settingsEntity
                 }
             } catch (e: Exception){
-                logOut()
+                state.logout(activity)
             }
         }
 
@@ -67,16 +66,8 @@ class MainActivity: AppCompatActivity() {
         FirebaseDatabase.getInstance().getReference(QueryBuilder.getSettings(state.user!!.companyId)).addValueEventListener(eventListener)
 
         binding.txtLogout.setOnClickListener {
-            logOut()
+            state.logout(this)
         }
 
-    }
-
-    fun logOut(){
-        FirebaseAuth.getInstance().signOut()
-        state.clear()
-        startActivity(Intent(this, StartActivity::class.java).apply {
-            /*If you want to add any intent extras*/ })
-        finish()
     }
 }

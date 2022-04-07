@@ -13,7 +13,9 @@ import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.FragmentUsersBinding
 import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.UiGlobalState
 import ke.co.shambapay.ui.adapter.CustomAdapter
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserListFragment: Fragment() {
@@ -22,6 +24,7 @@ class UserListFragment: Fragment() {
     private val adapter =  CustomAdapter(mutableListOf<UserEntity>())
     lateinit var binding: FragmentUsersBinding
     private val args: UserListFragmentArgs by navArgs()
+    private val globalState: UiGlobalState by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentUsersBinding.inflate(layoutInflater)
@@ -53,8 +56,9 @@ class UserListFragment: Fragment() {
                 is BaseState.UpdateUI -> {
                     binding.widgetLoading.update(it.message, it.showLoading)
                 }
-                is BaseState.Success<*> -> {}
-
+                is BaseState.Success<*> -> {
+                    globalState.logout(activity!!)
+                }
             }
         }
 
@@ -77,9 +81,8 @@ class UserListFragment: Fragment() {
 
         binding.btnSetDefault.isVisible = args.canSetAsDefault
         binding.btnSetDefault.setOnClickListener {
-
+            viewModel.setDefaultCompanyId(args.companyId)
         }
-
     }
 
 }
