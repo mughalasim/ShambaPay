@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import ke.co.shambapay.R
 import ke.co.shambapay.databinding.FragmentProfileBinding
 import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.UiGlobalState
-import ke.co.shambapay.ui.activities.MainActivity
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -20,7 +20,6 @@ class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
     private val viewModel: ProfileViewModel by viewModel()
     private val globalState: UiGlobalState by inject()
-
 
     override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
         binding = FragmentProfileBinding.inflate(layoutInflater)
@@ -61,6 +60,9 @@ class ProfileFragment : Fragment() {
         binding.btnUpdate.setOnClickListener {
             viewModel.updatePassword(binding.etNewPassword.text.toString())
         }
+
+        binding.llPassword.isVisible = !globalState.isAdmin()
+        binding.bannerPassword.isVisible = !globalState.isAdmin()
 
     }
 
