@@ -10,13 +10,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import ke.co.shambapay.databinding.FragmentUploadWorkBinding
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.UiGlobalState
+import ke.co.shambapay.ui.base.BaseState
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UploadWorkFragment: Fragment() {
 
     private val viewModel: UploadViewModel by viewModel()
     lateinit var binding: FragmentUploadWorkBinding
+    private val globalState: UiGlobalState by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,14 +40,15 @@ class UploadWorkFragment: Fragment() {
 
         viewModel.state.observe(viewLifecycleOwner){
             when(it){
-
                 is BaseState.Success<*> -> {
                     binding.etYear.setText("")
                     binding.etMonth.setText("")
                 }
-
                 is BaseState.UpdateUI -> {
                     binding.widgetLoading.update(it.message, it.showLoading)
+                }
+                is BaseState.Logout -> {
+                    globalState.logout(activity!!)
                 }
             }
         }

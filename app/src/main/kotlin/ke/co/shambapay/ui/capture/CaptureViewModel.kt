@@ -3,21 +3,18 @@ package ke.co.shambapay.ui.capture
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.data.model.WorkEntity
-import ke.co.shambapay.domain.*
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.domain.SetEmployeeWorkUseCase
 import ke.co.shambapay.ui.UiGlobalState
+import ke.co.shambapay.ui.base.BaseState
+import ke.co.shambapay.ui.base.BaseViewModel
 import org.joda.time.DateTime
 
 class CaptureViewModel(
     private val globalState: UiGlobalState,
     private val setEmployeeWorkUseCase: SetEmployeeWorkUseCase
-): ViewModel() {
-
-    private val _state = MutableLiveData<BaseState>()
-    val state: LiveData<BaseState> = _state
+): BaseViewModel() {
 
     private val _unit = MutableLiveData<Double>()
     val unit: LiveData<Double> = _unit
@@ -91,21 +88,7 @@ class CaptureViewModel(
                     _state.postValue(BaseState.Success(Unit))
                 },
                 onFailure = { failure ->
-                    when(failure){
-                    is Failures.WithMessage -> {_state.postValue(
-                        BaseState.UpdateUI(
-                            false,
-                            failure.message
-                        )
-                    )}
-
-                    else ->{_state.postValue(
-                        BaseState.UpdateUI(
-                            false,
-                            "Unknown error when authenticating, please check back later"
-                        )
-                    )}
-                }
+                    handleFailure(failure)
                 }
             )
         }

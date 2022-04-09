@@ -3,23 +3,19 @@ package ke.co.shambapay.ui.settings
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.data.model.JobRateEntity
 import ke.co.shambapay.data.model.JobType
 import ke.co.shambapay.domain.DeleteRateUseCase
-import ke.co.shambapay.domain.Failures
 import ke.co.shambapay.domain.SetRateUseCase
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.base.BaseState
+import ke.co.shambapay.ui.base.BaseViewModel
 import java.util.*
 
 class SettingsUpdateViewModel(
     private val setRateUseCase: SetRateUseCase,
     private val deleteRateUseCase: DeleteRateUseCase
-) : ViewModel() {
-
-    private val _state = MutableLiveData<BaseState>()
-    val state: LiveData<BaseState> = _state
+) : BaseViewModel() {
 
     private val _measurement = MutableLiveData<String>()
     private val measurement: LiveData<String> = _measurement
@@ -95,11 +91,7 @@ class SettingsUpdateViewModel(
                 onSuccess = { _state.postValue(BaseState.Success(Unit)) },
 
                 onFailure = { failure ->
-                    when (failure) {
-                        is Failures.WithMessage -> { _state.postValue(BaseState.UpdateUI(false, failure.message)) }
-
-                        else -> { _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later")) }
-                    }
+                    handleFailure(failure)
                 }
             )
         }
@@ -112,11 +104,7 @@ class SettingsUpdateViewModel(
                 onSuccess = { _state.postValue(BaseState.Success(Unit)) },
 
                 onFailure = { failure ->
-                    when (failure) {
-                        is Failures.WithMessage -> { _state.postValue(BaseState.UpdateUI(false, failure.message)) }
-
-                        else -> { _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later")) }
-                    }
+                    handleFailure(failure)
                 }
             )
         }

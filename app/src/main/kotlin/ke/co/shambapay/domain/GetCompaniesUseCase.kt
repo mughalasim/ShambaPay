@@ -1,9 +1,12 @@
 package ke.co.shambapay.domain
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import ke.co.shambapay.data.model.CompanyEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
+import ke.co.shambapay.domain.utils.Failures
+import ke.co.shambapay.domain.utils.QueryBuilder
 import ke.co.shambapay.ui.UiGlobalState
 import kotlinx.coroutines.CompletableDeferred
 
@@ -11,7 +14,7 @@ class GetCompaniesUseCase(val globalState: UiGlobalState): BaseUseCase<Unit, Lis
 
     override suspend fun run(input: Unit): BaseResult<List<CompanyEntity>, Failures> {
 
-        if (globalState.user == null) return BaseResult.Failure(Failures.NotAuthenticated)
+        FirebaseAuth.getInstance().currentUser ?: return BaseResult.Failure(Failures.NotAuthenticated)
 
         val def = CompletableDeferred<BaseResult<List<CompanyEntity>, Failures>>()
         FirebaseDatabase.getInstance().getReference(QueryBuilder.getCompanies()).get().

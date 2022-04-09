@@ -1,9 +1,12 @@
 package ke.co.shambapay.domain
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import ke.co.shambapay.data.model.WorkEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
+import ke.co.shambapay.domain.utils.Failures
+import ke.co.shambapay.domain.utils.QueryBuilder
 import ke.co.shambapay.ui.UiGlobalState
 import kotlinx.coroutines.CompletableDeferred
 
@@ -15,21 +18,21 @@ class GetWorkUseCase(val globalState: UiGlobalState): BaseUseCase<GetWorkUseCase
 
     data class Input(val employeeId: String, val year: Int, val month: Int)
 
-
     override suspend fun run(input: Input): BaseResult<Output, Failures> {
 
-        if (globalState.user == null) return BaseResult.Failure(Failures.NotAuthenticated)
+        FirebaseAuth.getInstance().currentUser ?: return BaseResult.Failure(Failures.NotAuthenticated)
 
         val def = CompletableDeferred<BaseResult<Output, Failures>>()
         FirebaseDatabase.getInstance().getReference(QueryBuilder.getWork(globalState.user!!.companyId)).get().
         addOnSuccessListener{
             try {
-                BaseResult.Success(Output.List(it.children as List<WorkEntity>))
+                val list = if (it.hasChildren()) it.children.filterIsInstance<WorkEntity>() else emptyList()
+                BaseResult.Success(Output.List(list))
             } catch (e: Exception){
-                BaseResult.Failure(Failures.NoNetwork)
+                BaseResult.Failure(Failures.WithMessage("" + e.localizedMessage))
             }
         }.addOnFailureListener {
-            BaseResult.Failure(Failures.NoNetwork)
+            BaseResult.Failure(Failures.WithMessage("" + it.localizedMessage))
         }
         return def.await()
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import ke.co.shambapay.databinding.FragmentPasswordResetBinding
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.base.BaseState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PasswordResetFragment : Fragment() {
@@ -48,6 +48,7 @@ class PasswordResetFragment : Fragment() {
                 is BaseState.UpdateUI ->{
                     binding.widgetLoading.update(it.message, it.showLoading)
                 }
+                is BaseState.Logout -> {}
             }
         }
 

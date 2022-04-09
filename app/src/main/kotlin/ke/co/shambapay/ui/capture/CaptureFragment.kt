@@ -11,18 +11,17 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import ke.co.shambapay.databinding.FragmentCaptureBinding
-import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.UiGlobalState
+import ke.co.shambapay.ui.base.BaseState
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class CaptureFragment: Fragment() {
 
     private val viewModel: CaptureViewModel by viewModel()
     lateinit var binding: FragmentCaptureBinding
     private val args: CaptureFragmentArgs by navArgs()
-    private val state: UiGlobalState by inject()
+    private val globalState: UiGlobalState by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +46,9 @@ class CaptureFragment: Fragment() {
                 }
                 is BaseState.Success<*> -> {
                     activity?.onBackPressed()
+                }
+                is BaseState.Logout -> {
+                    globalState.logout(activity!!)
                 }
             }
         }
@@ -76,7 +78,7 @@ class CaptureFragment: Fragment() {
         }
 
         binding.spinnerJobType.adapter = ArrayAdapter(requireContext(),
-            android.R.layout.simple_list_item_1, state.getDropDownOptions()
+            android.R.layout.simple_list_item_1, globalState.getDropDownOptions()
         )
 
     }

@@ -1,9 +1,12 @@
 package ke.co.shambapay.domain
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
+import ke.co.shambapay.domain.utils.Failures
+import ke.co.shambapay.domain.utils.QueryBuilder
 import ke.co.shambapay.ui.UiGlobalState
 import kotlinx.coroutines.CompletableDeferred
 
@@ -13,7 +16,7 @@ class GetEmployeesUseCase(val globalState: UiGlobalState): BaseUseCase<GetEmploy
 
     override suspend fun run(input: Input): BaseResult<List<EmployeeEntity>, Failures> {
 
-        if (globalState.user == null) return BaseResult.Failure(Failures.NotAuthenticated)
+        FirebaseAuth.getInstance().currentUser ?: return BaseResult.Failure(Failures.NotAuthenticated)
 
         val query = if(input.companyId.isNullOrBlank()) QueryBuilder.getEmployees(globalState.user!!.companyId) else QueryBuilder.getEmployees(input.companyId)
 

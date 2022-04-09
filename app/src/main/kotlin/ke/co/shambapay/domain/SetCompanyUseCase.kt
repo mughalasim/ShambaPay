@@ -5,6 +5,8 @@ import com.google.firebase.database.FirebaseDatabase
 import ke.co.shambapay.data.model.CompanyEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
+import ke.co.shambapay.domain.utils.Failures
+import ke.co.shambapay.domain.utils.QueryBuilder
 import kotlinx.coroutines.CompletableDeferred
 
 class SetCompanyUseCase: BaseUseCase<String, String, Failures>() {

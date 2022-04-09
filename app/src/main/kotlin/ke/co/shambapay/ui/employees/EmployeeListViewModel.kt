@@ -2,23 +2,18 @@ package ke.co.shambapay.ui.employees
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.data.model.EmployeeEntity
-import ke.co.shambapay.domain.Failures
 import ke.co.shambapay.domain.GetEmployeesUseCase
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.base.BaseState
+import ke.co.shambapay.ui.base.BaseViewModel
 
 class EmployeeListViewModel(
     private val getEmployeesUseCase: GetEmployeesUseCase
-) : ViewModel() {
-
-    private val _state = MutableLiveData<BaseState>()
-    val state: LiveData<BaseState> = _state
+) : BaseViewModel() {
 
     private val _data = MutableLiveData<List<EmployeeEntity>>()
     val data: LiveData<List<EmployeeEntity>> = _data
-
 
     fun getEmployees(companyId: String? = null, textFilter: String?) {
         _state.postValue(BaseState.UpdateUI(true, "Fetching employees, Please wait..."))
@@ -33,15 +28,7 @@ class EmployeeListViewModel(
                 _data.postValue(list)
 
             }, onFailure = { failure ->
-                when(failure){
-                    is Failures.WithMessage -> {
-                        _state.postValue(BaseState.UpdateUI(false, failure.message))
-                    }
-
-                    else ->{
-                        _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))
-                    }
-                }
+                handleFailure(failure)
             })
         }
     }

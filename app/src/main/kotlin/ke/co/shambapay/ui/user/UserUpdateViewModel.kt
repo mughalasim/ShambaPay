@@ -2,12 +2,15 @@ package ke.co.shambapay.ui.user
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.data.model.UserType
-import ke.co.shambapay.domain.*
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.domain.DeleteUserAndCompanyUseCase
+import ke.co.shambapay.domain.RegisterUserUseCase
+import ke.co.shambapay.domain.SetCompanyUseCase
+import ke.co.shambapay.domain.SetUserUseCase
+import ke.co.shambapay.ui.base.BaseState
+import ke.co.shambapay.ui.base.BaseViewModel
 import ke.co.shambapay.utils.isInValidPhone
 import ke.co.shambapay.utils.isInvalidEmail
 
@@ -16,10 +19,7 @@ class UserUpdateViewModel(
     private val registerUserUseCase: RegisterUserUseCase,
     private val setCompanyUseCase: SetCompanyUseCase,
     private val deleteUserAndCompanyUseCase: DeleteUserAndCompanyUseCase
-) : ViewModel() {
-
-    private val _state = MutableLiveData<BaseState>()
-    val state: LiveData<BaseState> = _state
+) : BaseViewModel() {
 
     private var entity: UserEntity? = null
 
@@ -129,15 +129,7 @@ class UserUpdateViewModel(
                 _state.postValue(BaseState.Success(Unit))
 
             }, onFailure = { failure ->
-                when(failure){
-                    is Failures.WithMessage -> {
-                        _state.postValue(BaseState.UpdateUI(false, failure.message))
-                    }
-
-                    else -> {
-                        _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))
-                    }
-                }
+                handleFailure(failure)
             })
         }
     }
@@ -154,15 +146,7 @@ class UserUpdateViewModel(
                     setCompany(companyName)
                 }
             }, onFailure = { failure ->
-                when(failure){
-                    is Failures.WithMessage -> {
-                        _state.postValue(BaseState.UpdateUI(false, failure.message))
-                    }
-
-                    else -> {
-                        _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))
-                    }
-                }
+                handleFailure(failure)
             })
         }
     }
@@ -176,15 +160,7 @@ class UserUpdateViewModel(
                 setUserToDatabase()
             }, onFailure = { failure ->
                 deleteUser()
-                when(failure){
-                    is Failures.WithMessage -> {
-                        _state.postValue(BaseState.UpdateUI(false, failure.message))
-                    }
-
-                    else -> {
-                        _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))
-                    }
-                }
+                handleFailure(failure)
             })
         }
     }
@@ -200,15 +176,7 @@ class UserUpdateViewModel(
 
             }, onFailure = { failure ->
                 deleteUser()
-                when(failure){
-                    is Failures.WithMessage -> {
-                        _state.postValue(BaseState.UpdateUI(false, failure.message))
-                    }
-
-                    else -> {
-                        _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))
-                    }
-                }
+                handleFailure(failure)
             })
         }
     }

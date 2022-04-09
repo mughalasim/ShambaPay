@@ -9,8 +9,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import ke.co.shambapay.R
 import ke.co.shambapay.databinding.FragmentProfileBinding
-import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.UiGlobalState
+import ke.co.shambapay.ui.base.BaseState
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -49,6 +49,9 @@ class ProfileFragment : Fragment() {
                 is BaseState.Success<*> -> {
                     binding.etConfirmPassword.setText("")
                     binding.etNewPassword.setText("")
+                }
+                is BaseState.Logout -> {
+                    globalState.logout(activity!!)
                 }
             }
         }

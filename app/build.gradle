@@ -96,7 +96,7 @@ def renameAPKFile(variant) {
     variant.outputs.all { output ->
         outputFileName = new File(
                 "$app_name " + variant.getFlavorName() + " (" + variant.versionName + ")" + ".apk"
-                // Shamba Pay Staging (0.0.1).apk
+                // Shambapay Staging (0.0.1).apk
         )
     }
 }

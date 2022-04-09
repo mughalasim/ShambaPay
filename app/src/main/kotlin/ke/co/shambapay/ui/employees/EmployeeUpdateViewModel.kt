@@ -3,24 +3,19 @@ package ke.co.shambapay.ui.employees
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.domain.DeleteEmployeeUseCase
-import ke.co.shambapay.domain.Failures
 import ke.co.shambapay.domain.SetEmployeeUseCase
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.base.BaseState
+import ke.co.shambapay.ui.base.BaseViewModel
 import ke.co.shambapay.utils.isInValidPhone
 import java.util.*
-import java.util.regex.Pattern
 
 class EmployeeUpdateViewModel(
     private val setEmployeeUseCase: SetEmployeeUseCase,
     private val deleteEmployeeUseCase: DeleteEmployeeUseCase
-) : ViewModel() {
-
-    private val _state = MutableLiveData<BaseState>()
-    val state: LiveData<BaseState> = _state
+) : BaseViewModel() {
 
     private var entity:  EmployeeEntity? = null
 
@@ -102,15 +97,7 @@ class EmployeeUpdateViewModel(
                 _state.postValue(BaseState.Success(Unit))
 
             }, onFailure = { failure ->
-                when(failure){
-                    is Failures.WithMessage -> {
-                        _state.postValue(BaseState.UpdateUI(false, failure.message))
-                    }
-
-                    else -> {
-                        _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))
-                    }
-                }
+                handleFailure(failure)
             })
         }
     }
@@ -123,15 +110,7 @@ class EmployeeUpdateViewModel(
                 _state.postValue(BaseState.Success(Unit))
 
             }, onFailure = { failure ->
-                when(failure){
-                    is Failures.WithMessage -> {
-                        _state.postValue(BaseState.UpdateUI(false, failure.message))
-                    }
-
-                    else -> {
-                        _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))
-                    }
-                }
+                handleFailure(failure)
             })
         }
     }

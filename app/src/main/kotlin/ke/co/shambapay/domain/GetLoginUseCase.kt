@@ -3,6 +3,7 @@ package ke.co.shambapay.domain
 import com.google.firebase.auth.FirebaseAuth
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
+import ke.co.shambapay.domain.utils.Failures
 import kotlinx.coroutines.CompletableDeferred
 
 class GetLoginUseCase : BaseUseCase<GetLoginUseCase.Input, Boolean, Failures>() {

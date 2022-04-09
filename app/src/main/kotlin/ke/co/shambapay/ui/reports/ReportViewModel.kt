@@ -2,24 +2,20 @@ package ke.co.shambapay.ui.reports
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.data.model.ReportEntity
 import ke.co.shambapay.data.model.ReportType
-import ke.co.shambapay.domain.Failures
 import ke.co.shambapay.domain.GetEmployeesUseCase
 import ke.co.shambapay.domain.GetReportUseCase
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.base.BaseState
+import ke.co.shambapay.ui.base.BaseViewModel
 import org.joda.time.DateTime
 
 class ReportViewModel(
     private val getReportUseCase: GetReportUseCase,
     private val getEmployeesUseCase: GetEmployeesUseCase
-) : ViewModel() {
-
-    private val _state = MutableLiveData<BaseState>()
-    val state: LiveData<BaseState> = _state
+) : BaseViewModel() {
 
     private val _canSubmit = MutableLiveData<Boolean>()
     val canSubmit: LiveData<Boolean> = _canSubmit
@@ -73,11 +69,7 @@ class ReportViewModel(
                     _state.postValue(BaseState.Success(ViewModelOutput.Report(list)))
                 },
                 onFailure = { failure ->
-                    when(failure){
-                        is Failures.WithMessage -> {_state.postValue(BaseState.UpdateUI(false, failure.message))}
-
-                        else ->{_state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))}
-                    }
+                    handleFailure(failure)
                 }
             )
         }
@@ -99,11 +91,7 @@ class ReportViewModel(
                     _state.postValue(BaseState.Success(ViewModelOutput.Employee(data)))
                 },
                 onFailure = { failure ->
-                    when(failure){
-                        is Failures.WithMessage -> {_state.postValue(BaseState.UpdateUI(false, failure.message))}
-
-                        else ->{_state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))}
-                    }
+                    handleFailure(failure)
                 }
             )
         }

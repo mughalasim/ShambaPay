@@ -9,8 +9,10 @@ import androidx.navigation.fragment.findNavController
 import ke.co.shambapay.data.model.CompanyEntity
 import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.FragmentCompaniesBinding
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.UiGlobalState
 import ke.co.shambapay.ui.adapter.CustomAdapter
+import ke.co.shambapay.ui.base.BaseState
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CompanyListFragment: Fragment() {
@@ -18,6 +20,7 @@ class CompanyListFragment: Fragment() {
     private val viewModel: CompanyListViewModel by viewModel()
     private val adapter =  CustomAdapter(mutableListOf<CompanyEntity>())
     lateinit var binding: FragmentCompaniesBinding
+    private val globalState: UiGlobalState by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCompaniesBinding.inflate(layoutInflater)
@@ -51,7 +54,9 @@ class CompanyListFragment: Fragment() {
                     binding.widgetLoading.update(it.message, it.showLoading)
                 }
                 is BaseState.Success<*> -> {}
-
+                is BaseState.Logout -> {
+                    globalState.logout(activity!!)
+                }
             }
         }
 

@@ -1,4 +1,4 @@
-package ke.co.shambapay.domain
+package ke.co.shambapay.domain.utils
 
 import ke.co.shambapay.BuildConfig
 import org.joda.time.DateTime

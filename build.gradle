@@ -1,12 +1,12 @@
 buildscript {
     ext {
-        app_name = "Shamba Pay"
-        app_name_staging = "Shamba Pay (Staging)"
+        app_name = "Shambapay"
+        app_name_staging = "Shambapay (Staging)"
         sdk_min = 21
         sdk_target = 32
         sdk_compile = 32
-        version_code = 6
-        version_name = "0.0.6"
+        version_code = 7
+        version_name = "0.0.7"
         kotlin_version = '1.6.20'
         coroutines_version = '1.6.0-native-mt'
         koin_version = '2.41'

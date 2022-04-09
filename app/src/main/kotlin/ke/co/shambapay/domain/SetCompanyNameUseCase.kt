@@ -1,8 +1,11 @@
 package ke.co.shambapay.domain
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
+import ke.co.shambapay.domain.utils.Failures
+import ke.co.shambapay.domain.utils.QueryBuilder
 import ke.co.shambapay.ui.UiGlobalState
 import kotlinx.coroutines.CompletableDeferred
 
@@ -10,8 +13,7 @@ class SetCompanyNameUseCase(val globalState: UiGlobalState) : BaseUseCase<String
 
     override suspend fun run(input: String): BaseResult<Unit, Failures> {
 
-        if (globalState.user == null)
-            return BaseResult.Failure(Failures.NotAuthenticated)
+        FirebaseAuth.getInstance().currentUser ?: return BaseResult.Failure(Failures.NotAuthenticated)
 
         if (input.trim().isEmpty())
             return BaseResult.Failure(Failures.WithMessage("You cannot have an empty company name"))

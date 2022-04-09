@@ -12,9 +12,9 @@ import androidx.navigation.fragment.navArgs
 import ke.co.shambapay.R
 import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.databinding.FragmentEmployeesBinding
-import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.UiGlobalState
 import ke.co.shambapay.ui.adapter.CustomAdapter
+import ke.co.shambapay.ui.base.BaseState
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -62,7 +62,9 @@ class EmployeeListFragment: Fragment() {
                     binding.widgetLoading.update(it.message, it.showLoading)
                 }
                 is BaseState.Success<*> -> {}
-
+                is BaseState.Logout -> {
+                    globalState.logout(activity!!)
+                }
             }
         }
 

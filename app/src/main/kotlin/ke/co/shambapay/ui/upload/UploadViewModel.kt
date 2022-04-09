@@ -3,20 +3,16 @@ package ke.co.shambapay.ui.upload
 import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ke.co.shambapay.domain.Failures
 import ke.co.shambapay.domain.UploadUseCase
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.base.BaseState
+import ke.co.shambapay.ui.base.BaseViewModel
 import org.joda.time.DateTime
 import java.io.InputStream
 
 class UploadViewModel(
     private val uploadUseCase: UploadUseCase
-) :ViewModel() {
-
-    private val _state = MutableLiveData<BaseState>()
-    val state: LiveData<BaseState> = _state
+) :BaseViewModel() {
 
     private val _month = MutableLiveData<Int>()
     private val month: LiveData<Int> = _month
@@ -86,11 +82,7 @@ class UploadViewModel(
                 _state.postValue(BaseState.Success(Unit))
 
             }, onFailure = { failure ->
-                when(failure){
-                    is Failures.WithMessage -> {_state.postValue(BaseState.UpdateUI(false, failure.message))}
-
-                    else ->{_state.postValue(BaseState.UpdateUI(false, "Unknown error, please check back later"))}
-                }
+                handleFailure(failure)
             })
         }
     }
@@ -106,11 +98,7 @@ class UploadViewModel(
                 _state.postValue(BaseState.UpdateUI(false, "Success"))
 
             }, onFailure = { failure ->
-                when(failure){
-                    is Failures.WithMessage -> {_state.postValue(BaseState.UpdateUI(false, failure.message))}
-
-                    else ->{_state.postValue(BaseState.UpdateUI(false, "Unknown error, please check back later"))}
-                }
+                handleFailure(failure)
             })
         }
     }

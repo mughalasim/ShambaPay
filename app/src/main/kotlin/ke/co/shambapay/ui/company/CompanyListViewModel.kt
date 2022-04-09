@@ -2,19 +2,15 @@ package ke.co.shambapay.ui.company
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ke.co.shambapay.data.model.CompanyEntity
-import ke.co.shambapay.domain.Failures
 import ke.co.shambapay.domain.GetCompaniesUseCase
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.base.BaseState
+import ke.co.shambapay.ui.base.BaseViewModel
 
 class CompanyListViewModel(
     private val getCompaniesUseCase: GetCompaniesUseCase
-) : ViewModel() {
-
-    private val _state = MutableLiveData<BaseState>()
-    val state: LiveData<BaseState> = _state
+) : BaseViewModel() {
 
     private val _companies = MutableLiveData<List<CompanyEntity>>()
     val companies: LiveData<List<CompanyEntity>> = _companies
@@ -32,15 +28,7 @@ class CompanyListViewModel(
                 _companies.postValue(list)
 
             }, onFailure = { failure ->
-                when(failure){
-                    is Failures.WithMessage -> {
-                        _state.postValue(BaseState.UpdateUI(false, failure.message))
-                    }
-
-                    else ->{
-                        _state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))
-                    }
-                }
+                handleFailure(failure)
             })
         }
     }

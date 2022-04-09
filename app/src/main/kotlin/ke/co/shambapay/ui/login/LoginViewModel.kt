@@ -3,13 +3,16 @@ package ke.co.shambapay.ui.login
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
-import ke.co.shambapay.domain.*
+import ke.co.shambapay.domain.GetLoginUseCase
+import ke.co.shambapay.domain.GetSettingsUseCase
+import ke.co.shambapay.domain.GetUserUseCase
+import ke.co.shambapay.domain.SetPasswordResetUseCase
 import ke.co.shambapay.domain.base.BaseInput
-import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.UiGlobalState
+import ke.co.shambapay.ui.base.BaseState
+import ke.co.shambapay.ui.base.BaseViewModel
 import ke.co.shambapay.utils.isInvalidEmail
 
 class LoginViewModel(
@@ -18,10 +21,7 @@ class LoginViewModel(
     private val getUserUseCase: GetUserUseCase,
     private val getSettingsUseCase: GetSettingsUseCase,
     private val globalState: UiGlobalState
-) : ViewModel() {
-
-    private val _state = MutableLiveData<BaseState>()
-    val state: LiveData<BaseState> = _state
+) : BaseViewModel() {
 
     private val _email = MutableLiveData<String?>()
     private val email: LiveData<String?> = _email
@@ -89,11 +89,7 @@ class LoginViewModel(
                 fetchUserEntity()
 
             }, onFailure = { failure ->
-                when(failure){
-                    is Failures.WithMessage -> {_state.postValue(BaseState.UpdateUI(false, failure.message))}
-
-                    else ->{_state.postValue(BaseState.UpdateUI(false, "Unknown error when authenticating, please check back later"))}
-                }
+                handleFailure(failure)
             })
         }
     }
@@ -105,11 +101,7 @@ class LoginViewModel(
                 _state.postValue(BaseState.Success(Unit))
 
             }, onFailure = { failure ->
-                when(failure){
-                    is Failures.WithMessage -> {_state.postValue(BaseState.UpdateUI(false, failure.message))}
-
-                    else ->{_state.postValue(BaseState.UpdateUI(false, "Unknown error, please contact your administrator"))}
-                }
+                handleFailure(failure)
             })
         }
     }
@@ -122,11 +114,7 @@ class LoginViewModel(
                 fetchCompanySettings()
 
             }, onFailure = { failure ->
-                when(failure){
-                    is Failures.WithMessage -> {_state.postValue(BaseState.UpdateUI(false, failure.message))}
-
-                    else ->{_state.postValue(BaseState.UpdateUI(false, "Unknown error when fetching your details, please check back later"))}
-                }
+                handleFailure(failure)
             })
         }
     }
@@ -140,11 +128,7 @@ class LoginViewModel(
                 _state.postValue(BaseState.Success(globalState.user!!.userType))
 
             }, onFailure = { failure ->
-                when(failure){
-                    is Failures.WithMessage -> {_state.postValue(BaseState.UpdateUI(false, failure.message))}
-
-                    else ->{_state.postValue(BaseState.UpdateUI(false, "Unknown error when fetching company settings, please check back later"))}
-                }
+                handleFailure(failure)
             })
         }
     }

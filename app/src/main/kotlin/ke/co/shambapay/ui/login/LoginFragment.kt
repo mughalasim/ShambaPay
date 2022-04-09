@@ -9,8 +9,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ke.co.shambapay.databinding.FragmentLoginBinding
-import ke.co.shambapay.domain.base.BaseState
 import ke.co.shambapay.ui.activities.MainActivity
+import ke.co.shambapay.ui.base.BaseState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginFragment : Fragment() {
@@ -40,6 +40,7 @@ class LoginFragment : Fragment() {
                     /*If you want to add any intent extras*/ })
                     activity?.finish()
                 }
+                is BaseState.Logout -> {}
             }
         }
 

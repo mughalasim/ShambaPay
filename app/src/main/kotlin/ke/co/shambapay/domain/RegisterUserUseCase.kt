@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import ke.co.shambapay.BuildConfig
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
+import ke.co.shambapay.domain.utils.Failures
 import ke.co.shambapay.utils.isInvalidEmail
 import kotlinx.coroutines.CompletableDeferred
 

@@ -13,7 +13,9 @@ import androidx.navigation.fragment.navArgs
 import ke.co.shambapay.R
 import ke.co.shambapay.data.model.JobType
 import ke.co.shambapay.databinding.FragmentSettingsUpdateBinding
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.UiGlobalState
+import ke.co.shambapay.ui.base.BaseState
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsUpdateFragment : Fragment() {
@@ -21,6 +23,7 @@ class SettingsUpdateFragment : Fragment() {
     lateinit var binding: FragmentSettingsUpdateBinding
     private val viewModel: SettingsUpdateViewModel by viewModel()
     private val args: SettingsUpdateFragmentArgs by navArgs()
+    private val globalState: UiGlobalState by inject()
 
     override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
         binding = FragmentSettingsUpdateBinding.inflate(layoutInflater)
@@ -42,6 +45,9 @@ class SettingsUpdateFragment : Fragment() {
                 }
                 is BaseState.Success<*> -> {
                     activity?.onBackPressed()
+                }
+                is BaseState.Logout -> {
+                    globalState.logout(activity!!)
                 }
             }
         }

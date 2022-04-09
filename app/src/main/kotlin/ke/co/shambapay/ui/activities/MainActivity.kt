@@ -12,7 +12,7 @@ import ke.co.shambapay.R
 import ke.co.shambapay.data.model.SettingsEntity
 import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.ActivityMainBinding
-import ke.co.shambapay.domain.QueryBuilder
+import ke.co.shambapay.domain.utils.QueryBuilder
 import ke.co.shambapay.ui.UiGlobalState
 import org.koin.android.ext.android.inject
 
@@ -21,8 +21,9 @@ class MainActivity: AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private val state: UiGlobalState by inject()
     private val activity = this
+    private val firebaseRef = FirebaseDatabase.getInstance().getReference(QueryBuilder.getSettings(state.user!!.companyId))
 
-    private val eventListener = object : ValueEventListener{
+    private val settingsListener = object : ValueEventListener{
         override fun onDataChange(snapshot: DataSnapshot) {
             try {
                 val settingsEntity: SettingsEntity? = snapshot.getValue(SettingsEntity::class.java)
@@ -60,14 +61,28 @@ class MainActivity: AppCompatActivity() {
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
         val navController = navHostFragment.navController
-
         binding.bottomNav.setupWithNavController(navController)
-
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.getSettings(state.user!!.companyId)).addValueEventListener(eventListener)
 
         binding.txtLogout.setOnClickListener {
             state.logout(this)
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        addDataListeners()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        removeDataListeners()
+    }
+
+    private fun addDataListeners(){
+        firebaseRef.addValueEventListener(settingsListener)
+    }
+
+    private fun removeDataListeners(){
+        firebaseRef.removeEventListener(settingsListener)
     }
 }

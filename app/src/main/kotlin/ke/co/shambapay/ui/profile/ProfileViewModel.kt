@@ -1,20 +1,15 @@
 package ke.co.shambapay.ui.profile
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ke.co.shambapay.domain.Failures
 import ke.co.shambapay.domain.SetPasswordUseCase
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.base.BaseState
+import ke.co.shambapay.ui.base.BaseViewModel
 
 class ProfileViewModel(
     private val setPasswordUseCase: SetPasswordUseCase
-): ViewModel() {
-
-    private val _state = MutableLiveData<BaseState>()
-    val state: LiveData<BaseState> = _state
+): BaseViewModel() {
 
     private val _canSubmit = MutableLiveData<Boolean>()
     val canSubmit: LiveData<Boolean> = _canSubmit
@@ -57,21 +52,7 @@ class ProfileViewModel(
                     _state.postValue(BaseState.UpdateUI(false, "Password update successful"))
                 },
                 onFailure = { failure ->
-                    when(failure){
-                    is Failures.WithMessage -> {_state.postValue(
-                        BaseState.UpdateUI(
-                            false,
-                            failure.message
-                        )
-                    )}
-
-                    else ->{_state.postValue(
-                        BaseState.UpdateUI(
-                            false,
-                            "Unknown error when authenticating, please check back later"
-                        )
-                    )}
-                }
+                    handleFailure(failure)
                 }
             )
         }

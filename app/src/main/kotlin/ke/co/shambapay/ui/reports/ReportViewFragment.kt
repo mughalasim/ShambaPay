@@ -9,8 +9,9 @@ import androidx.navigation.fragment.navArgs
 import ke.co.shambapay.data.model.ReportEntity
 import ke.co.shambapay.data.model.ReportType
 import ke.co.shambapay.databinding.FragmentReportViewBinding
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.UiGlobalState
 import ke.co.shambapay.ui.adapter.CustomAdapter
+import ke.co.shambapay.ui.base.BaseState
 import ke.co.shambapay.utils.PDFConverter
 import org.koin.android.ext.android.inject
 
@@ -20,6 +21,7 @@ class ReportViewFragment : Fragment() {
     private val adapter =  CustomAdapter(mutableListOf<ReportEntity>())
     private val args: ReportViewFragmentArgs by navArgs()
     private val viewModel: ReportViewModel by inject()
+    private val globalState: UiGlobalState by inject()
 
     override fun onCreateView (inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View {
         binding = FragmentReportViewBinding.inflate(layoutInflater)
@@ -45,6 +47,9 @@ class ReportViewFragment : Fragment() {
                             adapter.updateData(it.data.list as MutableList<ReportEntity>)
                         }
                     }
+                }
+                is BaseState.Logout -> {
+                    globalState.logout(activity!!)
                 }
             }
         }

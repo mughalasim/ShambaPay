@@ -12,7 +12,9 @@ import ke.co.shambapay.R
 import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.FragmentUserUpdateBinding
-import ke.co.shambapay.domain.base.BaseState
+import ke.co.shambapay.ui.UiGlobalState
+import ke.co.shambapay.ui.base.BaseState
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserUpdateFragment: Fragment() {
@@ -20,6 +22,7 @@ class UserUpdateFragment: Fragment() {
     private val viewModel: UserUpdateViewModel by viewModel()
     lateinit var binding: FragmentUserUpdateBinding
     private val args: UserUpdateFragmentArgs by navArgs()
+    private val globalState: UiGlobalState by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentUserUpdateBinding.inflate(layoutInflater)
@@ -51,6 +54,9 @@ class UserUpdateFragment: Fragment() {
                 }
                 is BaseState.Success<*> -> {
                     activity?.onBackPressed()
+                }
+                is BaseState.Logout -> {
+                    globalState.logout(activity!!)
                 }
             }
         }
