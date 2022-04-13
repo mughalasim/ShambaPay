@@ -3,52 +3,71 @@ package ke.co.shambapay.ui.reports
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.data.model.ReportEntity
 import ke.co.shambapay.data.model.ReportType
-import ke.co.shambapay.domain.GetEmployeesUseCase
 import ke.co.shambapay.domain.GetReportUseCase
 import ke.co.shambapay.ui.base.BaseState
 import ke.co.shambapay.ui.base.BaseViewModel
 import org.joda.time.DateTime
 
 class ReportViewModel(
-    private val getReportUseCase: GetReportUseCase,
-    private val getEmployeesUseCase: GetEmployeesUseCase
+    private val getReportUseCase: GetReportUseCase
 ) : BaseViewModel() {
 
     private val _canSubmit = MutableLiveData<Boolean>()
     val canSubmit: LiveData<Boolean> = _canSubmit
 
-    private val _employees = MutableLiveData<List<EmployeeEntity>>()
-    val employees: LiveData<List<EmployeeEntity>> = _employees
+    private var startDate: DateTime? = null
+    private var endDate: DateTime? = null
 
     init {
         _state.postValue(BaseState.UpdateUI(false, ""))
         _canSubmit.postValue(false)
+        startDate = null
+        endDate = null
+        validate()
     }
 
     sealed class ViewModelOutput {
         data class Report(val list: List<ReportEntity>) : ViewModelOutput()
-        data class Employee(val list: List<String>) : ViewModelOutput()
     }
 
-    fun validate (
-        year: String?,
-        month: String?
-    ){
+    fun setStartDate(date: DateTime){
+        startDate = date
+        validate()
+    }
+
+    fun setEndDate(date: DateTime){
+        endDate = date
+        validate()
+    }
+
+    fun getReportInputData(position: Int): ReportInputData{
+        return ReportInputData(
+            startDate = startDate!!,
+            endDate = endDate!!,
+            employee = null,
+            reportType = ReportType.values()[position]
+        )
+    }
+
+
+    private fun validate (){
+
         _canSubmit.postValue(false)
 
-        val yearUnit = year?.toIntOrNull()
-        val monthUnit = month?.toIntOrNull()
-
-        if (yearUnit == null || yearUnit <= 2000 || yearUnit > DateTime.now().year){
-            _state.postValue(BaseState.UpdateUI(false, "Invalid year"))
+        if (startDate == null || endDate == null){
+            _state.postValue(BaseState.UpdateUI(false, "Start date or End date are not set"))
             return
         }
 
-        if (monthUnit == null || monthUnit <= 0 || monthUnit > 12){
-            _state.postValue(BaseState.UpdateUI(false, "Invalid month"))
+        if (startDate!!.isAfter(endDate)){
+            _state.postValue(BaseState.UpdateUI(false, "Start date cannot be after the end date"))
+            return
+        }
+
+        if (startDate!!.isAfterNow){
+            _state.postValue(BaseState.UpdateUI(false, "Start date cannot be in the future"))
             return
         }
 
@@ -57,38 +76,12 @@ class ReportViewModel(
 
     }
 
-    fun fetchReport(reportType: ReportType, date: DateTime, employee: EmployeeEntity?) {
+    fun fetchReport(reportInputData: ReportInputData) {
         _state.postValue(BaseState.UpdateUI(true, "Generating the report, Please wait...."))
-        getReportUseCase.invoke(viewModelScope, GetReportUseCase.Input(
-                reportType = reportType,
-                date = date,
-                employee = employee
-            )){
+        getReportUseCase.invoke(viewModelScope, reportInputData){
             it.result(
                 onSuccess = { list ->
                     _state.postValue(BaseState.Success(ViewModelOutput.Report(list)))
-                },
-                onFailure = { failure ->
-                    handleFailure(failure)
-                }
-            )
-        }
-    }
-
-    fun getEmployee (index: Int): EmployeeEntity? {
-        return employees.value?.get(index)
-    }
-
-    fun fetchEmployees() {
-        _state.postValue(BaseState.UpdateUI(true, "Fetching all employees, Please wait...."))
-        getEmployeesUseCase.invoke(viewModelScope, GetEmployeesUseCase.Input(filter = "")){
-            it.result(
-                onSuccess = { list ->
-                    _employees.postValue(list)
-                    val data = list.map { entity ->
-                        entity.fetchFullName()
-                    }
-                    _state.postValue(BaseState.Success(ViewModelOutput.Employee(data)))
                 },
                 onFailure = { failure ->
                     handleFailure(failure)

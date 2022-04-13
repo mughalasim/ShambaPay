@@ -38,16 +38,27 @@ class EmployeeListFragment: Fragment() {
 
         adapter.setOnItemClickListener(object : CustomAdapter.OnItemClickListener{
             override fun onItemClicked(data: Any?) {
-                if (globalState.isAdmin()){
-                   findNavController().navigate(
-                       EmployeeListFragmentDirections.actionEmployeeListFragmentToEmployeeUpdateFragment(
-                           employee = data as EmployeeEntity,
-                           companyId = if(args.companyId.isNullOrEmpty()) globalState.settings!!.companyId else args.companyId!!
-                       )
-                   )
-                } else {
-                    val action = EmployeeListFragmentDirections.actionEmployeeListFragmentToCaptureFragment(data as EmployeeEntity)
-                    findNavController().navigate(action)
+                when {
+                    args.reportInputData != null -> {
+                        val inputData = args.reportInputData!!.apply { this.employee = data as EmployeeEntity }
+                        findNavController().navigate(
+                            EmployeeListFragmentDirections.actionEmployeeListFragmentToReportViewFragment(
+                                inputData
+                            )
+                        )
+                    }
+                    globalState.isAdmin() -> {
+                        findNavController().navigate(
+                            EmployeeListFragmentDirections.actionEmployeeListFragmentToEmployeeUpdateFragment(
+                                employee = data as EmployeeEntity,
+                                companyId = if(args.companyId.isNullOrEmpty()) globalState.settings!!.companyId else args.companyId!!
+                            )
+                        )
+                    }
+                    else -> {
+                        val action = EmployeeListFragmentDirections.actionEmployeeListFragmentToCaptureFragment(data as EmployeeEntity)
+                        findNavController().navigate(action)
+                    }
                 }
             }
         })
@@ -81,8 +92,8 @@ class EmployeeListFragment: Fragment() {
             }
         }
 
-        binding.btnAdd.isVisible = globalState.isAdmin()
-        binding.btnBack.isVisible = globalState.isAdmin()
+        binding.btnAdd.isVisible = globalState.isAdmin() && args.reportInputData == null
+        binding.btnBack.isVisible = globalState.isAdmin() || args.reportInputData != null
 
         binding.btnBack.setOnClickListener {
             activity?.onBackPressed()

@@ -23,6 +23,14 @@
         <action
             android:id="@+id/action_employeeListFragment_to_employeeUpdateFragment"
             app:destination="@id/employeeUpdateFragment" />
+        <action
+            android:id="@+id/action_employeeListFragment_to_reportViewFragment"
+            app:destination="@id/reportViewFragment" />
+        <argument
+            android:name="reportInputData"
+            app:argType="ke.co.shambapay.ui.reports.ReportInputData"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/captureFragment"
@@ -80,15 +88,8 @@
         android:label="fragment_report_view"
         tools:layout="@layout/fragment_report_view">
         <argument
-            android:name="reportType"
-            app:argType="ke.co.shambapay.data.model.ReportType" />
-        <argument
-            android:name="employee"
-            app:argType="ke.co.shambapay.data.model.EmployeeEntity"
-            app:nullable="true" />
-        <argument
-            android:name="date"
-            app:argType="org.joda.time.DateTime" />
+            android:name="reportInputData"
+            app:argType="ke.co.shambapay.ui.reports.ReportInputData" />
     </fragment>
     <fragment
         android:id="@+id/reportQueryFragment"
@@ -98,6 +99,9 @@
         <action
             android:id="@+id/action_reportQueryFragment_to_reportViewFragment"
             app:destination="@id/reportViewFragment" />
+        <action
+            android:id="@+id/action_reportQueryFragment_to_employeeListFragment"
+            app:destination="@id/employeeListFragment" />
     </fragment>
     <fragment
         android:id="@+id/companyListFragment"

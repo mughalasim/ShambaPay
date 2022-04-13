@@ -27,51 +27,25 @@
             android:id="@+id/spinner_report_type"
             style="@style/EditText" />
 
-        <LinearLayout
-            android:id="@+id/ll_select_employee"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextNormal"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:text="@string/txt_select_an_employee" />
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinner_employee"
-                style="@style/EditText"/>
-
-        </LinearLayout>
-
         <TextView
             style="@style/TextNormal"
             android:layout_width="wrap_content"
-            android:text="@string/txt_set_year" />
+            android:text="@string/txt_start_date" />
 
-        <EditText
-            android:id="@+id/et_year"
+        <TextView
+            android:id="@+id/txt_start_date"
             style="@style/EditText"
-            android:digits="0123456789"
-            android:inputType="number"
-            android:text="@string/txt_year"
-            android:selectAllOnFocus="true"
             tools:ignore="Autofill,LabelFor" />
 
         <TextView
             style="@style/TextNormal"
             android:layout_width="wrap_content"
             android:gravity="center"
-            android:text="@string/txt_set_month" />
+            android:text="@string/txt_end_date" />
 
-        <EditText
-            android:id="@+id/et_month"
+        <TextView
+            android:id="@+id/txt_end_date"
             style="@style/EditText"
-            android:digits="0123456789"
-            android:inputType="number"
-            android:text="@string/txt_month"
-            android:selectAllOnFocus="true"
             tools:ignore="Autofill,LabelFor"  />
 
         <Button

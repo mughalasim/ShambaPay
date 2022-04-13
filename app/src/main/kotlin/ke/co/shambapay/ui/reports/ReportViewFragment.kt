@@ -31,7 +31,8 @@ class ReportViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.banner.setUp("Report: " + args.reportType.name.lowercase().replace("_", " ") + " for ${args.date.toString("MMM (yyyy)")}")
+        binding.banner.setUp("Report: " + args.reportInputData.reportType.name.lowercase().replace("_", " ") +
+                " ${args.reportInputData.startDate.toString("d/MM/yyyy")} to ${args.reportInputData.endDate.toString("d/MM/yyyy")}")
 
         binding.recycler.adapter = adapter
 
@@ -43,7 +44,7 @@ class ReportViewFragment : Fragment() {
                 is BaseState.Success<*> -> {
                     binding.widgetLoading.update("", false)
                     when(it.data){
-                        is ReportViewModel.ViewModelOutput.Report ->{
+                        is ReportViewModel.ViewModelOutput.Report -> {
                             adapter.updateData(it.data.list as MutableList<ReportEntity>)
                         }
                     }
@@ -55,10 +56,7 @@ class ReportViewFragment : Fragment() {
         }
 
         adapter.setOnItemClickListener(object : CustomAdapter.OnItemClickListener{
-            override fun onItemClicked(data: Any?) {
-//                val action = SettingsFragmentDirections.actionSettingsFragmentToSettingsUpdateFragment(data as JobRateEntity)
-//                findNavController().navigate(action)
-            }
+            override fun onItemClicked(data: Any?) {}
         })
 
         binding.txtBack.setOnClickListener {
@@ -66,25 +64,25 @@ class ReportViewFragment : Fragment() {
         }
 
         binding.txtSave.setOnClickListener {
-            val dateString = args.date.toString("yyyy_MM")
-            val fileName = when (args.reportType){
+            val dateString = args.reportInputData.startDate.toString("yyyy_MM")
+            val fileName = when (args.reportInputData.reportType){
                 ReportType.PAYROLL_SUMMARY -> {
                     "Payroll_Report_$dateString"
                 }
                 ReportType.EMPLOYEE_PERFORMANCE -> {
-                    "Employee_Performance_Report_${dateString}_${args.employee?.fetchFullNameUnderScore()}"
+                    "Employee_Performance_Report_${dateString}_${args.reportInputData.employee?.fetchFullNameUnderScore()}"
                 }
                 ReportType.BANK_PAYMENT_DETAILS -> {
                     "Bank_Payment_Report_$dateString"
                 }
                 ReportType.PAYSLIP -> {
-                    "Employee_Payslip_${dateString}_${args.employee?.fetchFullNameUnderScore()}"
+                    "Employee_Payslip_${dateString}_${args.reportInputData.employee?.fetchFullNameUnderScore()}"
                 }
             }
             PDFConverter().createPdf(context!!, binding.container, activity!!, fileName)
         }
 
-        viewModel.fetchReport(args.reportType, args.date, args.employee)
+        viewModel.fetchReport(args.reportInputData)
 
     }
 

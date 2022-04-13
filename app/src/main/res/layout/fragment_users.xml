@@ -66,7 +66,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_back"
         app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
-        android:text="Set as default" />
+        android:text="@string/txt_set_default" />
 
     <Button
         android:id="@+id/btn_back"

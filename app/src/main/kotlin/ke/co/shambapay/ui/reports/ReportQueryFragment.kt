@@ -4,17 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import ke.co.shambapay.data.model.ReportType
 import ke.co.shambapay.databinding.FragmentReportQueryBinding
 import ke.co.shambapay.ui.UiGlobalState
 import ke.co.shambapay.ui.base.BaseState
-import org.joda.time.DateTime
+import ke.co.shambapay.utils.showDatePicker
+import ke.co.shambapay.utils.toMonthYearString
 import org.koin.android.ext.android.inject
 
 class ReportQueryFragment : Fragment() {
@@ -42,12 +40,7 @@ class ReportQueryFragment : Fragment() {
                 }
                 is BaseState.Success<*> -> {
                     binding.widgetLoading.update("", false)
-                    when(state.data){
-                        is ReportViewModel.ViewModelOutput.Employee -> {
-                            binding.spinnerEmployee.adapter =
-                                ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, state.data.list)
-                        }
-                    }
+
                 }
                 is BaseState.Logout -> {
                     globalState.logout(activity!!)
@@ -58,35 +51,40 @@ class ReportQueryFragment : Fragment() {
         binding.spinnerReportType.adapter =
             ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, ReportType.values())
 
-        binding.spinnerReportType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
+        binding.txtStartDate.setOnClickListener {
+            activity?.showDatePicker {
+                binding.txtStartDate.text = it.toMonthYearString()
+                viewModel.setStartDate(it)
             }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                binding.llSelectEmployee.isVisible = (position == 1 || position == 3)
-            }
-
         }
 
-
-        binding.etYear.addTextChangedListener {
-            viewModel.validate(it.toString(), binding.etMonth.text.toString())
-        }
-
-        binding.etMonth.addTextChangedListener {
-            viewModel.validate(binding.etYear.text.toString(), it.toString())
+        binding.txtEndDate.setOnClickListener {
+            activity?.showDatePicker {
+                binding.txtEndDate.text = it.toMonthYearString()
+                viewModel.setEndDate(it)
+            }
         }
 
         binding.btnGenerate.setOnClickListener {
-            findNavController().navigate(ReportQueryFragmentDirections.actionReportQueryFragmentToReportViewFragment(
-                date = DateTime.now().withDate(binding.etYear.text.toString().toInt(), binding.etMonth.text.toString().toInt(), 1),
-                reportType = ReportType.values()[binding.spinnerReportType.selectedItemPosition],
-                employee = viewModel.getEmployee(binding.spinnerEmployee.selectedItemPosition)
-            ))
-        }
+            val reportPosition = binding.spinnerReportType.selectedItemPosition
 
-        viewModel.fetchEmployees()
+            if(reportPosition == 1 || reportPosition == 3){
+                // Select an employee
+                findNavController().navigate(
+                    ReportQueryFragmentDirections.actionReportQueryFragmentToEmployeeListFragment(
+                        companyId = globalState.settings!!.companyId,
+                        reportInputData = viewModel.getReportInputData(reportPosition)
+                    )
+                )
+            } else {
+                // view report
+                findNavController().navigate(
+                    ReportQueryFragmentDirections.actionReportQueryFragmentToReportViewFragment(
+                        reportInputData = viewModel.getReportInputData(reportPosition)
+                    )
+                )
+            }
+        }
 
     }
 

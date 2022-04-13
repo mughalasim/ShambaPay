@@ -22,9 +22,9 @@ class ReportListWidget @JvmOverloads constructor(
     fun setUp(model: ReportEntity) {
         binding.txtItem.text = model.item
         binding.txtUnit.text = String.format("%,.2f", model.unit).trim()
-        binding.txtUnit.isVisible = model.unit != 0.0
+        binding.txtUnit.isVisible = model.showValue
         if (model.isHeading){
-            binding.container.setBackgroundColor(ContextCompat.getColor(context, R.color.green_main))
+            binding.container.setBackgroundColor(ContextCompat.getColor(context, R.color.grey_light))
         } else {
             binding.container.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent))
         }
