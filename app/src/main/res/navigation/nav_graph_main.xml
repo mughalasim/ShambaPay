@@ -28,7 +28,7 @@
             app:destination="@id/reportViewFragment" />
         <argument
             android:name="reportInputData"
-            app:argType="ke.co.shambapay.ui.reports.ReportInputData"
+            app:argType="ke.co.shambapay.data.intent.ReportInputData"
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
@@ -89,7 +89,10 @@
         tools:layout="@layout/fragment_report_view">
         <argument
             android:name="reportInputData"
-            app:argType="ke.co.shambapay.ui.reports.ReportInputData" />
+            app:argType="ke.co.shambapay.data.intent.ReportInputData" />
+        <action
+            android:id="@+id/action_reportViewFragment_to_bulkSMSFragment"
+            app:destination="@id/bulkSMSFragment" />
     </fragment>
     <fragment
         android:id="@+id/reportQueryFragment"
@@ -166,4 +169,8 @@
             android:name="companyId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/bulkSMSFragment"
+        android:name="ke.co.shambapay.ui.sms.BulkSMSFragment"
+        android:label="BulkSMSFragment" />
 </navigation>

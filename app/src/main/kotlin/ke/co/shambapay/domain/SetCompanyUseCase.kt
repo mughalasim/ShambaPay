@@ -6,7 +6,7 @@ import ke.co.shambapay.data.model.CompanyEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.domain.utils.Failures
-import ke.co.shambapay.domain.utils.QueryBuilder
+import ke.co.shambapay.domain.utils.Query
 import kotlinx.coroutines.CompletableDeferred
 
 class SetCompanyUseCase: BaseUseCase<String, String, Failures>() {
@@ -21,11 +21,11 @@ class SetCompanyUseCase: BaseUseCase<String, String, Failures>() {
 
         val deferred = CompletableDeferred<BaseResult<String, Failures>>()
 
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.getCompany(companyEntity.settings.companyId)).setValue(companyEntity).
+        FirebaseDatabase.getInstance().getReference(Query.getCompany(companyEntity.settings.companyId)).setValue(companyEntity).
         addOnSuccessListener{
             deferred.complete(BaseResult.Success(companyEntity.settings.companyId))
         }.addOnFailureListener {
-            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
+            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
 
         return deferred.await()

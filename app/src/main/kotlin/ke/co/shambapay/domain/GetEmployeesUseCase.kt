@@ -6,7 +6,7 @@ import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.domain.utils.Failures
-import ke.co.shambapay.domain.utils.QueryBuilder
+import ke.co.shambapay.domain.utils.Query
 import ke.co.shambapay.ui.UiGlobalState
 import kotlinx.coroutines.CompletableDeferred
 
@@ -18,7 +18,7 @@ class GetEmployeesUseCase(val globalState: UiGlobalState): BaseUseCase<GetEmploy
 
         FirebaseAuth.getInstance().currentUser ?: return BaseResult.Failure(Failures.NotAuthenticated)
 
-        val query = if(input.companyId.isNullOrBlank()) QueryBuilder.getEmployees(globalState.user!!.companyId) else QueryBuilder.getEmployees(input.companyId)
+        val query = if(input.companyId.isNullOrBlank()) Query.getEmployees(globalState.user!!.companyId) else Query.getEmployees(input.companyId)
 
         val def = CompletableDeferred<BaseResult<List<EmployeeEntity>, Failures>>()
         FirebaseDatabase.getInstance().getReference(query).get().
@@ -45,7 +45,7 @@ class GetEmployeesUseCase(val globalState: UiGlobalState): BaseUseCase<GetEmploy
                 def.complete(BaseResult.Failure(Failures.WithMessage("There is an issue with one of the data sets: " + e.localizedMessage)))
             }
         }.addOnFailureListener {
-            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
+            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
         return def.await()
     }

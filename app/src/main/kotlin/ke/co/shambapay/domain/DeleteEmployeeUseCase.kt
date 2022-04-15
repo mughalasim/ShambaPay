@@ -6,7 +6,7 @@ import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.domain.utils.Failures
-import ke.co.shambapay.domain.utils.QueryBuilder
+import ke.co.shambapay.domain.utils.Query
 import kotlinx.coroutines.CompletableDeferred
 
 class DeleteEmployeeUseCase: BaseUseCase<DeleteEmployeeUseCase.Input, Unit, Failures>() {
@@ -22,13 +22,13 @@ class DeleteEmployeeUseCase: BaseUseCase<DeleteEmployeeUseCase.Input, Unit, Fail
         val def = CompletableDeferred<BaseResult<Unit, Failures>>()
 
         FirebaseDatabase.getInstance().
-        getReference(QueryBuilder.getEmployee(input.companyId, input.employee.id)).
+        getReference(Query.getEmployee(input.companyId, input.employee.id)).
         removeValue().
         addOnSuccessListener{
             def.complete(BaseResult.Success(Unit))
         }.
         addOnFailureListener {
-            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
+            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
 
         return def.await()

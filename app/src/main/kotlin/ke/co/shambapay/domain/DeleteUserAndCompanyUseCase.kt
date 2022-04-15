@@ -7,7 +7,7 @@ import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.domain.utils.Failures
-import ke.co.shambapay.domain.utils.QueryBuilder
+import ke.co.shambapay.domain.utils.Query
 import kotlinx.coroutines.CompletableDeferred
 
 class DeleteUserAndCompanyUseCase: BaseUseCase<UserEntity, Unit, Failures>() {
@@ -21,12 +21,12 @@ class DeleteUserAndCompanyUseCase: BaseUseCase<UserEntity, Unit, Failures>() {
         if (input.companyId.isEmpty()) return BaseResult.Failure(Failures.WithMessage("An employee cannot be deleted from an unknown company"))
 
         val def1 = CompletableDeferred<BaseResult<Unit, Failures>>()
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.getUser(input.id)).removeValue().
+        FirebaseDatabase.getInstance().getReference(Query.getUser(input.id)).removeValue().
         addOnSuccessListener{
             def1.complete(BaseResult.Success(Unit))
         }.
         addOnFailureListener {
-            def1.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
+            def1.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
         val response = def1.await()
 
@@ -36,12 +36,12 @@ class DeleteUserAndCompanyUseCase: BaseUseCase<UserEntity, Unit, Failures>() {
 
             val def2 = CompletableDeferred<BaseResult<Unit, Failures>>()
 
-            FirebaseDatabase.getInstance().getReference(QueryBuilder.getCompany(input.companyId)).removeValue().
+            FirebaseDatabase.getInstance().getReference(Query.getCompany(input.companyId)).removeValue().
             addOnSuccessListener{
                 def2.complete(BaseResult.Success(Unit))
             }.
             addOnFailureListener {
-                def2.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
+                def2.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
             }
 
             return def2.await()

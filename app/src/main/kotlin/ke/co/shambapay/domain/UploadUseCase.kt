@@ -7,7 +7,7 @@ import ke.co.shambapay.data.model.WorkEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.domain.utils.Failures
-import ke.co.shambapay.domain.utils.QueryBuilder
+import ke.co.shambapay.domain.utils.Query
 import ke.co.shambapay.ui.UiGlobalState
 import ke.co.shambapay.utils.CSVReader
 import kotlinx.coroutines.CompletableDeferred
@@ -59,12 +59,12 @@ class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.I
     private suspend fun uploadSingleEmployee(employeeEntity: EmployeeEntity, companyId: String): BaseResult<Unit, Failures> {
         val def = CompletableDeferred<BaseResult<Unit, Failures>>()
         FirebaseDatabase.getInstance().getReference(
-            QueryBuilder.getEmployees(companyId) + "/" + employeeEntity.id).setValue(employeeEntity).
+            Query.getEmployees(companyId) + "/" + employeeEntity.id).setValue(employeeEntity).
         addOnSuccessListener{
             def.complete(BaseResult.Success(Unit))
 
         }.addOnFailureListener {
-            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
+            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
         return def.await()
     }
@@ -180,7 +180,7 @@ class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.I
                         val date = DateTime.now().withDate(year, month, index + 1)
                         FirebaseDatabase.getInstance().reference
                             .child(
-                                QueryBuilder.setWork(
+                                Query.setWork(
                                     companyId = companyId,
                                     employeeId = employeeId,
                                     date = date
@@ -198,7 +198,7 @@ class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.I
                             )
 
                     } catch (e: Exception) {
-                        return BaseResult.Failure(Failures.WithMessage(e.localizedMessage ?: ""))
+                        return BaseResult.Failure(Failures.WithMessage(e.localizedMessage))
                     }
                 }
             }

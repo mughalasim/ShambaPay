@@ -21,3 +21,4 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class ke.co.shambapay.data.model.** { *; }
+-keep class ke.co.shambapay.data.intent.** { *; }

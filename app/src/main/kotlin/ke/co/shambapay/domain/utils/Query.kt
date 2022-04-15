@@ -3,7 +3,7 @@ package ke.co.shambapay.domain.utils
 import ke.co.shambapay.BuildConfig
 import org.joda.time.DateTime
 
-object QueryBuilder {
+object Query {
 
     fun getCompanies(): String {
         return "${BuildConfig.DB_REF_ROOT}/${BuildConfig.DB_REF_COMPANIES}"

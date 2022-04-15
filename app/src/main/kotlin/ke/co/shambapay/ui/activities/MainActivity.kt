@@ -12,7 +12,7 @@ import ke.co.shambapay.R
 import ke.co.shambapay.data.model.SettingsEntity
 import ke.co.shambapay.data.model.UserType
 import ke.co.shambapay.databinding.ActivityMainBinding
-import ke.co.shambapay.domain.utils.QueryBuilder
+import ke.co.shambapay.domain.utils.Query
 import ke.co.shambapay.ui.UiGlobalState
 import org.koin.android.ext.android.inject
 
@@ -21,7 +21,7 @@ class MainActivity: AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private val state: UiGlobalState by inject()
     private val activity = this
-    private val firebaseRef = FirebaseDatabase.getInstance().getReference(QueryBuilder.getSettings(state.user!!.companyId))
+    private val firebaseRef = FirebaseDatabase.getInstance().getReference(Query.getSettings(state.user!!.companyId))
 
     private val settingsListener = object : ValueEventListener{
         override fun onDataChange(snapshot: DataSnapshot) {

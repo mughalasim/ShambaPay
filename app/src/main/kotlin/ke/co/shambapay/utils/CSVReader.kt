@@ -5,10 +5,6 @@ import java.io.BufferedReader
 import java.io.Closeable
 import java.io.IOException
 import java.io.Reader
-import java.lang.NullPointerException
-import java.lang.StringBuilder
-import java.util.ArrayList
-import kotlin.Throws
 
 /**
  * Reads TAB delimited files.
@@ -16,7 +12,7 @@ import kotlin.Throws
  */
 class CSVReader(reader: Reader) : Closeable {
     private val columns: MutableList<String> = ArrayList()
-    private val parser: TSVParser
+    private val parser: TSVParser = TSVParser(reader)
 
     /**
      * Parses and returns the cells from the next row in the input.
@@ -219,13 +215,4 @@ class CSVReader(reader: Reader) : Closeable {
         }
     }
 
-    /**
-     * Creates a TSV reader for the specified input.
-     * Any reader will do, but [BufferedReader] may give a better performance.
-     *
-     * @param reader to read the characters from
-     */
-    init {
-        parser = TSVParser(reader)
-    }
 }

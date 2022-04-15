@@ -1,4 +1,4 @@
-package ke.co.shambapay.ui.reports
+package ke.co.shambapay.data.intent
 
 import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.data.model.ReportType

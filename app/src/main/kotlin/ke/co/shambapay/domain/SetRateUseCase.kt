@@ -7,7 +7,7 @@ import ke.co.shambapay.data.model.JobType
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.domain.utils.Failures
-import ke.co.shambapay.domain.utils.QueryBuilder
+import ke.co.shambapay.domain.utils.Query
 import ke.co.shambapay.ui.UiGlobalState
 import kotlinx.coroutines.CompletableDeferred
 
@@ -21,11 +21,11 @@ class SetRateUseCase(val globalState: UiGlobalState) : BaseUseCase<JobRateEntity
             return BaseResult.Failure(Failures.WithMessage("Casual work can only have a rate set to 1"))
 
         val deferred = CompletableDeferred<BaseResult<Unit, Failures>>()
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.getRates(globalState.user!!.companyId, input.rateId)).setValue(input).
+        FirebaseDatabase.getInstance().getReference(Query.getRates(globalState.user!!.companyId, input.rateId)).setValue(input).
         addOnSuccessListener{
             deferred.complete(BaseResult.Success(Unit))
         }.addOnFailureListener {
-            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
+            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
         return deferred.await()
     }

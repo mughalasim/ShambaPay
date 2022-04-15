@@ -16,7 +16,7 @@ class SetPasswordResetUseCase : BaseUseCase<String, Unit, Failures>() {
         addOnSuccessListener {
             deferred.complete(BaseResult.Success(Unit))
         }.addOnFailureListener {
-            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
+            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
         return deferred.await()
     }

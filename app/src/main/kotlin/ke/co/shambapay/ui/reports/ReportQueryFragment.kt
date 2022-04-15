@@ -40,7 +40,6 @@ class ReportQueryFragment : Fragment() {
                 }
                 is BaseState.Success<*> -> {
                     binding.widgetLoading.update("", false)
-
                 }
                 is BaseState.Logout -> {
                     globalState.logout(activity!!)
@@ -84,7 +83,10 @@ class ReportQueryFragment : Fragment() {
                     )
                 )
             }
+            viewModel.clearDates()
         }
+
+        viewModel.validate()
 
     }
 

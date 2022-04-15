@@ -3,6 +3,7 @@ package ke.co.shambapay.ui
 import android.app.Activity
 import android.content.Intent
 import com.google.firebase.auth.FirebaseAuth
+import ke.co.shambapay.data.intent.BulkSMSData
 import ke.co.shambapay.data.model.SettingsEntity
 import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.data.model.UserType
@@ -13,6 +14,7 @@ class UiGlobalState {
 
     var user: UserEntity? = null
     var settings: SettingsEntity? = null
+    var bulkSMS: List<BulkSMSData>? = null
 
     fun logout(activity: Activity) {
         clear()
@@ -26,6 +28,7 @@ class UiGlobalState {
     fun clear() {
         user = null
         settings = null
+        bulkSMS = null
     }
 
     fun getDropDownOptions(): List<String> {

@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/txt_back"
+            android:id="@+id/btn_back"
             style="@style/EditText"
             android:layout_width="@dimen/icon_small"
             android:layout_height="@dimen/icon_small"
@@ -28,7 +28,7 @@
             android:contentDescription="@string/txt_back" />
 
         <ImageButton
-            android:id="@+id/txt_save"
+            android:id="@+id/btn_save"
             style="@style/EditText"
             android:layout_marginStart="@dimen/padding_medium"
             android:layout_width="@dimen/icon_small"
@@ -36,6 +36,16 @@
             android:padding="@dimen/padding_small"
             android:src="@drawable/ic_save"
             android:contentDescription="@string/txt_save" />
+
+        <ImageButton
+            android:id="@+id/btn_sms"
+            style="@style/EditText"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:layout_width="@dimen/icon_small"
+            android:layout_height="@dimen/icon_small"
+            android:padding="@dimen/padding_small"
+            android:src="@drawable/ic_sms"
+            android:contentDescription="@string/txt_sms" />
 
     </LinearLayout>
 

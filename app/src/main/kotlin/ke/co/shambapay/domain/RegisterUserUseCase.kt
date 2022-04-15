@@ -25,7 +25,7 @@ class RegisterUserUseCase: BaseUseCase<String, String, Failures>() {
                     deferredCreate.complete(BaseResult.Failure(Failures.WithMessage("Unable to create user")))
                 }
             }.addOnFailureListener {
-                deferredCreate.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
+                deferredCreate.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
             }
 
         val response = deferredCreate.await()

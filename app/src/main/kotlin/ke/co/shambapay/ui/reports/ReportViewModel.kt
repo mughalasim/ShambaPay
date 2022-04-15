@@ -3,6 +3,7 @@ package ke.co.shambapay.ui.reports
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import ke.co.shambapay.data.intent.ReportInputData
 import ke.co.shambapay.data.model.ReportEntity
 import ke.co.shambapay.data.model.ReportType
 import ke.co.shambapay.domain.GetReportUseCase
@@ -23,8 +24,7 @@ class ReportViewModel(
     init {
         _state.postValue(BaseState.UpdateUI(false, ""))
         _canSubmit.postValue(false)
-        startDate = null
-        endDate = null
+        clearDates()
         validate()
     }
 
@@ -42,7 +42,12 @@ class ReportViewModel(
         validate()
     }
 
-    fun getReportInputData(position: Int): ReportInputData{
+    fun clearDates(){
+        startDate = null
+        endDate = null
+    }
+
+    fun getReportInputData(position: Int): ReportInputData {
         return ReportInputData(
             startDate = startDate!!,
             endDate = endDate!!,
@@ -52,7 +57,7 @@ class ReportViewModel(
     }
 
 
-    private fun validate (){
+    fun validate (){
 
         _canSubmit.postValue(false)
 

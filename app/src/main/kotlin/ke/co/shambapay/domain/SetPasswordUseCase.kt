@@ -18,7 +18,7 @@ class SetPasswordUseCase : BaseUseCase<String, Unit, Failures>() {
         firebaseUser.updatePassword(input).addOnSuccessListener {
             deferred.complete(BaseResult.Success(Unit))
         }.addOnFailureListener {
-            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
+            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
 
         return deferred.await()

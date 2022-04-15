@@ -6,7 +6,7 @@ import ke.co.shambapay.data.model.UserEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.domain.utils.Failures
-import ke.co.shambapay.domain.utils.QueryBuilder
+import ke.co.shambapay.domain.utils.Query
 import kotlinx.coroutines.CompletableDeferred
 
 class SetUserUseCase: BaseUseCase<UserEntity, Unit, Failures>() {
@@ -21,12 +21,12 @@ class SetUserUseCase: BaseUseCase<UserEntity, Unit, Failures>() {
 
         val def = CompletableDeferred<BaseResult<Unit, Failures>>()
 
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.getUser(input.id)).setValue(input).
+        FirebaseDatabase.getInstance().getReference(Query.getUser(input.id)).setValue(input).
         addOnSuccessListener{
             def.complete(BaseResult.Success(Unit))
         }.
         addOnFailureListener {
-            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
+            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
 
         return def.await()

@@ -2,6 +2,7 @@ package ke.co.shambapay.domain
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import ke.co.shambapay.data.intent.ReportInputData
 import ke.co.shambapay.data.model.ReportEntity
 import ke.co.shambapay.data.model.ReportType
 import ke.co.shambapay.data.model.UserType
@@ -10,9 +11,8 @@ import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.domain.utils.Failures
 import ke.co.shambapay.domain.utils.GenerateReport
-import ke.co.shambapay.domain.utils.QueryBuilder
+import ke.co.shambapay.domain.utils.Query
 import ke.co.shambapay.ui.UiGlobalState
-import ke.co.shambapay.ui.reports.ReportInputData
 import kotlinx.coroutines.CompletableDeferred
 
 class GetReportUseCase(
@@ -36,25 +36,25 @@ class GetReportUseCase(
 
         when(input.reportType){
             ReportType.PAYROLL_SUMMARY -> {
-                return BaseResult.Success(GenerateReport().getPayrollSummary(globalState, allWork))
+                return BaseResult.Success(GenerateReport().getPayrollSummary(allWork))
             }
 
             ReportType.EMPLOYEE_PERFORMANCE -> {
                 if (input.employee == null) return BaseResult.Failure(Failures.WithMessage("Employee not selected"))
-                return BaseResult.Success(GenerateReport().getEmployeePerformanceSummary(globalState, allWork, input.employee!!))
+                return BaseResult.Success(GenerateReport().getEmployeePerformanceSummary(allWork, input.employee!!))
             }
 
             ReportType.BANK_PAYMENT_DETAILS -> {
                 val employeeResult = getEmployeesUseCase.run(GetEmployeesUseCase.Input(globalState.settings!!.companyId, ""))
                 if(employeeResult is BaseResult.Failure) return  employeeResult
                 val employees = (employeeResult as BaseResult.Success).successType
-                if(employees.isNullOrEmpty()) return BaseResult.Failure(Failures.WithMessage("Failed to fetch all employees"))
-                return BaseResult.Success(GenerateReport().getBankPaymentsToAllEmployees(globalState, allWork, employees))
+                if(employees.isNullOrEmpty()) return BaseResult.Failure(Failures.WithMessage("No employees available to generate report"))
+                return BaseResult.Success(GenerateReport().getBankPaymentsToAllEmployees(allWork, employees))
             }
 
             ReportType.PAYSLIP -> {
                 if (input.employee == null) return BaseResult.Failure(Failures.WithMessage("Employee not selected"))
-                return BaseResult.Success(GenerateReport().getEmployeePaySlip(globalState, allWork, input.employee!!))
+                return BaseResult.Success(GenerateReport().getEmployeePaySlip(allWork, input.employee!!))
             }
         }
     }
@@ -63,7 +63,7 @@ class GetReportUseCase(
 
         val def = CompletableDeferred<BaseResult<List<WorkEntity>, Failures>>()
 
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.getWork(globalState.user!!.companyId))
+        FirebaseDatabase.getInstance().getReference(Query.getWork(globalState.user!!.companyId))
             .orderByChild("yearPlusMonth").equalTo((input.startDate.year+input.startDate.monthOfYear).toDouble()).get().
             addOnSuccessListener{ dataSnapshot ->
             try {
@@ -76,10 +76,10 @@ class GetReportUseCase(
                     def.complete(BaseResult.Success(list))
                 }
             } catch (e: Exception){
-                def.complete(BaseResult.Failure(Failures.WithMessage("There was an issue with one of the data sets: " + e.localizedMessage)))
+                def.complete(BaseResult.Failure(Failures.WithMessage(e.localizedMessage)))
             }
         }.addOnFailureListener {
-            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
+            def.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
 
         return def.await()

@@ -6,7 +6,7 @@ import ke.co.shambapay.data.model.SettingsEntity
 import ke.co.shambapay.domain.base.BaseResult
 import ke.co.shambapay.domain.base.BaseUseCase
 import ke.co.shambapay.domain.utils.Failures
-import ke.co.shambapay.domain.utils.QueryBuilder
+import ke.co.shambapay.domain.utils.Query
 import ke.co.shambapay.ui.UiGlobalState
 import kotlinx.coroutines.CompletableDeferred
 
@@ -17,7 +17,7 @@ class GetSettingsUseCase(val globalState: UiGlobalState) : BaseUseCase<Unit, Set
         FirebaseAuth.getInstance().currentUser ?: return BaseResult.Failure(Failures.NotAuthenticated)
 
         val deferred = CompletableDeferred<BaseResult<SettingsEntity, Failures>>()
-        FirebaseDatabase.getInstance().getReference(QueryBuilder.getSettings(globalState.user!!.companyId)).get().
+        FirebaseDatabase.getInstance().getReference(Query.getSettings(globalState.user!!.companyId)).get().
         addOnSuccessListener{
             try {
                 val settingsEntity: SettingsEntity? = it.getValue(SettingsEntity::class.java)
@@ -28,11 +28,11 @@ class GetSettingsUseCase(val globalState: UiGlobalState) : BaseUseCase<Unit, Set
                 }
             } catch (e: Exception){
                 FirebaseAuth.getInstance().signOut()
-                deferred.complete(BaseResult.Failure(Failures.WithMessage(e.localizedMessage ?: "")))
+                deferred.complete(BaseResult.Failure(Failures.WithMessage(e.localizedMessage)))
             }
         }.addOnFailureListener {
             FirebaseAuth.getInstance().signOut()
-            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage ?: "")))
+            deferred.complete(BaseResult.Failure(Failures.WithMessage(it.localizedMessage)))
         }
         return deferred.await()
     }

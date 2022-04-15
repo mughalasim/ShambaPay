@@ -13,10 +13,10 @@ open class BaseViewModel: ViewModel() {
     fun handleFailure(failure: Failures){
         when (failure) {
             is Failures.WithMessage -> {
-                _state.postValue(BaseState.UpdateUI(false, failure.message))
+                _state.postValue(BaseState.UpdateUI(false, failure.message ?: ""))
             }
             is Failures.NotAuthenticated ->{
-
+                _state.postValue(BaseState.Logout)
             }
         }
     }

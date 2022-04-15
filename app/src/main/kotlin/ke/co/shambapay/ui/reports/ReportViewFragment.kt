@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import ke.co.shambapay.data.model.ReportEntity
 import ke.co.shambapay.data.model.ReportType
@@ -36,6 +38,11 @@ class ReportViewFragment : Fragment() {
 
         binding.recycler.adapter = adapter
 
+        binding.btnSms.isVisible = args.reportInputData.reportType == ReportType.BANK_PAYMENT_DETAILS
+        binding.btnSms.setOnClickListener {
+            findNavController().navigate(ReportViewFragmentDirections.actionReportViewFragmentToBulkSMSFragment())
+        }
+
         viewModel.state.observe(viewLifecycleOwner){
             when(it){
                 is BaseState.UpdateUI -> {
@@ -59,11 +66,11 @@ class ReportViewFragment : Fragment() {
             override fun onItemClicked(data: Any?) {}
         })
 
-        binding.txtBack.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             activity?.onBackPressed()
         }
 
-        binding.txtSave.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             val dateString = args.reportInputData.startDate.toString("yyyy_MM")
             val fileName = when (args.reportInputData.reportType){
                 ReportType.PAYROLL_SUMMARY -> {

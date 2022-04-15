@@ -1,20 +1,23 @@
 package ke.co.shambapay.domain.utils
 
+import ke.co.shambapay.data.intent.BulkSMSData
 import ke.co.shambapay.data.model.EmployeeEntity
 import ke.co.shambapay.data.model.ReportEntity
 import ke.co.shambapay.data.model.WorkEntity
 import ke.co.shambapay.ui.UiGlobalState
 import ke.co.shambapay.utils.TaxFormula
 import org.joda.time.DateTime
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-class GenerateReport {
+class GenerateReport: KoinComponent {
 
+    private val globalState: UiGlobalState by inject()
     private val txtNoWork = "No work done for the selected time period"
     private val txtGrandTotal = "Grand Total"
     private val adminFees = 500.0
 
     fun getPayrollSummary(
-        globalState: UiGlobalState,
         allWork: List<WorkEntity>
     ): List<ReportEntity> {
         var grandTotal = 0.0
@@ -68,7 +71,6 @@ class GenerateReport {
     }
 
     fun getEmployeePerformanceSummary(
-        globalState: UiGlobalState,
         allWork: List<WorkEntity>,
         employeeEntity: EmployeeEntity
     ): List<ReportEntity> {
@@ -151,7 +153,6 @@ class GenerateReport {
     }
 
     fun getEmployeePaySlip(
-        globalState: UiGlobalState,
         allWork: List<WorkEntity>,
         employeeEntity: EmployeeEntity
     ): List<ReportEntity> {
@@ -289,7 +290,6 @@ class GenerateReport {
     }
 
     fun getBankPaymentsToAllEmployees(
-        globalState: UiGlobalState,
         allWork: List<WorkEntity>,
         employees: List<EmployeeEntity>
     ): List<ReportEntity> {
@@ -297,6 +297,7 @@ class GenerateReport {
 
         val responseList: MutableList<ReportEntity> = mutableListOf()
 
+        val smsData = mutableListOf<BulkSMSData>()
         employees.forEach { employee ->
             val allEmployeesWork = allWork.filter { it.employeeId == employee.id }
             var employeesTotal = 0.0
@@ -306,17 +307,23 @@ class GenerateReport {
             }
 
             grandTotal += employeesTotal
-
-            if (employeesTotal != 0.0) responseList.add(
-                ReportEntity(
-                    "${employee.fetchFullName()} - ${employee.phone}",
-                    employeesTotal
-                )
-            )
+            if (employeesTotal != 0.0) {
+                smsData.add (BulkSMSData (
+                    fullName = employee.fetchFullName(),
+                    phone = employee.phone,
+                    amount = employeesTotal
+                ))
+                responseList.add (ReportEntity (
+                    item = "${employee.fetchFullName()} - ${employee.phone}",
+                    unit = employeesTotal
+                ))
+            }
         }
 
-        responseList.add(
-            ReportEntity(
+        globalState.bulkSMS = smsData
+
+        responseList.add (
+            ReportEntity (
                 item = if (grandTotal != 0.0) txtGrandTotal else txtNoWork,
                 unit = grandTotal,
                 isHeading = grandTotal != 0.0,
