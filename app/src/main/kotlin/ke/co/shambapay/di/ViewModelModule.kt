@@ -9,6 +9,7 @@ import ke.co.shambapay.ui.profile.ProfileViewModel
 import ke.co.shambapay.ui.reports.ReportViewModel
 import ke.co.shambapay.ui.settings.SettingsUpdateViewModel
 import ke.co.shambapay.ui.settings.SettingsViewModel
+import ke.co.shambapay.ui.sms.BulkSMSViewModel
 import ke.co.shambapay.ui.upload.UploadViewModel
 import ke.co.shambapay.ui.user.UserListViewModel
 import ke.co.shambapay.ui.user.UserUpdateViewModel
@@ -40,5 +41,7 @@ val viewModelModule = module {
     viewModel { CompanyListViewModel(get()) }
 
     viewModel { UserListViewModel(get(), get()) }
+
+    viewModel { BulkSMSViewModel(get()) }
 
 }

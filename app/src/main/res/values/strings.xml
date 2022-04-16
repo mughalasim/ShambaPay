@@ -47,9 +47,8 @@
     <string name="txt_set_rate">Set a new rate</string>
     <string name="txt_set_measurement">Set measurement name (i.e Weight)</string>
     <string name="txt_save">Save</string>
-    <string name="txt_sms">Send SMS</string>
     <string name="txt_bulk_sms">Send Bulk SMS</string>
-    <string name="txt_bulk_sms_desc">Here is a list of numbers you will be sending out SMS\'s to. Make sure you have credit and that the numbers are valid. Once an SMS has been sent, the list will be updated. Do not navigate away while in progress</string>
+    <string name="txt_bulk_sms_desc">Here is a list of numbers you will receive SMS\'s. Make sure the device has credit and that the numbers are valid. Once an SMS has been sent, the list will be updated. Do not navigate away while in progress</string>
     <string name="txt_report_query">Report Query</string>
     <string name="txt_select_report_type">Select report type</string>
     <string name="txt_select_an_employee">Select an Employee</string>

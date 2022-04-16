@@ -45,7 +45,7 @@
             android:layout_height="@dimen/icon_small"
             android:padding="@dimen/padding_small"
             android:src="@drawable/ic_sms"
-            android:contentDescription="@string/txt_sms" />
+            android:contentDescription="@string/txt_bulk_sms" />
 
     </LinearLayout>
 

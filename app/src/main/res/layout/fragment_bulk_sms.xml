@@ -24,7 +24,7 @@
         android:id="@+id/txt_title"
         style="@style/TextLarge"
         android:layout_height="wrap_content"
-        android:text="@string/txt_sms"
+        android:text="@string/txt_bulk_sms"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
         app:layout_constraintStart_toStartOf="@id/guide_start"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,8 +44,8 @@
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/widget_loading"
-        app:layout_constraintEnd_toEndOf="@id/guide_end"
-        app:layout_constraintStart_toStartOf="@id/guide_start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_desc" />
 
     <ke.co.shambapay.ui.widget.LoadingWidget
@@ -60,7 +60,7 @@
         android:id="@+id/btn_send"
         style="@style/Button"
         android:layout_width="0dp"
-        android:text="@string/txt_sms"
+        android:text="@string/txt_bulk_sms"
         app:layout_constraintBottom_toTopOf="@+id/btn_back"
         app:layout_constraintEnd_toEndOf="@id/guide_end"
         app:layout_constraintStart_toStartOf="@id/guide_start" />

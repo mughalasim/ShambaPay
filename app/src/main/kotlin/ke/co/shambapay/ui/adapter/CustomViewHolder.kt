@@ -2,6 +2,7 @@ package ke.co.shambapay.ui.adapter
 
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import ke.co.shambapay.data.intent.BulkSMSData
 import ke.co.shambapay.data.model.*
 import ke.co.shambapay.databinding.ListItemRecyclerBinding
 
@@ -45,6 +46,12 @@ class CustomViewHolder (
                 binding.widgetListUser.setUp(data)
                 binding.widgetListUser.setOnClickListener { listener.onItemClicked(data) }
                 binding.widgetListUser.isVisible = true
+            }
+
+            is BulkSMSData -> {
+                binding.widgetListReport.setUp(ReportEntity(item = data.fullName + " - ${data.phone}", unit = data.amount))
+                binding.widgetListReport.setOnClickListener { listener.onItemClicked(data) }
+                binding.widgetListReport.isVisible = true
             }
 
         }
