@@ -14,6 +14,7 @@ import ke.co.shambapay.domain.utils.GenerateReport
 import ke.co.shambapay.domain.utils.Query
 import ke.co.shambapay.ui.UiGlobalState
 import kotlinx.coroutines.CompletableDeferred
+import org.joda.time.Months
 
 class GetReportUseCase(
     private val globalState: UiGlobalState,
@@ -61,11 +62,19 @@ class GetReportUseCase(
 
     private suspend fun getAllWork(input: ReportInputData): BaseResult<List<WorkEntity>, Failures> {
 
+
+        if (Months.monthsBetween(input.startDate, input.endDate).months > 2)
+            return BaseResult.Failure(Failures.WithMessage("Kindly narrow your selected date range within two months"))
+
         val def = CompletableDeferred<BaseResult<List<WorkEntity>, Failures>>()
 
         FirebaseDatabase.getInstance().getReference(Query.getWork(globalState.user!!.companyId))
-            .orderByChild("yearPlusMonth").equalTo((input.startDate.year+input.startDate.monthOfYear).toDouble()).get().
-            addOnSuccessListener{ dataSnapshot ->
+            .orderByChild("dateString")
+            .startAt(
+                input.startDate.toString()
+            ).endAt(
+                input.endDate.toString()
+            ).get().addOnSuccessListener{ dataSnapshot ->
             try {
                 if (!dataSnapshot.hasChildren()){
                     def.complete(BaseResult.Success(emptyList()))

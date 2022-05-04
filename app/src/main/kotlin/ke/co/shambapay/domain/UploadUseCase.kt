@@ -191,9 +191,7 @@ class UploadUseCase(val globalState: UiGlobalState): BaseUseCase<UploadUseCase.I
                                     dateString = date.toString(),
                                     employeeId = employeeId,
                                     rateId = rateId,
-                                    unit = workUnit.toDoubleOrNull(),
-                                    yearPlusMonth = date.year + date.monthOfYear,
-                                    employeeIdPlusMonth = employeeId + date.monthOfYear
+                                    unit = workUnit.toDoubleOrNull()
                                 )
                             )
 

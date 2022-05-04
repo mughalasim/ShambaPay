@@ -4,16 +4,12 @@ data class WorkEntity (
     val dateString: String,
     val employeeId: String,
     val rateId: String,
-    val unit: Double? = 0.0,
-    val yearPlusMonth: Int,
-    val employeeIdPlusMonth: String
+    val unit: Double? = 0.0
 ){
     constructor(): this(
         dateString = "",
         employeeId = "",
         rateId = "",
-        unit = 0.0,
-        yearPlusMonth = 0,
-        employeeIdPlusMonth = ""
+        unit = 0.0
     )
 }

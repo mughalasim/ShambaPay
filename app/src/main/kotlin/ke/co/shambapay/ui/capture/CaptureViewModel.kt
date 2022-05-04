@@ -76,9 +76,7 @@ class CaptureViewModel(
             dateString = date.toString(),
             employeeId = employeeId,
             rateId = rateId.value!!,
-            unit = unit.value!!,
-            yearPlusMonth = date.year + date.monthOfYear,
-            employeeIdPlusMonth = employeeId + date.monthOfYear
+            unit = unit.value!!
         )
 
         _state.postValue(BaseState.UpdateUI(true, "Capturing data, Please wait..."))
