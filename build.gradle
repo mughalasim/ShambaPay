@@ -2,7 +2,7 @@ buildscript {
     ext {
         app_name = "Shambapay"
         app_name_staging = "Shambapay (Staging)"
-        sdk_min = 21
+        sdk_min = 23
         sdk_target = 32
         sdk_compile = 32
         version_code = 8

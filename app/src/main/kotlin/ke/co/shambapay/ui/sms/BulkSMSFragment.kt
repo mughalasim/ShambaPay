@@ -1,9 +1,13 @@
 package ke.co.shambapay.ui.sms
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import ke.co.shambapay.data.intent.BulkSMSData
 import ke.co.shambapay.databinding.FragmentBulkSmsBinding
@@ -28,6 +32,16 @@ class BulkSMSFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    activity?.let {
+                        viewModel.sendBulkSMS(it)
+                    }
+                } else {
+                    binding.widgetLoading.update("You need to allow the app to send SMS permissions in order to perform this operation", false)
+                }
+            }
+
         binding.recycler.adapter = adapter
         adapter.setOnItemClickListener(object : CustomAdapter.OnItemClickListener{
             override fun onItemClicked(data: Any?) {
@@ -42,10 +56,10 @@ class BulkSMSFragment : Fragment() {
                     binding.btnSend.isEnabled = !it.showLoading
                 }
                 is BaseState.Success<*> -> {
-                    binding.widgetLoading.update("", false)
-                    val list = it.data as List<BulkSMSData>
-                    adapter.updateData(list)
-                    binding.btnSend.isEnabled = list.isNotEmpty()
+                    val response = it.data as BulkSMSViewModel.Response.Data
+                    adapter.updateData(response.list)
+                    binding.btnSend.isEnabled = response.list.isNotEmpty()
+                    binding.widgetLoading.update(response.message, false)
                 }
                 is BaseState.Logout -> {
                     globalState.logout(activity!!)
@@ -59,11 +73,21 @@ class BulkSMSFragment : Fragment() {
 
         binding.btnSend.setOnClickListener {
             activity?.let {
-                viewModel.sendBulkSMS(it)
+                when {
+                    ContextCompat.checkSelfPermission(it, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED -> {
+                        viewModel.sendBulkSMS(it)
+                    }
+                    shouldShowRequestPermissionRationale(Manifest.permission.SEND_SMS) -> {
+                        binding.widgetLoading.update("You need to allow the app to send SMS permissions in order to perform this operation", false)
+                    }
+                    else -> {
+                        requestPermissionLauncher.launch(Manifest.permission.SEND_SMS)
+                    }
+                }
             }
         }
 
-        viewModel.updateList()
+        viewModel.updateList(defaultMessage = "No SMS's to send")
 
     }
 

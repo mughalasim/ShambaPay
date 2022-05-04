@@ -130,6 +130,9 @@ dependencies {
     // Swipe to refresh library
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
+    //Work Manager dependency
+    implementation 'androidx.work:work-runtime:2.7.1'
+
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation"
