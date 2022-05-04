@@ -1,5 +1,6 @@
 package ke.co.shambapay.di
 
+import ke.co.shambapay.ui.base.BaseViewModel
 import ke.co.shambapay.ui.capture.CaptureViewModel
 import ke.co.shambapay.ui.company.CompanyListViewModel
 import ke.co.shambapay.ui.employees.EmployeeListViewModel
@@ -43,5 +44,7 @@ val viewModelModule = module {
     viewModel { UserListViewModel(get(), get()) }
 
     viewModel { BulkSMSViewModel(get()) }
+
+    viewModel { BaseViewModel() }
 
 }

@@ -119,19 +119,19 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+//    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // Multidex support
     implementation 'androidx.multidex:multidex:2.0.1'
 
     // DateTime library
-    implementation 'net.danlew:android.joda:2.10.12.2'
+    implementation 'net.danlew:android.joda:2.10.14'
 
     // Swipe to refresh library
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
     //Work Manager dependency
-    implementation 'androidx.work:work-runtime:2.7.1'
+//    implementation 'androidx.work:work-runtime:2.7.1'
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation"

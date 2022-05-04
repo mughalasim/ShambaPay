@@ -21,8 +21,6 @@ class SetEmployeeWorkUseCase(private val globalState: UiGlobalState) : BaseUseCa
 
         FirebaseAuth.getInstance().currentUser ?: return BaseResult.Failure(Failures.NotAuthenticated)
 
-        FirebaseAuth.getInstance().currentUser ?: return BaseResult.Failure(Failures.NotAuthenticated)
-
         input as Input.Details
 
         val deferred = CompletableDeferred<BaseResult<Unit, Failures>>()

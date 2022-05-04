@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import ke.co.shambapay.R
 import ke.co.shambapay.databinding.FragmentCaptureBinding
 import ke.co.shambapay.ui.UiGlobalState
 import ke.co.shambapay.ui.base.BaseState
@@ -37,6 +38,8 @@ class CaptureFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.widgetEmployee.setUp(args.employeeEntity)
+
+        binding.bannerCapture.setUp(getString(R.string.txt_capture))
 
         viewModel.state.observe(viewLifecycleOwner){
             when(it){
